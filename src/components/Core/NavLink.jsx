@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom'
 function NavLink({ to, children }) {
   const navigate = useNavigate()
 
-  return <div onClick={() => navigate(to)}>{children}</div>
+  const handleNavigate = () => {
+    console.log(`Navigating to ${to}`)
+    navigate(to)
+  }
+
+  return <div onClick={handleNavigate}>{children}</div>
 }
-    
+
 export default NavLink
