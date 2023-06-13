@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import ReportsPage from '@components/Pages/ReportsPage'
+import ReportsPage from '@/components/Pages/Reports/ReportsPage'
 import Root from '@components/Pages/Root'
 import ErrorPage from './components/Pages/ErrorPage'
 

@@ -40,12 +40,7 @@ const theme = createTheme({
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          fontSize: '12px!important',
-          borderWidth: '0!important',
-          textAlign: 'left!important',
-          padding: '2px!important',
           verticalAlign: 'middle!important',
-          fontFamily: 'Helvetica!important',
           whiteSpace: 'break-spaces!important',
           '.odd': {
             backgroundColor: '#F2F5F9!important',
@@ -55,7 +50,7 @@ const theme = createTheme({
             fontWeight: 'bold!important',
           },
           '& .MuiDataGrid-row.Mui-selected': {
-            backgroundColor: '#A5BBD5!important',
+            backgroundColor: '#A5BBD5',
             border: '1px dotted gray!important',
           },
           '& .MuiDataGrid-columnHeader': {
