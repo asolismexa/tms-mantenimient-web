@@ -3,8 +3,8 @@ import axios from 'axios'
 
 const initialState = {
   loading: false,
-  user: localStorage.getItem('user') || null,
-  token: localStorage.getItem('token') || null,
+  user: JSON.parse(localStorage.getItem('user')),
+  token: JSON.parse(localStorage.getItem('token')),
   error: null,
   success: false,
 }
@@ -26,8 +26,9 @@ const loginUser = createAsyncThunk(
         { username, password },
         config,
       )
-      localStorage.setItem('token', data.token)
-      localStorage.setItem('user', username)
+
+      localStorage.setItem('token', JSON.stringify(data.token))
+      localStorage.setItem('user', JSON.stringify(username))
 
       return {
         user: username,
@@ -48,7 +49,15 @@ const loginUser = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logOutUser: (state) => {
+      state.user = null
+      state.token = null
+      localStorage.setItem('token', null)
+      localStorage.setItem('user', null)
+      console.log('logOutUser')
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -69,5 +78,6 @@ const authSlice = createSlice({
 
 export default authSlice.reducer
 export { loginUser }
+export const { logOutUser } = authSlice.actions
 export const selectAuth = (state) => state.auth
 export const selectUser = (state) => state.auth.user
