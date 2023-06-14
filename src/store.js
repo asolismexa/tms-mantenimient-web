@@ -1,10 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer from './reducers/userSlicing'
-import loadingDialogReducer from './reducers/loginDialogSlicing'
+import authReducer from './reducers/authSlice'
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
-    loginDialog: loadingDialogReducer,
+    auth: authReducer,
   },
 })

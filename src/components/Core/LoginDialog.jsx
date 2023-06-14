@@ -1,26 +1,48 @@
+import { useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import { TextField, Button } from '@mui/material'
+import { TextField, Button, Alert } from '@mui/material'
 import TmsLogo from './TmsLogo'
 import { useSelector, useDispatch } from 'react-redux'
-import { closeLoginDialog } from '@/reducers/loginDialogSlicing'
 import LoadingBackdrop from './LoadingBackdrop'
+import { loginUser, selectAuth } from '@/reducers/authSlice'
 
 function LoginDialog() {
   const dispatch = useDispatch()
-  const loadingDialog = useSelector((state) => state.loginDialog)
-  const handleClose = () => {
-    dispatch(closeLoginDialog())
+  const { loading, user, token, error } = useSelector(selectAuth)
+  const [form, setForm] = useState({
+    username: '',
+    password: '',
+  })
+
+  const handleLogin = () => {
+    if (form.username.trim() === '' || form.password.trim() === '') {
+      return
+    }
+
+    dispatch(
+      loginUser({
+        username: form.username.trim(),
+        password: form.password.trim(),
+      }),
+    )
   }
 
-  if (loadingDialog.loading) {
-    return <LoadingBackdrop open={true} />
+  const handleChange = ({ target }) => {
+    setForm({
+      ...form,
+      [target.name]: target.value,
+    })
+  }
+
+  if (loading) {
+    return <LoadingBackdrop open />
   }
 
   return (
-    <Dialog fullWidth={true} open={loadingDialog.open}>
+    <Dialog fullWidth={true} open={!user || !token}>
       <DialogTitle>
         <TmsLogo />
         Iniciar Sesion
@@ -29,22 +51,33 @@ function LoginDialog() {
         <TextField
           autoFocus
           margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
+          id="usernames"
+          name="username"
+          label="Nombre de usuario"
+          type="text"
+          onChange={handleChange}
+          value={form.username}
           fullWidth
         />
         <TextField
           autoFocus
-          margin="dense"
-          id="name"
+          id="password"
+          margin="normal"
+          name="password"
           label="Password"
           type="password"
+          onChange={handleChange}
+          value={form.password}
           fullWidth
         />
+        {error && (
+          <Alert sx={{ mt: 0.5 }} severity="error">
+            {error}
+          </Alert>
+        )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Entrar</Button>
+        <Button onClick={handleLogin}>Entrar</Button>
       </DialogActions>
     </Dialog>
   )

@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const loginDialogSlice = createSlice({
   name: 'loginDialog',
   initialState: {
-    open: true,
-    loading: true,
+    open: false,
+    loading: false,
     error: false,
     errorMessage: '',
   },
@@ -15,8 +15,12 @@ export const loginDialogSlice = createSlice({
     closeLoginDialog: (state) => {
       state.open = false
     },
+    setLoading: (state) => {
+      state.loading = true
+    },
   },
 })
 
-export const { openLoginDialog, closeLoginDialog } = loginDialogSlice.actions
+export const { openLoginDialog, closeLoginDialog, setLoading } =
+  loginDialogSlice.actions
 export default loginDialogSlice.reducer
