@@ -9,7 +9,7 @@ const initialState = {
   success: false,
 }
 
-const baseUrl = 'https://localhost:44348'
+const baseUrl = import.meta.env['VITE_BASE_API_URL']
 
 const loginUser = createAsyncThunk(
   'auth/login',
