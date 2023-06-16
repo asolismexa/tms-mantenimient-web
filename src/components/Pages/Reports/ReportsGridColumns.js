@@ -2,7 +2,7 @@ import { status, types } from '@/constants/reports'
 
 export default [
   {
-    field: 'created_on',
+    field: 'time',
     type: 'dateTime',
     headerName: 'Fecha',
     width: 200,

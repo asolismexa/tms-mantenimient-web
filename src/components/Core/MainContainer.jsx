@@ -4,9 +4,9 @@ export default function MainContainer({ children }) {
   return (
     <Container
       component="main"
+      maxWidth="xl"
       sx={{
-        height: '100vh',
-        padding: '2rem',
+        py: '2rem',
         overflow: 'auto',
         borderRadius: '1rem',
       }}
