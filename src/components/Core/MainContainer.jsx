@@ -6,7 +6,7 @@ export default function MainContainer({ children }) {
       component="main"
       maxWidth="xl"
       sx={{
-        py: '2rem',
+        mt: '4.5rem',
         overflow: 'auto',
         borderRadius: '1rem',
       }}

@@ -1,46 +1,91 @@
-import { Box, Typography, Avatar, Stack } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
-import TmsLogo from '@components/Core/TmsLogo'
-import NavigationMenu from '@components/Core/NavigationMenu'
-import { useSelector } from 'react-redux'
-import { selectUser } from '@/reducers/authSlice'
+import { useState } from 'react'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import AccountCircle from '@mui/icons-material/AccountCircle'
+import MenuItem from '@mui/material/MenuItem'
+import Menu from '@mui/material/Menu'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectUser, logOutUser } from '@/reducers/authSlice'
+import { Stack } from '@mui/material'
+import { toggleSideBar } from '@/reducers/uiSlice'
+import SideNav from './SideNav'
 
-export default function AppBar() {
+export default function MenuAppBar() {
+  const dispatch = useDispatch()
+  const [anchorEl, setAnchorEl] = useState(null)
   const user = useSelector(selectUser)
 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleLogout = () => {
+    dispatch(logOutUser())
+    dispatch(toggleSideBar())
+    handleClose()
+  }
+
   return (
-    <Box
-      sx={{
-        px: '1rem',
-      }}
-    >
-      <Grid justifyContent="center" alignItems="center" container spacing={2.0}>
-        {user && (
-          <Box
-            sx={{
-              position: 'absolute',
-              left: '2rem',
-              top: '2rem',
-            }}
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => dispatch(toggleSideBar())}
           >
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Avatar>{user.username.charAt(0)}</Avatar>
-              <Typography variant="body1">{user.username}</Typography>
-            </Stack>
-          </Box>
-        )}
-        <Grid
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexGrow: 1,
-          }}
-        >
-          <TmsLogo />
-          <NavigationMenu />
-        </Grid>
-      </Grid>
-    </Box>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Mantenimiento
+          </Typography>
+          {user && (
+            <div>
+              <Stack direction="row" alignItems="center">
+                <Typography>{user.username}</Typography>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Stack>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleLogout}>Salir</MenuItem>
+              </Menu>
+            </div>
+          )}
+        </Toolbar>
+      </AppBar>
+      <SideNav />
+    </>
   )
 }
