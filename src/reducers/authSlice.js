@@ -27,12 +27,19 @@ const loginUser = createAsyncThunk(
         config,
       )
 
-      localStorage.setItem('token', JSON.stringify(data.token))
-      localStorage.setItem('user', JSON.stringify(username))
+      const user = {
+        id: data.user_id,
+        username: data.username,
+      }
+
+      const token = data.token
+
+      localStorage.setItem('token', JSON.stringify(token))
+      localStorage.setItem('user', JSON.stringify(user))
 
       return {
-        user: username,
-        token: data.token,
+        user,
+        token,
       }
     } catch (error) {
       localStorage.setItem('token', null)
@@ -40,7 +47,7 @@ const loginUser = createAsyncThunk(
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data)
       } else {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error.message.message)
       }
     }
   },

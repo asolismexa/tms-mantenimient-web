@@ -11,7 +11,7 @@ export default function AppBar() {
   return (
     <Box
       sx={{
-        padding: '1rem',
+        px: '1rem',
       }}
     >
       <Grid justifyContent="center" alignItems="center" container spacing={2.0}>
@@ -24,8 +24,8 @@ export default function AppBar() {
             }}
           >
             <Stack direction="row" alignItems="center" spacing={1}>
-              <Avatar>{user.charAt(0)}</Avatar>
-              <Typography variant="body1">{user}</Typography>
+              <Avatar>{user.username.charAt(0)}</Avatar>
+              <Typography variant="body1">{user.username}</Typography>
             </Stack>
           </Box>
         )}

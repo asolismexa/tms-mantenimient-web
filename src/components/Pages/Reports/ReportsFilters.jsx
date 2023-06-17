@@ -69,6 +69,7 @@ function Filters({ onSearch, token }) {
         }}
         defaultValue={startDate}
         onChange={(date) => setStartDate(date)}
+        format="DD/MM/YYYY"
         value={startDate}
       />
       <DateTimePicker
