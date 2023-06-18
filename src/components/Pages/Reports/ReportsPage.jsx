@@ -100,7 +100,6 @@ function ReportsPage() {
             </Grid>
           </Grid>
           <DataGrid
-            checkboxSelection
             disableColumnFilter
             rows={reports}
             loading={loading}
