@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
 import reportsColumns from './ReportsGridColumns'
 import { DataGrid, esES } from '@mui/x-data-grid'
@@ -8,10 +9,11 @@ import { useSelector } from 'react-redux'
 import { selectAuth } from '@/reducers/authSlice'
 import Filters from './ReportsFilters'
 import CreateReportForm from './CreateReportForm'
-import { getReports } from '@/services/reports'
 import CustomPagination from '@/components/Core/Pagination'
-import { useDispatch } from 'react-redux'
+import { getReports } from '@/services/reports'
 import { showForm } from '@/reducers/createReportFormSlice'
+import { openDialog } from '@/reducers/reportDetail'
+import DialogReportDetail from './DialogReportDetail'
 
 function ReportsPage() {
   const dispatch = useDispatch()
@@ -85,6 +87,7 @@ function ReportsPage() {
   return (
     <div>
       <CreateReportForm />
+      <DialogReportDetail />
       <Box sx={{ margin: 2 }}></Box>
       <Grid container spacing={2}>
         <Grid item xs={3}>
@@ -104,7 +107,9 @@ function ReportsPage() {
             loading={loading}
             sx={{ height: 470 }}
             columns={reportsColumns}
-            onRowDoubleClick={(row) => console.log(row)}
+            onRowDoubleClick={(row) => {
+              dispatch(openDialog())
+            }}
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
             slots={{
               pagination: () => null,

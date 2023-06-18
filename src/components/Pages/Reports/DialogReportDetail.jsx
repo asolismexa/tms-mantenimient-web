@@ -11,7 +11,7 @@ import {
   closeDialog,
 } from '@/reducers/reportDetail'
 
-export default function AlertDialogSlide() {
+export default function DialogReportDetail() {
   const dispatch = useDispatch()
   const { dialog, form } = useSelector(selectReportDetail)
 
@@ -31,6 +31,8 @@ export default function AlertDialogSlide() {
       <Dialog
         open={dialog.open}
         keepMounted
+        fullWidth
+        maxWidth="md"
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
