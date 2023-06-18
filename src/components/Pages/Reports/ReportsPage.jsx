@@ -98,11 +98,6 @@ function ReportsPage() {
                 <NoteAddIcon />
               </IconButton>
             </Grid>
-            <Grid item md="auto">
-              <IconButton color="primary" size="large">
-                <EditIcon />
-              </IconButton>
-            </Grid>
           </Grid>
           <DataGrid
             checkboxSelection
