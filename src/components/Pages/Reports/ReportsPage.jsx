@@ -12,7 +12,7 @@ import CreateReportForm from './CreateReportForm'
 import CustomPagination from '@/components/Core/Pagination'
 import { getReports } from '@/services/reports'
 import { showForm } from '@/reducers/createReportFormSlice'
-import { openDialog } from '@/reducers/reportDetail'
+import { openDialog, fetchReportDetail } from '@/reducers/reportDetail'
 import DialogReportDetail from './DialogReportDetail'
 
 function ReportsPage() {
@@ -108,6 +108,11 @@ function ReportsPage() {
             sx={{ height: 470 }}
             columns={reportsColumns}
             onRowDoubleClick={(row) => {
+              dispatch(
+                fetchReportDetail({
+                  reportId: row.row.id,
+                }),
+              )
               dispatch(openDialog())
             }}
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}

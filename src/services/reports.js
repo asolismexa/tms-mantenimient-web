@@ -33,3 +33,19 @@ export const postReports = async ({ data, headers }) => {
     return { data: null, resp: null, error: error }
   }
 }
+
+export const getReportById = async (reportId) => {
+  let config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+    },
+  }
+
+  try {
+    const resp = await api.get(`${baseUrl}/${reportId}`, config)
+    return { data: resp.data, resp, error: null }
+  } catch (error) {
+    return { data: null, resp: null, error: error }
+  }
+}

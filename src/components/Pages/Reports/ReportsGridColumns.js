@@ -1,26 +1,18 @@
 import { status, types } from '@/constants/reports'
+import { formatDate } from '@/utils/dates'
+import dayjs from 'dayjs'
 
 export default [
   {
     field: 'time',
-    type: 'dateTime',
+    type: 'string',
     headerName: 'Fecha',
     width: 200,
+    valueFormatter: ({ value }) => {
+      return formatDate(value)
+    },
     valueGetter: ({ value }) => {
-      const date = new Date(value)
-
-      const options = {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        timeZoneName: 'short',
-      }
-
-      return new Date(date.toLocaleString('en-US', options))
+      return dayjs(value).utc()
     },
   },
   {
