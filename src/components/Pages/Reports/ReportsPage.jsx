@@ -111,7 +111,7 @@ function ReportsPage() {
             disableColumnFilter
             rows={reports}
             loading={loading}
-            sx={{ height: '100vh' }}
+            sx={{ height: 470 }}
             columns={reportsColumns}
             onRowDoubleClick={(row) => console.log(row)}
             localeText={esES.components.MuiDataGrid.defaultProps.localeText}
