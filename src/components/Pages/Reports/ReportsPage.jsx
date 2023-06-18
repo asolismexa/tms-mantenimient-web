@@ -79,6 +79,7 @@ function ReportsPage() {
   }
 
   const handleChangePage = (_, value) => {
+    if (pagination.page == value) return
     const start = (value - 1) * pagination.step
     const end = start + pagination.step
     setPagination({ ...pagination, start, end, page: value })
