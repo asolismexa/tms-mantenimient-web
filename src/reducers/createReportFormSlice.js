@@ -9,6 +9,7 @@ const initialState = {
   error: null,
   observation: '',
   loading: false,
+  showForm: false,
 }
 
 export const createReport = createAsyncThunk(
@@ -62,15 +63,19 @@ const createReportFormSlice = createSlice({
     resetForm: () => {
       return initialState
     },
+    showForm: (state) => {
+      state.showForm = true
+    },
+    hideForm: (state) => {
+      state.showForm = false
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createReport.pending, (state) => {
       state.loading = true
     })
-    builder.addCase(createReport.fulfilled, (state, { payload }) => {
-      state.loading = false
-      state.error = null
-      console.log(payload)
+    builder.addCase(createReport.fulfilled, () => {
+      return initialState
     })
     builder.addCase(createReport.rejected, (state, { payload }) => {
       state.loading = false
@@ -80,6 +85,7 @@ const createReportFormSlice = createSlice({
   },
 })
 
-export const { setForm, setError, resetForm } = createReportFormSlice.actions
+export const { setForm, setError, resetForm, showForm, hideForm } =
+  createReportFormSlice.actions
 export const selectCreateReportForm = (state) => state.createReportForm
 export default createReportFormSlice.reducer

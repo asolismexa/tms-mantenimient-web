@@ -11,13 +11,15 @@ import Filters from './ReportsFilters'
 import CreateReportForm from './CreateReportForm'
 import { getReports } from '@/services/reports'
 import CustomPagination from '@/components/Core/Pagination'
+import { useDispatch } from 'react-redux'
+import { showForm } from '@/reducers/createReportFormSlice'
 
 function ReportsPage() {
+  const dispatch = useDispatch()
   const auth = useSelector(selectAuth)
   const { token } = auth
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
   const [totalPages, setTotalPages] = useState(0)
   const [pagination, setPagination] = useState({
     page: 1,
@@ -27,11 +29,7 @@ function ReportsPage() {
   })
 
   const handleOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
+    dispatch(showForm())
   }
 
   useEffect(() => {
@@ -87,7 +85,7 @@ function ReportsPage() {
 
   return (
     <div>
-      <CreateReportForm open={open} handleClose={handleClose} />
+      <CreateReportForm />
       <Box sx={{ margin: 2 }}></Box>
       <Grid container spacing={2}>
         <Grid item xs={3}>

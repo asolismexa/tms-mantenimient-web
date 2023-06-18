@@ -1,9 +1,5 @@
-import { useRef, useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Alert,
   TextField,
   Button,
@@ -13,7 +9,6 @@ import {
   DialogActions,
 } from '@mui/material'
 import SelectAsync from '@/components/Core/SelectAsync'
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectAuth } from '@/reducers/authSlice'
 import {
@@ -24,22 +19,25 @@ import {
   selectCreateReportForm,
 } from '@/reducers/createReportFormSlice'
 import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
+import FileInput from '@/components/Core/FileInput'
 
-function CreateReportForm({ open, handleClose }) {
+function CreateReportForm() {
   const dispatch = useDispatch()
   const { token } = useSelector(selectAuth)
-  const form = useSelector(selectCreateReportForm)
-  const fileInput = useRef(null)
   const [evidences, setEvidences] = useState([])
+  const form = useSelector(selectCreateReportForm)
 
-  const handleOnSelectFiles = ({ target }) => {
-    const selectedFiles = [...target.files]
-    if (selectedFiles.length > 5) {
+  useEffect(() => {
+    if (!form.showForm) setEvidences([])
+  }, [form.showForm])
+
+  const handleOnSelectFiles = (files) => {
+    if (files.length > 5) {
       dispatch(setError('Solo se pueden subir 5 archivos'))
       setEvidences([])
       return
     }
-    setEvidences(selectedFiles)
+    setEvidences(files)
     dispatch(setError(null))
   }
 
@@ -91,7 +89,7 @@ function CreateReportForm({ open, handleClose }) {
   if (form.loading) return <LoadingBackdrop open={form.loading} />
 
   return (
-    <Dialog open={open} fullWidth>
+    <Dialog open={form.showForm} fullWidth>
       <DialogContent>
         <SelectAsync
           label="Tipo de Reporte"
@@ -107,7 +105,7 @@ function CreateReportForm({ open, handleClose }) {
           url="/api/vehicles"
           nameKey="alias"
           headers={{ Authorization: `Bearer ${token}` }}
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             dispatch(setForm({ vehicle: newValue }))
           }}
           value={form.vehicle}
@@ -116,7 +114,7 @@ function CreateReportForm({ open, handleClose }) {
           label="OPERADOR"
           url="/api/drivers"
           headers={{ Authorization: `Bearer ${token}` }}
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             dispatch(setForm({ driver: newValue }))
           }}
           value={form.driver}
@@ -134,41 +132,15 @@ function CreateReportForm({ open, handleClose }) {
           value={form.observation}
           variant="outlined"
         />
-        <Button
-          sx={{ my: 1 }}
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            fileInput.current.click()
-          }}
-        >
-          Subir Evidencias
-        </Button>
+        <FileInput
+          multiple
+          label="Subir Evidencias"
+          value={evidences}
+          onChange={handleOnSelectFiles}
+        />
         <Typography sx={{ ml: 1 }} variant="caption" color="text.secondary">
           *Maximo 5 archivos
         </Typography>
-        <List>
-          {evidences.map((file) => (
-            <ListItem key={file.name}>
-              <ListItemIcon>
-                <InsertDriveFileIcon />
-              </ListItemIcon>
-              {
-                <ListItemText variant="caption" color="text.secondary">
-                  {file.name}
-                </ListItemText>
-              }
-            </ListItem>
-          ))}
-        </List>
-        <input
-          type="file"
-          multiple
-          max={5}
-          ref={fileInput}
-          style={{ display: 'none' }}
-          onChange={handleOnSelectFiles}
-        />
         {form.error && <Alert severity="error">{form.error}</Alert>}
       </DialogContent>
       <DialogActions>
@@ -179,9 +151,6 @@ function CreateReportForm({ open, handleClose }) {
           size="small"
           onClick={() => {
             dispatch(resetForm())
-            setEvidences([])
-            fileInput.current.value = ''
-            handleClose()
           }}
         >
           Cancelar
