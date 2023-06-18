@@ -10,7 +10,7 @@ import Menu from '@mui/material/Menu'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectUser, logOutUser } from '@/reducers/authSlice'
 import { Stack } from '@mui/material'
-import { toggleSideBar } from '@/reducers/uiSlice'
+import { toggleSideBar, closeSideBar } from '@/reducers/uiSlice'
 import SideNav from './SideNav'
 
 export default function MenuAppBar() {
@@ -28,7 +28,7 @@ export default function MenuAppBar() {
 
   const handleLogout = () => {
     dispatch(logOutUser())
-    dispatch(toggleSideBar())
+    dispatch(closeSideBar())
     handleClose()
   }
 

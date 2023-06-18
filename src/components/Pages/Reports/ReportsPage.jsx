@@ -69,10 +69,13 @@ function ReportsPage() {
       end: pagination.end,
     }
 
-    getReports({ params, headers: { sort: '+time' } }).then(({ data }) => {
-      setLoading(false)
-      setReports(data)
-    })
+    getReports({ params, headers: { sort: '+time' } }).then(
+      ({ data, resp }) => {
+        setLoading(false)
+        setReports(data)
+        setTotalPages(JSON.parse(resp.headers['x-pagination']).total_pages)
+      },
+    )
   }
 
   const handleChangePage = (_, value) => {
