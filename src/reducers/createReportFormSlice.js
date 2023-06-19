@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import api from '@/api/api'
-import dayjs from 'dayjs'
+import { postReports } from '@/services/reports'
 
 const initialState = {
   type: null,
@@ -14,7 +13,7 @@ const initialState = {
 
 export const createReport = createAsyncThunk(
   'createReportForm/createReport',
-  async ({ form, evidences, token, location }, { rejectWithValue }) => {
+  async ({ form, evidences, location }, { rejectWithValue }) => {
     const formData = new FormData()
     formData.append('report_type_id', form.type.id)
     formData.append('vehicle_id', form.vehicle.id)
@@ -27,23 +26,12 @@ export const createReport = createAsyncThunk(
     }
 
     try {
-      const resp = await api.post('/api/reports', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
+      const { data } = await postReports({
+        data: formData,
       })
-
-      return resp.data
+      return data
     } catch (err) {
-      if (err.response) {
-        if (err.response.status == 500) {
-          rejectWithValue(
-            'Ah ocurrido un error por favor contacte al administrador.',
-          )
-        }
-      }
-      return rejectWithValue(err.message)
+      return rejectWithValue(err.response.data.message)
     }
   },
 )

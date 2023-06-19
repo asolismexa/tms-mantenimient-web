@@ -15,7 +15,6 @@ export const getReports = async ({ params, headers }) => {
       ...headers,
     },
   }
-  console.log(config)
   try {
     const resp = await api.get(baseUrl, config)
     return { data: resp.data, resp, error: null }
@@ -24,19 +23,15 @@ export const getReports = async ({ params, headers }) => {
   }
 }
 
-export const postReports = async ({ data, headers }) => {
+export const postReports = async ({ data }) => {
   const config = {
     headers: {
       ...baseHeaders,
-      ...headers,
+      'Content-Type': 'multipart/form-data',
     },
   }
-  try {
-    const resp = await api.post(baseUrl, data, config)
-    return { data: resp.data, resp, error: null }
-  } catch (error) {
-    return { data: null, resp: null, error: error }
-  }
+  const resp = await api.post(baseUrl, data, config)
+  return { data: resp.data, resp }
 }
 
 export const getReportById = async (reportId) => {
