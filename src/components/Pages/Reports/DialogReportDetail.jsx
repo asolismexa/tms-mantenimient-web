@@ -54,7 +54,7 @@ export default function DialogReportDetail() {
   }
 
   useEffect(() => {
-    bottomAnchor?.current?.scrollIntoView({ behavior: 'smooth', })
+    bottomAnchor?.current?.scrollIntoView({ behavior: 'smooth' })
   }, [selectedReport, tab])
 
   if (loading) return <LoadingBackdrop open />
@@ -65,7 +65,7 @@ export default function DialogReportDetail() {
         open={dialog.open}
         keepMounted
         fullWidth
-        maxWidth="sm"
+        maxWidth="md"
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
