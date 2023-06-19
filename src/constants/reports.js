@@ -1,13 +1,40 @@
 export const types = [
-  { value: 1, label: 'AUX MECANICO' },
-  { value: 2, label: 'CAMPAÑA' },
-  { value: 3, label: 'CORRECTIVO' },
-  { value: 4, label: 'DAÑOS' },
-  { value: 5, label: 'EXPRESS' },
-  { value: 6, label: 'GARANTIA' },
-  { value: 7, label: 'LAVADO DE UNIDADES' },
-  { value: 8, label: 'LLANTAS' },
-  { value: 10, label: 'PEVENTIVO' },
+  {
+    value: 1,
+    label: 'CABINA E INTERIORES',
+  },
+  {
+    value: 2,
+    label: 'CHASIS Y SUSPENSION',
+  },
+  {
+    value: 3,
+    label: 'GENERAL, HERRAMIENTAS ESPECIALES',
+  },
+  {
+    value: 4,
+    label: 'MICELANEOS',
+  },
+  {
+    value: 5,
+    label: 'MOTOR',
+  },
+  {
+    value: 6,
+    label: 'SERVICIOS Y MANTENIMIENTO',
+  },
+  {
+    value: 7,
+    label: 'SISTEMA DE AIRE Y FRENOS',
+  },
+  {
+    value: 8,
+    label: 'SISTEMA ELECTRICO E INSTRUMENTOS',
+  },
+  {
+    value: 10,
+    label: 'TREN MOTRIZ',
+  },
 ]
 
 export const status = [

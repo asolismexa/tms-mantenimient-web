@@ -31,7 +31,7 @@ export default [
     field: 'report_type_id',
     headerName: 'Tipo',
     type: 'singleSelect',
-    width: 150,
+    width: 200,
     valueOptions: types,
   },
   {
