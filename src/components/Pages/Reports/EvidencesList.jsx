@@ -9,15 +9,30 @@ export default function EvidencesList({ evidences }) {
   return (
     <ImageList sx={{ width: 500, height: 450 }}>
       {evidences.map((item) => (
-        <ImageListItem key={item.id}>
-          <img src={`${item.mediaLink}`} loading="lazy" />
+        <ImageListItem
+          key={item.id}
+          sx={{
+            maxHeight: '300px',
+            width: '300px',
+            height: '300px',
+          }}
+        >
+          <img
+            style={{
+              objectFit: 'contain',
+              height: '100%',
+              width: '100%',
+            }}
+            src={`${item.mediaLink}`}
+            loading="lazy"
+          />
           <ImageListItemBar
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                 aria-label={`info about ${item.title}`}
               >
-                <Link href={item.mediaLink} download>
+                <Link color="inherit" href={item.mediaLink} download>
                   <DownloadForOfflineIcon color="white" />
                 </Link>
               </IconButton>
