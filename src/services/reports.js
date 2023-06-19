@@ -1,7 +1,8 @@
 import api from '@/api/api'
 
-const baseUrl = 'api/reports'
-const getToken = () => `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+export const baseUrl = 'api/reports'
+export const getToken = () =>
+  `Bearer ${JSON.parse(localStorage.getItem('token'))}`
 const baseHeaders = {
   'Content-Type': 'application/json',
   Authorization: getToken(),
@@ -15,7 +16,6 @@ export const getReports = async ({ params, headers }) => {
       ...headers,
     },
   }
-  console.log(config)
   try {
     const resp = await api.get(baseUrl, config)
     return { data: resp.data, resp, error: null }
