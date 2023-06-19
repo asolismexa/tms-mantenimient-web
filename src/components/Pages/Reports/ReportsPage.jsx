@@ -68,7 +68,7 @@ function ReportsPage() {
       end: pagination.end,
     }
 
-    getReports({ params, headers: { sort: '+time' } }).then(
+    getReports({ params, headers: { sort: '-time' } }).then(
       ({ data, resp }) => {
         setLoading(false)
         setReports(data)

@@ -11,6 +11,7 @@ export default function SelectAsync({
   onChange,
   value,
   nameKey,
+  disabled,
 }) {
   const [inputValue, setInputValue] = useState('')
   const { options, loading, setOpen, open } = useFetchOptions(url, headers)
@@ -21,6 +22,7 @@ export default function SelectAsync({
 
   return (
     <Autocomplete
+      disabled={disabled}
       open={open}
       onOpen={() => {
         setOpen(true)
