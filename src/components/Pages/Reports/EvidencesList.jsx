@@ -9,7 +9,7 @@ export default function EvidencesList({ evidences }) {
   return (
     <ImageList sx={{ width: 500, height: 450 }}>
       {evidences.map((item) => (
-        <ImageListItem key={item.img}>
+        <ImageListItem key={item.id}>
           <img src={`${item.mediaLink}`} loading="lazy" />
           <ImageListItemBar
             actionIcon={
