@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { postReports } from '@/services/reports'
+import { fetchReportDetail, openDialog } from './reportDetail'
 
 const initialState = {
   type: null,
@@ -13,7 +14,7 @@ const initialState = {
 
 export const createReport = createAsyncThunk(
   'createReportForm/createReport',
-  async ({ form, evidences, location }, { rejectWithValue }) => {
+  async ({ form, evidences, location }, { rejectWithValue, dispatch }) => {
     const formData = new FormData()
     formData.append('report_type_id', form.type.id)
     formData.append('vehicle_id', form.vehicle.id)
@@ -26,9 +27,19 @@ export const createReport = createAsyncThunk(
     }
 
     try {
-      const { data } = await postReports({
+      const { data, resp } = await postReports({
         data: formData,
       })
+      console.log(data)
+      if (resp.status == 200 && data) {
+        dispatch(
+          fetchReportDetail({
+            reportId: data,
+          }),
+        )
+        dispatch(openDialog())
+      }
+
       return data
     } catch (err) {
       return rejectWithValue(err.response.data.message)
