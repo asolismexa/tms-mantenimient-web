@@ -20,10 +20,8 @@ export const createReport = createAsyncThunk(
     formData.append('vehicle_id', form.vehicle.id)
     formData.append('driver_id', form.driver.id)
     formData.append('observation', form.observation?.trim() || '')
-    formData.append('number', 1)
     formData.append('lat', location.lat)
     formData.append('lon', location.lon)
-    formData.append('time', dayjs.utc().format('YYYY-MM-DD HH:mm:ss.SSS'))
     for (const evidence of evidences) {
       formData.append(evidence.name, evidence)
     }
