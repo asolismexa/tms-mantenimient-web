@@ -1,4 +1,3 @@
-import { status, types } from '@/constants/reports'
 import { formatDate } from '@/utils/dates'
 import dayjs from 'dayjs'
 
@@ -21,18 +20,18 @@ export default [
     width: 120,
   },
   {
-    field: 'status_id',
-    type: 'singleSelect',
+    field: 'status',
+    type: 'string',
     headerName: 'Estatus',
     width: 150,
-    valueOptions: status,
+    // valueOptions: status,
   },
   {
-    field: 'report_type_id',
+    field: 'report_type',
     headerName: 'Tipo',
-    type: 'singleSelect',
+    type: 'string',
     width: 200,
-    valueOptions: types,
+    // valueOptions: types,
   },
   {
     field: 'user',
