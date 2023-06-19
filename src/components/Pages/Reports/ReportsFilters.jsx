@@ -81,6 +81,7 @@ function Filters({ onSearch, token }) {
             size: 'small',
           },
         }}
+        format="DD/MM/YYYY"
         defaultValue={endDate}
         onChange={(date) => setEndDate(date)}
         value={endDate}
