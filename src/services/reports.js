@@ -63,3 +63,9 @@ export const postReportObservation = async (data) => {
     return { data: null, resp: null, error: error }
   }
 }
+
+export const updateReport = async (data) => {
+  return await api.patch(`${baseUrl}/${data.reportId}`, data, {
+    headers: baseHeaders,
+  })
+}

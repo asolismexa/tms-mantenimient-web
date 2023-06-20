@@ -10,6 +10,7 @@ import {
   Alert,
   Box,
   CircularProgress,
+  DialogContentText,
   Grid,
   IconButton,
   Link,
@@ -20,23 +21,33 @@ import {
   Typography,
 } from '@mui/material'
 import TabPanel from '@/components/Core/TabPanel'
-import SelectAsync from '@/components/Core/SelectAsync'
 import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
 import {
   selectReportDetail,
   closeDialog,
+  openConfirmDialog,
   setForm,
   createReportObservation,
+  closeConfirmDialog,
+  updateReportStatus,
 } from '@/reducers/reportDetail'
 import { formatDate } from '@/utils/dates'
 import EvidencesList from './EvidencesList'
 import ObservationsList from './ObservationsList'
+import { statusEnum } from '@/constants/reports'
 
 export default function DialogReportDetail() {
   const dispatch = useDispatch()
   const [tab, setTab] = useState(0)
-  const { dialog, form, loading, error, selectedReport, loadingObservations } =
-    useSelector(selectReportDetail)
+  const {
+    dialog,
+    confirmDialog,
+    form,
+    loading,
+    error,
+    selectedReport,
+    loadingObservations,
+  } = useSelector(selectReportDetail)
   const bottomAnchor = useRef(null)
 
   const handleClose = () => {
@@ -53,6 +64,21 @@ export default function DialogReportDetail() {
     )
   }
 
+  const handleFinishReport = ( ) => {
+    dispatch(
+      setForm({
+        status: statusEnum.ATENDIDO,
+      }),
+    )
+    dispatch(
+      openConfirmDialog({
+        title: `Estas seguro que deseas finalizar el reporte?`,
+        message:
+          'No podras cambiar el estatus una vez finalizado',
+      }),
+    )
+  }
+
   useEffect(() => {
     bottomAnchor?.current?.scrollIntoView({ behavior: 'smooth' })
   }, [selectedReport, tab])
@@ -61,6 +87,30 @@ export default function DialogReportDetail() {
 
   return (
     <div>
+      <Dialog open={confirmDialog.open}>
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{confirmDialog.message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              dispatch(closeConfirmDialog())
+            }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            autoFocus
+            onClick={() => {
+              dispatch(updateReportStatus({ status: form.status }))
+            }}
+          >
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Dialog
         open={dialog.open}
         keepMounted
@@ -113,35 +163,10 @@ export default function DialogReportDetail() {
               <Grid item xs={6}>
                 <Typography variant="caption">Estatus:</Typography>
                 <Typography variant="body1">
-                  {selectedReport?.type_id}
+                  {selectedReport?.status}
                 </Typography>
-                <SelectAsync
-                  disabled={
-                    selectedReport ? selectedReport.status_id === 3 : false
-                  }
-                  url="/api/reports/status"
-                  headers={{
-                    Authorization: `Bearer ${JSON.parse(
-                      localStorage.getItem('token'),
-                    )}`,
-                  }}
-                  onChange={(_, newValue) => {
-                    dispatch(
-                      setForm({
-                        status: newValue,
-                      }),
-                    )
-                  }}
-                  value={form.status ? form.status : null}
-                />
               </Grid>
               <Grid item xs={6}>
-                <Typography variant="caption">Tipo:</Typography>
-                <Typography variant="body1">
-                  {selectedReport?.report_type}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
                 <Typography variant="caption">Ubicacion:</Typography>
                 {selectedReport && (
                   <Link
@@ -154,6 +179,65 @@ export default function DialogReportDetail() {
                   </Link>
                 )}
               </Grid>
+              <Grid item xs={6}>
+                <Typography variant="caption">Tipo:</Typography>
+                <Typography variant="body1">
+                  {selectedReport?.report_type}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="caption">Folio:</Typography>
+                {selectedReport?.status_id === statusEnum.REPORTADO ? (
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <TextField
+                      size="small"
+                      margin="dense"
+                      placeholder="Ej: 185951"
+                      value={form.folio}
+                      onChange={({ target }) => {
+                        dispatch(
+                          setForm({
+                            folio: target.value,
+                          }),
+                        )
+                      }}
+                    />
+                    <Button
+                      onClick={() => {
+                        if (form.folio.trim() == '') return
+                        dispatch(
+                          setForm({
+                            status: statusEnum.ASIGNADO,
+                          }),
+                        )
+                        dispatch(
+                          openConfirmDialog({
+                            title: `Deseas asignar el folio ${form.folio} a este reporte?`,
+                            message:
+                              'No podras cambiar el folio una vez que este asignado',
+                          }),
+                        )
+                      }}
+                    >
+                      Asignar Folio
+                    </Button>
+                  </Stack>
+                ) : (
+                  <Typography variant="body1">
+                    {selectedReport?.number}
+                  </Typography>
+                )}
+              </Grid>
+              {selectedReport?.status_id === statusEnum.ASIGNADO ? (
+                <Grid item xs={12}>
+                  <Button
+                    onClick={handleFinishReport}
+                    fullWidth
+                  >
+                    Finalizar Reporte
+                  </Button>
+                </Grid>
+              ) : null}
             </Grid>
           </TabPanel>
           <TabPanel value={tab} index={1}>

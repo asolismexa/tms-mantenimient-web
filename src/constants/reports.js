@@ -42,3 +42,9 @@ export const status = [
   { value: 2, label: 'ASIGNADO' },
   { value: 3, label: 'ATENDIDO' },
 ]
+
+export const statusEnum = Object.freeze({
+  REPORTADO: 1,
+  ASIGNADO: 2,
+  ATENDIDO: 3
+})

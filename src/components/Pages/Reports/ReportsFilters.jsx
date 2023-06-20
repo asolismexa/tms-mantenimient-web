@@ -93,7 +93,7 @@ function Filters({ onSearch, token }) {
         fullWidth
         size="small"
         margin="dense"
-        value={form.date}
+        value={form.folio}
         onChange={handleChange}
       />
       <SelectAsync
