@@ -267,7 +267,7 @@ export default function ModalDetailReport({
                   </Typography>
                   <Typography variant="body1">
                     {report?.driver ? (
-                      'No hay operador asignado'
+                      report.driver
                     ) : (
                       <Stack
                         sx={{
