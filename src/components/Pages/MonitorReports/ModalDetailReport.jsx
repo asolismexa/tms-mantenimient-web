@@ -59,6 +59,7 @@ export default function ModalDetailReport({
   createNewReport,
 }) {
   const [tab, setTab] = useState(0)
+  const [errorMessage, setErrorMessage] = useState(null)
   const [createNewReportDialog, setCreateNewReportDialog] = useState(false)
   const [observation, setObservation] = useState('')
   const [otField, setOtField] = useState(report?.ot || '')
@@ -100,6 +101,7 @@ export default function ModalDetailReport({
 
   const handleAssignOt = () => {
     if (otField.trim() === '') return
+    setErrorMessage(null)
     assignOt({
       reportId: report?.id,
       data: {
@@ -111,6 +113,7 @@ export default function ModalDetailReport({
       })
       .catch((err) => {
         console.log(err)
+        setErrorMessage(err?.response?.data)
       })
       .finally(() => {
         setOtField('')
@@ -439,6 +442,9 @@ export default function ModalDetailReport({
               </IconButton>
             </Stack>
           </TabPanel>
+          {Boolean(errorMessage) && (
+            <Alert severity="error">{errorMessage}</Alert>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cerrar</Button>
