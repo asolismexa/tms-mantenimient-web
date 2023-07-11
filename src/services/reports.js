@@ -79,3 +79,10 @@ export const uploadEvidence = async ({ reportId, data }) => {
 
   return resp.data
 }
+
+export const assignDriver = async (reportId, driverId) => {
+  const resp = await api.put(`${baseUrl}/${reportId}/assign-driver`, {
+    driverId,
+  })
+  return resp.data
+}

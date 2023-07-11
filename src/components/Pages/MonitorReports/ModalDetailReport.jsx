@@ -28,6 +28,7 @@ import EvidencesList from '../Reports/EvidencesList'
 import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
 import ObservationsList from '../Reports/ObservationsList'
 import {
+  assignDriver,
   assignOt,
   attendReport,
   fetchReports,
@@ -40,6 +41,7 @@ import CheckLogo from '@/components/Core/CheckLogo'
 import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
+import axios from 'axios'
 
 const initialValidateDialogState = {
   open: false,
@@ -70,6 +72,13 @@ export default function ModalDetailReport({
   const handleChangeSelectedDriver = (_, value) => {
     if (report.status_id == 3) return
     setSelectedDriver(value)
+  }
+
+  const handleChangeAsignedDriver = () => {
+    assignDriver(report.id, selectedDriver.id)
+      .then((resp) => console.log(resp))
+      .catch((err) => console.log(err))
+      .finally(() => refreshReport())
   }
 
   const onClose = () => {
@@ -280,7 +289,11 @@ export default function ModalDetailReport({
                           value={selectedDriver}
                           onChange={handleChangeSelectedDriver}
                         />
-                        {selectedDriver && <Button>Asignar Operador</Button>}
+                        {selectedDriver && (
+                          <Button onClick={handleChangeAsignedDriver}>
+                            Asignar Operador
+                          </Button>
+                        )}
                       </Stack>
                     )}
                   </Typography>
