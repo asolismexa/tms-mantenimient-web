@@ -39,7 +39,6 @@ import { statusEnum } from '@/constants/reports'
 import CheckLogo from '@/components/Core/CheckLogo'
 import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
-import AutoCompleteAsync from './AutoCompleteAsync'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
 
 const initialValidateDialogState = {
