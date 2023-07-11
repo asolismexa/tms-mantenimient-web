@@ -269,12 +269,19 @@ export default function ModalDetailReport({
                     {report?.driver ? (
                       'No hay operador asignado'
                     ) : (
-                      <Box>
+                      <Stack
+                        sx={{
+                          mt: 1,
+                        }}
+                        spacing={1}
+                        alignItems="start"
+                      >
                         <AutoCompleteDrivers
                           value={selectedDriver}
                           onChange={handleChangeSelectedDriver}
                         />
-                      </Box>
+                        {selectedDriver && <Button>Asignar Operador</Button>}
+                      </Stack>
                     )}
                   </Typography>
                 </Box>
