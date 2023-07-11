@@ -32,24 +32,26 @@ function FormCreateReport({ form, setForm, children }) {
 
   return (
     <Stack padding={1} spacing={2}>
-      <AutoCompleteVehicles
-        value={form.vehicle}
-        onChange={(_, newValue) => {
-          setForm({
-            ...form,
-            vehicle: newValue,
-          })
-        }}
-      />
-      {form.vehicle && (
-        <>
-          <Divider sx={{ mt: 1 }} />
-          <Typography variant="caption">CONFIGURACION MOTRIZ</Typography>
-          <Typography variant="body1">
-            {form.vehicle?.performance_type}
-          </Typography>
-        </>
-      )}
+      <Stack direction="row" spacing={2}>
+        <AutoCompleteVehicles
+          value={form.vehicle}
+          onChange={(_, newValue) => {
+            setForm({
+              ...form,
+              vehicle: newValue,
+            })
+          }}
+        />
+        {form.vehicle && (
+          <div>
+            <Typography variant="caption">CONFIGURACION MOTRIZ</Typography>
+            <Typography variant="body1">
+              {form.vehicle?.performance_type}
+            </Typography>
+          </div>
+        )}
+      </Stack>
+      <Divider />
       {loading && <CircularProgress />}
       {resp && resp.driver && (
         <>
