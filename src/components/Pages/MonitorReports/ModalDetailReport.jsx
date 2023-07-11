@@ -41,7 +41,6 @@ import CheckLogo from '@/components/Core/CheckLogo'
 import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
-import axios from 'axios'
 
 const initialValidateDialogState = {
   open: false,
