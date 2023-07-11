@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import api from '@/api/api'
+import { getToken } from '@/services/reports'
 
-export default function useFetchOptions(url, headers) {
+export default function useFetchOptions(url) {
   const [open, setOpen] = useState(false)
   const [options, setOptions] = useState([])
   const loading = open && options.length === 0
@@ -16,7 +17,9 @@ export default function useFetchOptions(url, headers) {
     const fetchOptions = async () => {
       try {
         const resp = await api.get(url, {
-          headers,
+          headers: {
+            Authorization: getToken(),
+          },
         })
 
         if (active) {
@@ -32,7 +35,7 @@ export default function useFetchOptions(url, headers) {
     return () => {
       active = false
     }
-  }, [loading, headers, url])
+  }, [loading, url])
 
   useEffect(() => {
     if (!open) {

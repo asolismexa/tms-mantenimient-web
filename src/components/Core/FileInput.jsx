@@ -1,17 +1,26 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import {
   Button,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
+  Alert,
 } from '@mui/material'
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'
 
 const noop = () => {}
 
-const FileInput = ({ value, onChange = noop, multiple, label, ...rest }) => {
+const FileInput = ({
+  value,
+  onChange = noop,
+  multiple,
+  label = 'Seleccionar archivos',
+  maxFiles = 10,
+  ...rest
+}) => {
   const inputRef = useRef(null)
+  const [error, setError] = useState(null)
 
   return (
     <div>
@@ -31,12 +40,23 @@ const FileInput = ({ value, onChange = noop, multiple, label, ...rest }) => {
           ref={inputRef}
           multiple={multiple}
           onChange={(e) => {
+            if (e.target.files.length > maxFiles) {
+              setError(`Solo se permiten ${maxFiles} archivos`)
+              onChange([])
+              return
+            }
+            setError(null)
             onChange([...e.target.files])
           }}
         />
       </Button>
+      {error && (
+        <Alert sx={{ mt: 1 }} severity="error">
+          {error}
+        </Alert>
+      )}
       <List>
-        {value.map((file) => (
+        {value?.map((file) => (
           <ListItem key={file.name}>
             <ListItemIcon>
               <InsertDriveFileIcon />

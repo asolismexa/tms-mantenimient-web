@@ -1,135 +1,243 @@
-import { useDispatch } from 'react-redux'
-import { useState, useEffect } from 'react'
-import reportsColumns from './ReportsGridColumns'
-import { DataGrid, esES } from '@mui/x-data-grid'
-import Grid from '@mui/material/Grid'
-import NoteAddIcon from '@mui/icons-material/NoteAdd'
-import { IconButton, Box } from '@mui/material'
-import { useSelector } from 'react-redux'
-import { selectAuth } from '@/reducers/authSlice'
-import Filters from './ReportsFilters'
-import CreateReportForm from './CreateReportForm'
-import CustomPagination from '@/components/Core/Pagination'
-import { getReports } from '@/services/reports'
-import { showForm } from '@/reducers/createReportFormSlice'
-import { openDialog, fetchReportDetail } from '@/reducers/reportDetail'
-import DialogReportDetail from './DialogReportDetail'
+import { useState } from 'react'
+import CustomDataGrid from '@/components/custom/DataGrid'
+import {
+  Box,
+  Alert,
+  Grid,
+  Button,
+  Stack,
+  TextField,
+  IconButton,
+} from '@mui/material'
+import { formatDate, utcToLocal } from '@/utils/dates'
+import { useFetchReportDetail } from '@/hooks/fetchReportDetail'
+import ModalDetailReport from '../MonitorReports/ModalDetailReport'
+import { SnackbarProvider } from 'notistack'
+import { useSearchReports } from './useSearchReports'
+import ReplayIcon from '@mui/icons-material/Replay'
+import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 
-function ReportsPage() {
-  const dispatch = useDispatch()
-  const auth = useSelector(selectAuth)
-  const { token } = auth
-  const [reports, setReports] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [totalPages, setTotalPages] = useState(0)
-  const [pagination, setPagination] = useState({
-    page: 1,
-    start: 0,
-    end: 20,
-    step: 20,
-  })
+function ReportsMonitor() {
+  const { reports, loading, searchReports, error, pagination, setPagination } =
+    useSearchReports({ pageSize: 100 })
+  const {
+    reportDetail,
+    loadingReportDetail,
+    setReportId,
+    openDetail,
+    closeDetail,
+    openModalDetail,
+    refreshReportDetail,
+  } = useFetchReportDetail()
 
-  const handleOpen = () => {
-    dispatch(showForm())
+  // Handle pagination of the reports
+  const handleOnPageChange = (_, newPage) => {
+    const newStart = (newPage - 1) * pagination.pageSize
+    const newEnd = newPage * pagination.pageSize
+    setPagination((prev) => ({
+      ...prev,
+      page: newPage - 1,
+      start: newStart,
+      end: newEnd,
+    }))
+    searchReports()
+  }
+  const handleOpenDetailModal = ({ id }) => {
+    setReportId(id)
+    openDetail()
   }
 
-  useEffect(() => {
-    const config = {
-      params: {
-        start: pagination.start,
-        end: pagination.end,
-      },
-      headers: {
-        sort: '-time',
-      },
-    }
-
-    setLoading(true)
-    getReports(config).then(({ data, error, resp }) => {
-      if (error) return
-      setLoading(false)
-      setReports(data)
-      setTotalPages(JSON.parse(resp.headers['x-pagination']).total_pages)
-    })
-  }, [pagination])
-
-  const handleSearch = (form) => {
-    setLoading(true)
-    const params = {
-      ...form,
-      from_time: form.start_date,
-      to_time: form.end_date,
-      status_id: form.status ? form.status.id : null,
-      type_id: form.type ? form.type.id : null,
-      user: form.user ? form.user.id : null,
-      driver: form.driver ? form.driver.id : null,
-      vehicle: form.vehicle ? form.vehicle.id : null,
-      start: pagination.start,
-      end: pagination.end,
-    }
-
-    getReports({ params, headers: { sort: '-time' } }).then(
-      ({ data, resp }) => {
-        setLoading(false)
-        setReports(data)
-        setTotalPages(JSON.parse(resp.headers['x-pagination']).total_pages)
-      },
-    )
-  }
-
-  const handleChangePage = (_, value) => {
-    if (pagination.page == value) return
-    const start = (value - 1) * pagination.step
-    const end = start + pagination.step
-    setPagination({ ...pagination, start, end, page: value })
+  const handleSearch = () => {
+    searchReports()
   }
 
   return (
-    <div>
-      <CreateReportForm />
-      <DialogReportDetail />
-      <Box sx={{ margin: 2 }}></Box>
+    <Box sx={{ m: 2 }}>
+      {Boolean(error) && (
+        <Alert sx={{ my: 1 }} severity="error">
+          {error}
+        </Alert>
+      )}
       <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <Filters onSearch={handleSearch} token={token} />
+        <Grid item xs={2}>
+          <Stack direction="row">
+            <Button fullWidth onClick={handleSearch}>
+              BUSCAR
+            </Button>
+            <IconButton size="small">
+              <ReplayIcon />
+            </IconButton>
+          </Stack>
+          <Stack>
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <AutoCompleteVehicles
+              inputProps={{
+                fullWidth: true,
+              }}
+            />
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+          </Stack>
         </Grid>
         <Grid item xs={9}>
-          <Grid container spacing={3.0}>
-            <Grid item md="auto">
-              <IconButton onClick={handleOpen} color="primary" size="large">
-                <NoteAddIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-          <DataGrid
-            disableColumnFilter
-            rows={reports}
+          <CustomDataGrid
             loading={loading}
-            sx={{ height: 470 }}
             columns={reportsColumns}
-            onRowDoubleClick={(row) => {
-              dispatch(
-                fetchReportDetail({
-                  reportId: row.row.id,
-                }),
-              )
-              dispatch(openDialog())
-            }}
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-            slots={{
-              pagination: () => null,
-              footer: () => null,
-            }}
-          />
-          <CustomPagination
-            page={pagination.page}
-            count={totalPages}
-            onChange={handleChangePage}
+            rows={reports}
+            page={pagination.page + 1}
+            pageCount={pagination.pageCount}
+            onPageChange={handleOnPageChange}
+            onRowDoubleClick={handleOpenDetailModal}
+            disableColumnSelector
+            disableDensitySelector
           />
         </Grid>
       </Grid>
-    </div>
+      <SnackbarProvider />
+      <ModalDetailReport
+        loading={loadingReportDetail}
+        open={openModalDetail}
+        handleClose={closeDetail}
+        report={reportDetail}
+        refreshReport={refreshReportDetail}
+      />
+    </Box>
   )
 }
 
-export default ReportsPage
+export default ReportsMonitor
+
+const reportsColumns = [
+  {
+    field: 'number',
+    headerName: 'FOLIO',
+    width: 200,
+  },
+  {
+    field: 'time',
+    headerName: 'FECHA / HORA REPORTE',
+    type: 'dateTime',
+    width: 200,
+    valueFormatter: ({ value }) => {
+      return formatDate(value)
+    },
+    valueGetter: ({ value }) => {
+      return value ? utcToLocal(value) : 'Sin fecha'
+    },
+  },
+  {
+    field: 'vehicle',
+    headerName: 'UNIDAD',
+  },
+  {
+    field: 'driver',
+    headerName: 'OPERADOR',
+    width: 260,
+  },
+  {
+    field: 'shipment_id',
+    headerName: 'SOLICITUD',
+  },
+  {
+    field: 'ot',
+    headerName: 'OT',
+  },
+  {
+    field: 'status',
+    headerName: 'ESTATUS',
+    width: 100,
+  },
+  {
+    field: 'report_type',
+    headerName: 'TIPO FALLA',
+    width: 200,
+  },
+  {
+    field: 'has_observations',
+    headerName: 'OBS',
+    type: 'boolean',
+    width: 100,
+  },
+  {
+    field: 'has_evidences',
+    headerName: 'EVID',
+    type: 'boolean',
+    width: 100,
+  },
+  {
+    field: 'user',
+    headerName: 'USUARIO',
+    type: 'string',
+    width: 130,
+  },
+  {
+    field: 'assigned_on',
+    headerName: 'FECHA ASIGNADO',
+    type: 'dateTime',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+    valueGetter: ({ value }) => {
+      value ? utcToLocal(value) : null
+    },
+  },
+  {
+    field: 'assigned_by',
+    headerName: 'USUARIO ASIGNA',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'attended_on',
+    headerName: 'FECHA ATIENDE',
+    type: 'dateTime',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+    valueGetter: ({ value }) => {
+      value ? utcToLocal(value) : null
+    },
+  },
+  {
+    field: 'attended_by',
+    headerName: 'USUARIO ATIENDE',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'validated_on',
+    headerName: 'FECHA VALIDA',
+    type: 'dateTime',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+    valueGetter: ({ value }) => {
+      return value ? utcToLocal(value) : null
+    },
+  },
+  {
+    field: 'validated_by',
+    headerName: 'USUARIO VALIDA',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'validated_success',
+    headerName: 'VALIDADACION EXITOSA',
+    type: 'boolean',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      console.log(value)
+      return value
+    },
+  },
+]

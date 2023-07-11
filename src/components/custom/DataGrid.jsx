@@ -8,24 +8,26 @@ function CustomDataGrid({
   page,
   pageCount,
   onPageChange,
+  slots,
   ...props
 }) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <DataGrid
+          paginationMode="server"
+          pagination
           sx={{
-            height: '400px',
-            maxHeight: '400px',
+            height: '450px',
+            maxHeight: '450px',
           }}
-          filterMode="server"
-          disableColumnFilter
           columns={columns}
           rows={rows}
           slots={{
+            ...(slots ? slots : {}),
             pagination: () => null,
-            footer: () => null,
           }}
+          hideFooter={false}
           {...props}
         />
       </Grid>

@@ -1,21 +1,20 @@
 import axios from 'axios'
-import { logOutUser } from '@/reducers/authSlice'
-import { store } from '@/store'
+
+export const getToken = () => window.App?.token && `Bearer ${window.App.token}`
 
 const api = axios.create({
   baseURL: import.meta.env['VITE_BASE_API_URL'],
 })
 
-api.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  (error) => {
-    if (error.response.status == 401) {
-      console.log('Unauthorized')
-      store.dispatch(logOutUser())
+api.interceptors.request.use(
+  function (config) {
+    config.headers = {
+      ...config.headers,
+      Authorization: getToken(),
     }
-
+    return config
+  },
+  function (error) {
     return Promise.reject(error)
   },
 )

@@ -7,10 +7,17 @@ import { Link } from '@mui/material'
 
 export default function EvidencesList({ evidences }) {
   return (
-    <ImageList sx={{ width: 500, height: 450 }}>
+    <ImageList sx={{ width: '100%', height: 450 }} rowHeight={164}>
       {evidences.map((item) => (
-        <ImageListItem key={item.img}>
-          <img src={`${item.mediaLink}`} loading="lazy" />
+        <ImageListItem key={item.id}>
+          <img
+            style={{
+              height: '100%',
+              objectFit: 'contain',
+            }}
+            src={`${item.mediaLink}`}
+            loading="lazy"
+          />
           <ImageListItemBar
             actionIcon={
               <IconButton

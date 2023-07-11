@@ -8,9 +8,9 @@ import { router } from './routes'
 import { store } from '@/store'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import LoginDialog from '@/components/Core/LoginDialog'
 import 'dayjs/locale/es-mx'
 dayjs.extend(utc)
+import { SnackbarProvider } from 'notistack'
 
 export default function App() {
   return (
@@ -21,8 +21,9 @@ export default function App() {
         locale="es-mx"
       >
         <ThemeProvider theme={theme}>
-          <LoginDialog />
-          <RouterProvider router={router} />
+          <SnackbarProvider maxSnack={10} autoHideDuration={3000}>
+            <RouterProvider router={router} />
+          </SnackbarProvider>
         </ThemeProvider>
       </LocalizationProvider>
     </Provider>
