@@ -39,6 +39,8 @@ import { statusEnum } from '@/constants/reports'
 import CheckLogo from '@/components/Core/CheckLogo'
 import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import AutoCompleteAsync from './AutoCompleteAsync'
+import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
 
 const initialValidateDialogState = {
   open: false,
@@ -259,7 +261,13 @@ export default function ModalDetailReport({
                     OPERADOR
                   </Typography>
                   <Typography variant="body1">
-                    {report?.driver || 'No hay operador asignado'}
+                    {report?.driver ? (
+                      'No hay operador asignado'
+                    ) : (
+                      <Box>
+                        <AutoCompleteDrivers onChange={() => {}} />
+                      </Box>
+                    )}
                   </Typography>
                 </Box>
                 <Box sx={{ my: 1 }}>
