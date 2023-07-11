@@ -65,6 +65,12 @@ export default function ModalDetailReport({
   const [validateDialog, setValidateDialog] = useState(
     initialValidateDialogState,
   )
+  const [selectedDriver, setSelectedDriver] = useState(null)
+
+  const handleChangeSelectedDriver = (_, value) => {
+    if (report.status_id == 3) return
+    setSelectedDriver(value)
+  }
 
   const onClose = () => {
     handleClose()
@@ -264,7 +270,10 @@ export default function ModalDetailReport({
                       'No hay operador asignado'
                     ) : (
                       <Box>
-                        <AutoCompleteDrivers onChange={() => {}} />
+                        <AutoCompleteDrivers
+                          value={selectedDriver}
+                          onChange={handleChangeSelectedDriver}
+                        />
                       </Box>
                     )}
                   </Typography>
