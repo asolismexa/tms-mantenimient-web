@@ -42,7 +42,7 @@ export const fetchReportById = async (reportId) => {
 }
 
 export const assignOt = async ({ reportId, data }) => {
-  const resp = await api.put(`${baseUrl}/${reportId}/assign`, data)
+  const resp = await api.put(`${baseUrl}/${reportId}/assign-ot`, data)
   return resp.data
 }
 
