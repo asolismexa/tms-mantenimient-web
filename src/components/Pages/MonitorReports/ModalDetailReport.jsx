@@ -30,7 +30,6 @@ import ObservationsList from '../Reports/ObservationsList'
 import {
   assignDriver,
   assignOt,
-  attendReport,
   fetchReports,
   postReportObservation,
   uploadEvidence,
@@ -118,17 +117,6 @@ export default function ModalDetailReport({
       })
       .finally(() => {
         setOtField('')
-      })
-  }
-
-  const handleAttended = () => {
-    attendReport({ reportId: report?.id })
-      .then(() => {
-        refreshReport()
-        refreshReports()
-      })
-      .catch((err) => {
-        console.log(err)
       })
   }
 
@@ -298,6 +286,7 @@ export default function ModalDetailReport({
                 <LabelValue
                   label="ORDEN DE TRABAJO:"
                   value={
+                    !report?.ot &&
                     report?.status_id !== statusEnum.VALIDADO &&
                     report?.status_id !== statusEnum.ATENDIDO ? (
                       <Stack direction="row" spacing={1} alignItems="center">
