@@ -260,7 +260,7 @@ export default function ModalDetailReport({
               <Grid item xs={6}>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    FECHA REPORTADO
+                    FECHA REPORTADO:
                   </Typography>
                   <Typography variant="body1">
                     {report && formatDate(report.time)}
@@ -268,13 +268,19 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    UNIDAD
+                    UNIDAD:
                   </Typography>
                   <Typography variant="body1">{report?.vehicle}</Typography>
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    OPERADOR
+                    HOROMETRO:
+                  </Typography>
+                  <Typography variant="body1">{report?.odometer}</Typography>
+                </Box>
+                <Box sx={{ my: 1 }}>
+                  <Typography fontWeight="bold" variant="caption">
+                    OPERADOR:
                   </Typography>
                   <Typography variant="body1">
                     {report?.driver ? (
@@ -303,13 +309,13 @@ export default function ModalDetailReport({
 
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    TIPO DE FALLA
+                    TIPO DE FALLA:
                   </Typography>
                   <Typography variant="body1">{report?.report_type}</Typography>
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    ORDEN DE TRABAJO
+                    ORDEN DE TRABAJO:
                   </Typography>
                   <Typography fontWeight="bold" variant="caption"></Typography>
                   {report?.status_id !== statusEnum.VALIDADO &&
@@ -328,20 +334,11 @@ export default function ModalDetailReport({
                     <Typography variant="body1">{report?.ot}</Typography>
                   )}
                 </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    PRIMERA OBSERVACION
-                  </Typography>
-                  <Typography variant="body1">
-                    {report?.observations?.length > 0 &&
-                      report.observations.slice().reverse()[0].observation_text}
-                  </Typography>
-                </Box>
               </Grid>
               <Grid item xs={6}>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    FOLIO
+                    FOLIO:
                   </Typography>
                   <Typography variant="body1">
                     {report?.number ? report.number : ''}
@@ -349,7 +346,7 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    ESTATUS
+                    ESTATUS:
                   </Typography>
                   <Typography variant="body1">{report?.status}</Typography>
                   {report?.validated_success !== null ? (
@@ -358,7 +355,7 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    SOLICITUD
+                    SOLICITUD:
                   </Typography>
                   <Typography variant="body1">
                     {report?.shipment_id ||
@@ -367,7 +364,7 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    UBICACION
+                    UBICACION:
                   </Typography>
                   <Link
                     target="_blank"
@@ -380,6 +377,15 @@ export default function ModalDetailReport({
             </Grid>
             <Divider sx={{ my: 1 }} />
             <Box>
+              <Box sx={{ my: 1 }}>
+                <Typography fontWeight="bold" variant="caption">
+                  PRIMERA OBSERVACION:
+                </Typography>
+                <Typography variant="body1">
+                  {report?.observations?.length > 0 &&
+                    report.observations.slice().reverse()[0].observation_text}
+                </Typography>
+              </Box>
               {report?.status_id === statusEnum.ASIGNADO && (
                 <Button
                   variant="contained"
