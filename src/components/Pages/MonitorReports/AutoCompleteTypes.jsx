@@ -1,4 +1,4 @@
-import AutoCompleteAsync from './AutoCompleteAsync'
+import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
 function AutoCompleteTypes({ onChange = null, value = null }) {
   return (

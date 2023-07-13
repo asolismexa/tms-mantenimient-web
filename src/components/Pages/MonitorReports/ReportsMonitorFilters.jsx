@@ -6,7 +6,7 @@ import {
   FormControlLabel,
 } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers'
-import AutoCompleteAsync from './AutoCompleteAsync'
+import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
 function ReportsMonitorFilters({ filters, setFilters }) {
   const handleChangeFilter = ({ name, value }) => {

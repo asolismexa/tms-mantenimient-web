@@ -1,4 +1,4 @@
-import AutoCompleteAsync from './AutoCompleteAsync'
+import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
 function AutoCompleteDrivers({ onChange = null, value = null }) {
   return (
