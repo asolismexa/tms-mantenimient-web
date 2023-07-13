@@ -41,6 +41,7 @@ function ReportsMonitor() {
     openModalDetail,
     refreshReportDetail,
   } = useFetchReportDetail()
+  const [tab, setTab] = useState(0)
 
   const {
     formCreateReport,
@@ -93,6 +94,20 @@ function ReportsMonitor() {
   const handleOpenDetailModal = ({ id }) => {
     setReportId(id)
     openDetail()
+  }
+
+  const handleSetDetailTab = (data) => {
+    if (data.field === 'has_observations') {
+      setTab(1)
+      return
+    }
+
+    if (data.field === 'has_evidences') {
+      setTab(2)
+      return
+    }
+
+    setTab(0)
   }
 
   const filteredReports = () =>
@@ -150,6 +165,7 @@ function ReportsMonitor() {
         onPageChange={handleOnPageChange}
         onRowDoubleClick={handleOpenDetailModal}
         getRowHeight={() => 'auto'}
+        onCellDoubleClick={handleSetDetailTab}
         disableColumnSelector
         disableDensitySelector
       />
@@ -197,6 +213,8 @@ function ReportsMonitor() {
         refreshReport={refreshReportDetail}
         refreshReports={handleRefreshReports}
         createNewReport={onOpenCreateReportsModal}
+        tab={tab}
+        setTab={setTab}
       />
       <SnackbarProvider />
     </Box>

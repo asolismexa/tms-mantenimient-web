@@ -57,8 +57,9 @@ export default function ModalDetailReport({
   refreshReport,
   refreshReports,
   createNewReport,
+  tab,
+  setTab,
 }) {
-  const [tab, setTab] = useState(0)
   const [errorMessage, setErrorMessage] = useState(null)
   const [createNewReportDialog, setCreateNewReportDialog] = useState(false)
   const [observation, setObservation] = useState('')
@@ -83,7 +84,7 @@ export default function ModalDetailReport({
 
   const onClose = () => {
     handleClose()
-    setTab(0)
+    // setTab(0)
     setObservation('')
     setEvidences([])
   }
