@@ -51,6 +51,10 @@ export const reportsColumns = [
     headerName: 'UNIDAD',
   },
   {
+    field: 'odometer',
+    headerName: 'HOROMETRO',
+  },
+  {
     field: 'driver',
     headerName: 'OPERADOR',
     width: 150,
@@ -83,8 +87,6 @@ export const reportsColumns = [
             onChange={(evt) => {
               evt.stopPropagation()
               evt.preventDefault()
-              const { target } = evt
-              const { value } = target
               // onStatusColorHeaderFilterChange(parseInt(value))
             }}
             // value={filterValue}
