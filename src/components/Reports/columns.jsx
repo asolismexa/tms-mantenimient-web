@@ -6,7 +6,7 @@ export const reportsColumns = [
   {
     field: 'id',
     headerName: 'FOLIO',
-    width: 200,
+    width: 100,
     renderHeader: ({ colDef: { headerName } }) => {
       return (
         <Stack direction="column">
@@ -38,7 +38,7 @@ export const reportsColumns = [
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'dateTime',
-    width: 200,
+    width: 100,
     valueFormatter: ({ value }) => {
       return formatDate(value)
     },
@@ -53,7 +53,7 @@ export const reportsColumns = [
   {
     field: 'driver',
     headerName: 'OPERADOR',
-    width: 260,
+    width: 150,
   },
   {
     field: 'shipment_id',
@@ -62,11 +62,12 @@ export const reportsColumns = [
   {
     field: 'ot',
     headerName: 'OT',
+    wdith: 150,
   },
   {
     field: 'status',
     headerName: 'ESTATUS',
-    width: 200,
+    width: 100,
     renderHeader: ({ colDef: { headerName } }) => {
       return (
         <Stack direction="column">

@@ -260,7 +260,7 @@ export default function ModalDetailReport({
               <Grid item xs={6}>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    Fecha Reportado
+                    FECHA REPORTADO
                   </Typography>
                   <Typography variant="body1">
                     {report && formatDate(report.time)}
@@ -268,7 +268,7 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    Unidad
+                    UNIDAD
                   </Typography>
                   <Typography variant="body1">{report?.vehicle}</Typography>
                 </Box>
@@ -300,6 +300,7 @@ export default function ModalDetailReport({
                     )}
                   </Typography>
                 </Box>
+
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
                     TIPO DE FALLA
@@ -308,7 +309,28 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    Primera observacion:
+                    ORDEN DE TRABAJO
+                  </Typography>
+                  <Typography fontWeight="bold" variant="caption"></Typography>
+                  {report?.status_id !== statusEnum.VALIDADO &&
+                  report?.status_id !== statusEnum.ATENDIDO ? (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <TextField
+                        margin="dense"
+                        size="small"
+                        label="OT"
+                        value={otField}
+                        onChange={(e) => setOtField(e.target.value)}
+                      />
+                      <Button onClick={handleAssignOt}>Asignar</Button>
+                    </Stack>
+                  ) : (
+                    <Typography variant="body1">{report?.ot}</Typography>
+                  )}
+                </Box>
+                <Box sx={{ my: 1 }}>
+                  <Typography fontWeight="bold" variant="caption">
+                    PRIMERA OBSERVACION
                   </Typography>
                   <Typography variant="body1">
                     {report?.observations?.length > 0 &&
@@ -345,7 +367,7 @@ export default function ModalDetailReport({
                 </Box>
                 <Box sx={{ my: 1 }}>
                   <Typography fontWeight="bold" variant="caption">
-                    Ubicacion
+                    UBICACION
                   </Typography>
                   <Link
                     target="_blank"
@@ -353,27 +375,6 @@ export default function ModalDetailReport({
                   >
                     <Typography variant="body1">{report?.location}</Typography>
                   </Link>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    ORDEN DE TRABAJO
-                  </Typography>
-                  <Typography fontWeight="bold" variant="caption"></Typography>
-                  {report?.status_id !== statusEnum.VALIDADO &&
-                  report?.status_id !== statusEnum.ATENDIDO ? (
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <TextField
-                        margin="dense"
-                        size="small"
-                        label="OT"
-                        value={otField}
-                        onChange={(e) => setOtField(e.target.value)}
-                      />
-                      <Button onClick={handleAssignOt}>Asignar</Button>
-                    </Stack>
-                  ) : (
-                    <Typography variant="body1">{report?.ot}</Typography>
-                  )}
                 </Box>
               </Grid>
             </Grid>

@@ -149,6 +149,7 @@ function ReportsMonitor() {
         pageCount={pagination.pageCount}
         onPageChange={handleOnPageChange}
         onRowDoubleClick={handleOpenDetailModal}
+        getRowHeight={() => 'auto'}
         disableColumnSelector
         disableDensitySelector
       />
