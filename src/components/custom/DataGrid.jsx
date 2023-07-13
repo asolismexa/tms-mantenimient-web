@@ -18,8 +18,8 @@ function CustomDataGrid({
           paginationMode="server"
           pagination
           sx={{
-            height: '450px',
-            maxHeight: '450px',
+            height: '600px',
+            maxHeight: '600px',
           }}
           columns={columns}
           rows={rows}
