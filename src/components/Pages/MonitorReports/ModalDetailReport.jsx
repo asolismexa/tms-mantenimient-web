@@ -41,6 +41,7 @@ import CheckLogo from '@/components/Core/CheckLogo'
 import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
+import LabelValue from '@/components/Core/LabelValue'
 
 const initialValidateDialogState = {
   open: false,
@@ -258,32 +259,16 @@ export default function ModalDetailReport({
           <TabPanel value={tab} index={0}>
             <Grid container>
               <Grid item xs={6}>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    FECHA REPORTADO:
-                  </Typography>
-                  <Typography variant="body1">
-                    {report && formatDate(report.time)}
-                  </Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    UNIDAD:
-                  </Typography>
-                  <Typography variant="body1">{report?.vehicle}</Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    HOROMETRO:
-                  </Typography>
-                  <Typography variant="body1">{report?.odometer}</Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    OPERADOR:
-                  </Typography>
-                  <Typography variant="body1">
-                    {report?.driver ? (
+                <LabelValue
+                  label="FECHA REPORTADO:"
+                  value={report && formatDate(report.time)}
+                />
+                <LabelValue label="UNIDAD:" value={report?.vehicle} />
+                <LabelValue label=" HOROMETRO:" value={report?.odometer} />
+                <LabelValue
+                  label="OPERADOR:"
+                  value={
+                    report?.driver ? (
                       report.driver
                     ) : (
                       <Stack
@@ -303,99 +288,80 @@ export default function ModalDetailReport({
                           </Button>
                         )}
                       </Stack>
-                    )}
-                  </Typography>
-                </Box>
-
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    TIPO DE FALLA:
-                  </Typography>
-                  <Typography variant="body1">{report?.report_type}</Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    ORDEN DE TRABAJO:
-                  </Typography>
-                  <Typography fontWeight="bold" variant="caption"></Typography>
-                  {report?.status_id !== statusEnum.VALIDADO &&
-                  report?.status_id !== statusEnum.ATENDIDO ? (
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <TextField
-                        margin="dense"
-                        size="small"
-                        label="OT"
-                        value={otField}
-                        onChange={(e) => setOtField(e.target.value)}
-                      />
-                      <Button onClick={handleAssignOt}>Asignar</Button>
-                    </Stack>
-                  ) : (
-                    <Typography variant="body1">{report?.ot}</Typography>
-                  )}
-                </Box>
+                    )
+                  }
+                />
+                <LabelValue
+                  label="TIPO DE FALLA:"
+                  value={report?.report_type}
+                />
+                <LabelValue
+                  label="ORDEN DE TRABAJO:"
+                  value={
+                    report?.status_id !== statusEnum.VALIDADO &&
+                    report?.status_id !== statusEnum.ATENDIDO ? (
+                      <Stack direction="row" spacing={1} alignItems="center">
+                        <TextField
+                          margin="dense"
+                          size="small"
+                          label="OT"
+                          value={otField}
+                          onChange={(e) => setOtField(e.target.value)}
+                        />
+                        <Button onClick={handleAssignOt}>Asignar</Button>
+                      </Stack>
+                    ) : (
+                      <Typography variant="body1">{report?.ot}</Typography>
+                    )
+                  }
+                />
               </Grid>
               <Grid item xs={6}>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    FOLIO:
-                  </Typography>
-                  <Typography variant="body1">
-                    {report?.number ? report.number : ''}
-                  </Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    ESTATUS:
-                  </Typography>
-                  <Typography variant="body1">{report?.status}</Typography>
-                  {report?.validated_success !== null ? (
-                    <CheckLogo checked={report?.validated_success} />
-                  ) : null}
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    SOLICITUD:
-                  </Typography>
-                  <Typography variant="body1">
-                    {report?.shipment_id ||
-                      'No hay solicitud asignada a esta unidad'}
-                  </Typography>
-                </Box>
-                <Box sx={{ my: 1 }}>
-                  <Typography fontWeight="bold" variant="caption">
-                    UBICACION:
-                  </Typography>
-                  <Link
-                    target="_blank"
-                    href={`https://www.google.com/maps/search/?api=1&query=${report?.latitude}%2C${report?.longitude}`}
-                  >
-                    <Typography variant="body1">{report?.location}</Typography>
-                  </Link>
-                </Box>
+                <LabelValue
+                  label="FOLIO:"
+                  value={report?.number ? report.number : ''}
+                />
+                <LabelValue label="ESTATUS:" value={report?.status} />
+                <LabelValue
+                  label="VALIDADO:"
+                  value={
+                    report?.validated_success !== null ? (
+                      <CheckLogo checked={report?.validated_success} />
+                    ) : null
+                  }
+                />
+                <LabelValue
+                  label="SOLICITUD:"
+                  value={
+                    report?.shipment_id ||
+                    'No hay solicitud asignada a esta unidad'
+                  }
+                />
+                <LabelValue
+                  label="UBICACION:"
+                  value={
+                    <Link
+                      target="_blank"
+                      href={`https://www.google.com/maps/search/?api=1&query=${report?.longitude}%2C${report?.latitude}`}
+                    >
+                      <Typography variant="body1">
+                        {report?.location}
+                      </Typography>
+                    </Link>
+                  }
+                />
               </Grid>
             </Grid>
             <Divider sx={{ my: 1 }} />
             <Box>
-              <Box sx={{ my: 1 }}>
-                <Typography fontWeight="bold" variant="caption">
-                  PRIMERA OBSERVACION:
-                </Typography>
-                <Typography variant="body1">
-                  {report?.observations?.length > 0 &&
-                    report.observations.slice().reverse()[0].observation_text}
-                </Typography>
-              </Box>
-              {report?.status_id === statusEnum.ASIGNADO && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleAttended}
-                >
-                  Marcar como atendido
-                </Button>
-              )}
-              {report?.status_id === statusEnum.ATENDIDO && (
+              <LabelValue
+                label="PRIMERA OBSERVACION:"
+                value={
+                  report?.observations?.length > 0 &&
+                  report.observations.slice().reverse()[0].observation_text
+                }
+              />
+              {report?.status_id === statusEnum.ATENDIDO && report?.ot && (
                 <Button onClick={handleOpenValidateDialog}>
                   Validar Reporte
                 </Button>
