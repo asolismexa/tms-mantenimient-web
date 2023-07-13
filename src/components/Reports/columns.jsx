@@ -131,7 +131,7 @@ export const reportsColumns = [
   },
   {
     field: 'assigned_on',
-    headerName: 'FECHA ASIGNADO',
+    headerName: 'FECHA OT ASIGNADA',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
@@ -141,13 +141,29 @@ export const reportsColumns = [
   },
   {
     field: 'assigned_by',
-    headerName: 'USUARIO ASIGNA',
+    headerName: 'USUARIO ASIGNA OT',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'process_on',
+    headerName: 'FECHA OT EN PROCESO',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+  },
+  {
+    field: 'process_by',
+    headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 100,
   },
   {
     field: 'attended_on',
-    headerName: 'FECHA ATIENDE',
+    headerName: 'FECHA OT FINALIZA',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
@@ -157,13 +173,13 @@ export const reportsColumns = [
   },
   {
     field: 'attended_by',
-    headerName: 'USUARIO ATIENDE',
+    headerName: 'USUARIO FINALIZA OT',
     type: 'string',
     width: 100,
   },
   {
     field: 'validated_on',
-    headerName: 'FECHA VALIDA',
+    headerName: 'FECHA EVALUADO',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
@@ -173,18 +189,34 @@ export const reportsColumns = [
   },
   {
     field: 'validated_by',
-    headerName: 'USUARIO VALIDA',
+    headerName: 'USUARIO EVALUA',
     type: 'string',
     width: 100,
   },
   {
     field: 'validated_success',
-    headerName: 'VALIDACION EXITOSA',
+    headerName: 'EVALUACION',
     type: 'boolean',
     width: 100,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />
     },
+  },
+  {
+    field: 'canceled_on',
+    headerName: 'FECHA CANCELADO',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+  },
+  {
+    field: 'canceled_by',
+    headerName: 'USUARIO CANCELA',
+    type: 'string',
+    width: 100,
   },
 ]
