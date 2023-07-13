@@ -30,6 +30,7 @@ function FormCreateReport({ form, setForm, children }) {
     }
   }, [form.vehicle, setForm])
 
+  console.log(form)
   return (
     <Stack padding={1} spacing={2}>
       <Stack direction="row" spacing={2}>
@@ -42,11 +43,20 @@ function FormCreateReport({ form, setForm, children }) {
             })
           }}
         />
-        {form.vehicle && (
+        {form.vehicle && form.vehicle?.freight_type_id == -1 && (
           <div>
             <Typography variant="caption">CONFIGURACION MOTRIZ</Typography>
             <Typography variant="body1">
               {form.vehicle?.performance_type}
+            </Typography>
+          </div>
+        )}
+        {form.vehicle && form.vehicle?.freight_type_id != -1 && (
+          <div>
+            <Typography variant="caption">REMOLQUE</Typography>
+            <Typography variant="body1">
+              {form.vehicle?.freight_type}, {form.vehicle?.door_type},{' '}
+              {form.vehicle?.model_year}
             </Typography>
           </div>
         )}
