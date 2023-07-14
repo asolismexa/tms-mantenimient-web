@@ -7,10 +7,20 @@ import { setFilters } from '@/reducers/reportMonitorSlice'
 import { reportStatusUrl } from '@/services/reportStatus'
 
 const { dispatch } = store
-const filters = store.getState().reportMonitor.filters
 const stopEvents = (e) => {
   e.preventDefault()
   e.stopPropagation()
+}
+
+const handleChangeFilter = (e, filterName) => {
+  const filters = store.getState().reportMonitor.filters
+  stopEvents(e)
+  dispatch(
+    setFilters({
+      ...filters,
+      [filterName]: e.target.value,
+    }),
+  )
 }
 
 export const reportsColumns = [
@@ -33,13 +43,7 @@ export const reportsColumns = [
             type="text"
             onClick={stopEvents}
             onChange={(e) => {
-              stopEvents(e)
-              dispatch(
-                setFilters({
-                  ...filters,
-                  folio: e.target.value,
-                }),
-              )
+              handleChangeFilter(e, 'folio')
             }}
           />
         </Stack>
@@ -98,14 +102,7 @@ export const reportsColumns = [
               e.preventDefault()
             }}
             onChange={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              dispatch(
-                setFilters({
-                  ...filters,
-                  status: e.target.value,
-                }),
-              )
+              handleChangeFilter(e, 'status')
             }}
           />
         </Stack>

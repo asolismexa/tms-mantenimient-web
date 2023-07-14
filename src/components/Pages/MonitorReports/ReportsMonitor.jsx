@@ -13,6 +13,8 @@ import ModalDetailReport from './ModalDetailReport'
 import { useCreateReports } from '@/hooks/useCreateReports'
 import { SnackbarProvider, useSnackbar } from 'notistack'
 import { reportsColumns } from '@/components/Reports/columns'
+import { useSelector } from 'react-redux'
+import { selectFilters } from '@/reducers/reportMonitorSlice'
 
 const createFormInitialState = {
   vehicle: null,
@@ -42,6 +44,7 @@ function ReportsMonitor() {
     refreshReportDetail,
   } = useFetchReportDetail()
   const [tab, setTab] = useState(0)
+  const filters = useSelector(selectFilters)
 
   const {
     formCreateReport,
@@ -110,18 +113,23 @@ function ReportsMonitor() {
     setTab(0)
   }
 
-  const filteredReports = () =>
-    reports.filter((report) => {
-      const filt = filter.toLowerCase().trim()
-      return (
-        report?.id?.toString().toLowerCase().includes(filt) ||
-        report?.vehicle?.toLowerCase().includes(filt) ||
-        report?.driver?.toLowerCase().includes(filt) ||
-        report?.user?.toLowerCase().includes(filt) ||
-        report?.shipment_id?.toString().toLowerCase().includes(filt) ||
-        report?.ot?.toString().toLowerCase().includes(filt)
-      )
+  const filteredReports = () => {
+    const folio = filters.folio.trim()
+    const status = filters.status
+    let filtered = []
+
+    // By Folio
+    filtered = reports.filter((report) => {
+      return filters.folio === '' || report.id.toString().includes(folio)
     })
+
+    // By Status
+    filtered = filtered.filter((report) => {
+      return status == 0 || report.status_id == status
+    })
+
+    return filtered
+  }
 
   return (
     <Box sx={{ m: 2 }}>

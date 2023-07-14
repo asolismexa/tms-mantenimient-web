@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   filters: {
     folio: '',
-    status: 0,
+    status: '',
+    date: '',
   },
 }
 
@@ -13,10 +14,10 @@ const reportMonitorSlice = createSlice({
   reducers: {
     setFilters(state, action) {
       state.filters = action.payload
-      console.log(state.filters)
     },
   },
 })
 
 export const { setFilters } = reportMonitorSlice.actions
+export const selectFilters = (state) => state.reportMonitor.filters
 export default reportMonitorSlice
