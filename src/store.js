@@ -3,6 +3,7 @@ import authReducer from './reducers/authSlice'
 import createReportFormSlice from './reducers/createReportFormSlice'
 import uiReducer from './reducers/uiSlice'
 import reportDetailReducer from './reducers/reportDetail'
+import reportMonitorSlice from './reducers/reportMonitorSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     ui: uiReducer,
     createReportForm: createReportFormSlice,
     reportDetail: reportDetailReducer,
+    reportMonitor: reportMonitorSlice.reducer,
   },
 })

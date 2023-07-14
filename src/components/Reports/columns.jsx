@@ -1,34 +1,46 @@
-import { Stack, Box } from '@mui/material'
+import { Stack, Box, Typography } from '@mui/material'
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
+import AsyncSelectFilter from '../Core/AsyncSelectFilter'
+import { store } from '@/store'
+import { setFilters } from '@/reducers/reportMonitorSlice'
+import { reportStatusUrl } from '@/services/reportStatus'
+
+const { dispatch } = store
+const filters = store.getState().reportMonitor.filters
+const stopEvents = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
+}
 
 export const reportsColumns = [
   {
     field: 'id',
     headerName: 'FOLIO',
-    width: 100,
+    width: 150,
     renderHeader: ({ colDef: { headerName } }) => {
       return (
-        <Stack direction="column">
-          <Box sx={{ fontWeight: 'bold', lineHeight: 'initial' }}>
+        <Stack>
+          <Typography variant="body2" fontWeight="bold">
             {headerName}
-          </Box>
+          </Typography>
           <input
-            style={{ width: '100%' }}
+            style={{
+              display: 'block',
+              width: '100%',
+              zIndex: 1,
+            }}
             type="text"
-            name="select"
-            onClick={(evt) => {
-              evt.stopPropagation()
-              evt.preventDefault()
+            onClick={stopEvents}
+            onChange={(e) => {
+              stopEvents(e)
+              dispatch(
+                setFilters({
+                  ...filters,
+                  folio: e.target.value,
+                }),
+              )
             }}
-            onChange={(evt) => {
-              evt.stopPropagation()
-              evt.preventDefault()
-              const { target } = evt
-              const { value } = target
-              // onStatusColorHeaderFilterChange(parseInt(value))
-            }}
-            // value={filterValue}
           />
         </Stack>
       )
@@ -78,22 +90,24 @@ export const reportsColumns = [
           <Box sx={{ fontWeight: 'bold', lineHeight: 'initial' }}>
             {headerName}
           </Box>
-          <select
+          <AsyncSelectFilter
+            url={reportStatusUrl}
             name="select"
-            onClick={(evt) => {
-              evt.stopPropagation()
-              evt.preventDefault()
+            onClick={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
             }}
-            onChange={(evt) => {
-              evt.stopPropagation()
-              evt.preventDefault()
-              // onStatusColorHeaderFilterChange(parseInt(value))
+            onChange={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+              dispatch(
+                setFilters({
+                  ...filters,
+                  status: e.target.value,
+                }),
+              )
             }}
-            // value={filterValue}
-          >
-            <option value="-1">[TODOS]</option>
-            <option value="1">ROJO</option>
-          </select>
+          />
         </Stack>
       )
     },
