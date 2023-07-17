@@ -48,7 +48,7 @@ const useFetchReports = ({ pageSize = 1000, alive = false }) => {
     const reportsInterval = setInterval(fetchReports, 60000)
 
     return () => clearInterval(reportsInterval)
-  }, [pagination.end, pagination.start, refreshData])
+  }, [pagination.end, pagination.start, refreshData, alive])
 
   return { reports, loading, error, pagination, setPagination, setRefresh }
 }
