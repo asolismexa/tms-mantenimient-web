@@ -17,7 +17,7 @@ const useFetchReports = ({ pageSize = 1000, alive = false }) => {
 
   useEffect(() => {
     // Get reports with status alive
-    const url = alive ? baseReportsUrl : baseAliveUrl
+    const url = alive ? baseAliveUrl : baseReportsUrl
     const fetchReports = () => {
       setloading(true)
       api

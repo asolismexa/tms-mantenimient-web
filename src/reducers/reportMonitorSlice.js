@@ -10,8 +10,10 @@ const initialState = {
     driver: '',
     shipment: '',
     ot: '',
-    repotType: '',
+    reportType: '',
     user: '',
+    userAssign: '',
+    userProcess: '',
   },
 }
 

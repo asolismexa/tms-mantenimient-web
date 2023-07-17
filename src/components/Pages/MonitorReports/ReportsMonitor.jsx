@@ -33,7 +33,7 @@ const addItemFormInitialState = {
 function ReportsMonitor() {
   const { enqueueSnackbar } = useSnackbar()
   const { reports, loading, error, pagination, setPagination, setRefresh } =
-    useFetchReports({ pageSize: 100 })
+    useFetchReports({ pageSize: 10000, alive: true })
   const {
     reportDetail,
     loadingReportDetail,
@@ -115,6 +115,16 @@ function ReportsMonitor() {
   const filteredReports = () => {
     const folio = filters.folio.trim()
     const status = filters.status
+    const vehicle = filters.vehicle.trim()
+    const odometer = filters.odometer
+    const driver = filters.driver.toUpperCase()
+    const shipment = filters.shipment.toUpperCase()
+    const ot = filters.ot.toUpperCase()
+    const reportType = filters.reportType
+    const user = filters.user.toLowerCase()
+    const userAssign = filters.userAssign.toLowerCase()
+    const userProcess = filters.userProcess.toLowerCase()
+
     let filtered = []
 
     // By Folio
@@ -125,6 +135,66 @@ function ReportsMonitor() {
     // By Status
     filtered = filtered.filter((report) => {
       return status == 0 || report.status_id == status
+    })
+
+    // By Vehicle
+    filtered = filtered.filter((report) => {
+      return filters.vehicle === '' || report.vehicle.includes(vehicle)
+    })
+
+    // By Vehicle
+    filtered = filtered.filter((report) => {
+      return filters.vehicle === '' || report.vehicle.includes(vehicle)
+    })
+
+    // By Odometer
+    filtered = filtered.filter((report) => {
+      return (
+        Boolean(!odometer) || report.odometer?.toString().includes(odometer)
+      )
+    })
+
+    // By Driver
+    filtered = filtered.filter((report) => {
+      return filters.driver === '' || report?.driver?.includes(driver)
+    })
+
+    // By Shipment
+    filtered = filtered.filter((report) => {
+      const shipement_id = report?.shipment_id?.toString()
+      return filters.shipment === '' || shipement_id?.includes(shipment)
+    })
+
+    // By OT
+    filtered = filtered.filter((report) => {
+      const ot_id = report?.ot?.toString()
+      return filters.ot === '' || ot_id?.includes(ot)
+    })
+
+    // By Report Type
+    filtered = filtered.filter((report) => {
+      return reportType == 0 || report.report_type_id == reportType
+    })
+
+    // By User
+    filtered = filtered.filter((report) => {
+      return filters.user === '' || report?.user?.toLowerCase()?.includes(user)
+    })
+
+    // By User Assign
+    filtered = filtered.filter((report) => {
+      return (
+        filters.userAssign === '' ||
+        report?.assigned_by?.toLowerCase()?.includes(userAssign)
+      )
+    })
+
+    // By Use Process
+    filtered = filtered.filter((report) => {
+      return (
+        filters.userProcess === '' ||
+        report?.process_by?.toLowerCase().includes(userProcess)
+      )
     })
 
     return filtered

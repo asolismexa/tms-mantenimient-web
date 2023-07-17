@@ -168,7 +168,7 @@ export const reportsColumns = [
     renderHeader: ({ colDef: { headerName } }) => (
       <TextFilterHeader
         headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'user')}
+        onChange={(e) => handleChangeFilter(e, 'userAssign')}
       />
     ),
   },
@@ -190,7 +190,7 @@ export const reportsColumns = [
     renderHeader: ({ colDef: { headerName } }) => (
       <TextFilterHeader
         headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'user')}
+        onChange={(e) => handleChangeFilter(e, 'userProcess')}
       />
     ),
   },
