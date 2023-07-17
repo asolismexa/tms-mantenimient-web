@@ -1,6 +1,7 @@
 import api from '@/api/api'
 
 export const baseUrl = 'api/reports'
+export const baseAliveUrl = 'api/reports/alive'
 export const getToken = () => window.App?.token && `Bearer ${window.App.token}`
 
 export const getReports = async ({ params }) => {

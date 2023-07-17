@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { baseUrl as baseReportsUrl } from '@/services/reports'
+import { baseAliveUrl, baseUrl as baseReportsUrl } from '@/services/reports'
 import api from '@/api/api'
 
-const useFetchReports = ({ pageSize = 1000 }) => {
+const useFetchReports = ({ pageSize = 1000, alive = false }) => {
   const [refreshData, setRefresh] = useState(false)
   const [reports, setReports] = useState([])
   const [error, setError] = useState('')
@@ -16,10 +16,12 @@ const useFetchReports = ({ pageSize = 1000 }) => {
   })
 
   useEffect(() => {
+    // Get reports with status alive
+    const url = alive ? baseReportsUrl : baseAliveUrl
     const fetchReports = () => {
       setloading(true)
       api
-        .get(baseReportsUrl, {
+        .get(url, {
           params: {
             start: pagination.start,
             end: pagination.end,
