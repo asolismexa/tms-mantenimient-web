@@ -5,6 +5,13 @@ const initialState = {
     folio: '',
     status: '',
     date: '',
+    vehicle: '',
+    odometer: '',
+    driver: '',
+    shipment: '',
+    ot: '',
+    repotType: '',
+    user: '',
   },
 }
 

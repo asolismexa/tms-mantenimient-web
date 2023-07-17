@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import CustomDataGrid from '@/components/custom/DataGrid'
-import { Box, Alert, IconButton, TextField, Stack } from '@mui/material'
+import { Box, Alert, IconButton, Stack } from '@mui/material'
 import useFetchReports from '@/hooks/useFetchReports'
 import { NoteAdd, Refresh } from '@mui/icons-material'
 import ModalCreateReports from './ModalCreateReports'
@@ -63,7 +63,6 @@ function ReportsMonitor() {
     onCreateReports,
     createError,
   } = useCreateReports({ createFormInitialState, addItemFormInitialState })
-  const [filter, setFilter] = useState('')
 
   const handleRefreshReports = () => setRefresh((prev) => !prev)
 
@@ -155,14 +154,6 @@ function ReportsMonitor() {
         >
           <Refresh />
         </IconButton>
-        <TextField
-          variant="standard"
-          label="BUSCAR"
-          margin="dense"
-          size="small"
-          onChange={(e) => setFilter(e.target.value)}
-          value={filter}
-        />
       </Stack>
       <CustomDataGrid
         loading={loading}

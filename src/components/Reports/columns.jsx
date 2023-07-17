@@ -1,20 +1,15 @@
-import { Stack, Box, Typography } from '@mui/material'
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
-import AsyncSelectFilter from '../Core/AsyncSelectFilter'
 import { store } from '@/store'
 import { setFilters } from '@/reducers/reportMonitorSlice'
 import { reportStatusUrl } from '@/services/reportStatus'
+import { AsyncSelectHeader, TextFilterHeader } from '../Core/headers'
+import { reportTypeBaseUrl } from '@/services/reportTypes'
 
 const { dispatch } = store
-const stopEvents = (e) => {
-  e.preventDefault()
-  e.stopPropagation()
-}
 
 const handleChangeFilter = (e, filterName) => {
   const filters = store.getState().reportMonitor.filters
-  stopEvents(e)
   dispatch(
     setFilters({
       ...filters,
@@ -28,33 +23,18 @@ export const reportsColumns = [
     field: 'id',
     headerName: 'FOLIO',
     width: 150,
-    renderHeader: ({ colDef: { headerName } }) => {
-      return (
-        <Stack>
-          <Typography variant="body2" fontWeight="bold">
-            {headerName}
-          </Typography>
-          <input
-            style={{
-              display: 'block',
-              width: '100%',
-              zIndex: 1,
-            }}
-            type="text"
-            onClick={stopEvents}
-            onChange={(e) => {
-              handleChangeFilter(e, 'folio')
-            }}
-          />
-        </Stack>
-      )
-    },
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'folio')}
+      />
+    ),
   },
   {
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'dateTime',
-    width: 100,
+    width: 110,
     valueFormatter: ({ value }) => {
       return formatDate(value)
     },
@@ -65,54 +45,78 @@ export const reportsColumns = [
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'vehicle')}
+      />
+    ),
   },
   {
     field: 'odometer',
     headerName: 'HOROMETRO',
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'odometer')}
+      />
+    ),
   },
   {
     field: 'driver',
     headerName: 'OPERADOR',
     width: 150,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'driver')}
+      />
+    ),
   },
   {
     field: 'shipment_id',
     headerName: 'SOLICITUD',
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'shipment')}
+      />
+    ),
   },
   {
     field: 'ot',
     headerName: 'OT',
     wdith: 150,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'ot')}
+      />
+    ),
   },
   {
     field: 'status',
     headerName: 'ESTATUS',
     width: 100,
-    renderHeader: ({ colDef: { headerName } }) => {
-      return (
-        <Stack direction="column">
-          <Box sx={{ fontWeight: 'bold', lineHeight: 'initial' }}>
-            {headerName}
-          </Box>
-          <AsyncSelectFilter
-            url={reportStatusUrl}
-            name="select"
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-            }}
-            onChange={(e) => {
-              handleChangeFilter(e, 'status')
-            }}
-          />
-        </Stack>
-      )
-    },
+    renderHeader: ({ colDef: { headerName } }) => (
+      <AsyncSelectHeader
+        headerName={headerName}
+        url={reportStatusUrl}
+        onChange={(e) => handleChangeFilter(e, 'status')}
+      />
+    ),
   },
   {
     field: 'report_type',
     headerName: 'TIPO FALLA',
     width: 200,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <AsyncSelectHeader
+        headerName={headerName}
+        url={reportTypeBaseUrl}
+        onChange={(e) => handleChangeFilter(e, 'reportType')}
+      />
+    ),
   },
   {
     field: 'has_observations',
@@ -139,6 +143,12 @@ export const reportsColumns = [
     headerName: 'USUARIO',
     type: 'string',
     width: 130,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'user')}
+      />
+    ),
   },
   {
     field: 'assigned_on',
@@ -155,6 +165,12 @@ export const reportsColumns = [
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
     width: 100,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'user')}
+      />
+    ),
   },
   {
     field: 'process_on',
@@ -171,63 +187,11 @@ export const reportsColumns = [
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 100,
-  },
-  {
-    field: 'attended_on',
-    headerName: 'FECHA OT FINALIZA',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-  {
-    field: 'attended_by',
-    headerName: 'USUARIO FINALIZA OT',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'validated_on',
-    headerName: 'FECHA EVALUADO',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-  {
-    field: 'validated_by',
-    headerName: 'USUARIO EVALUA',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'validated_success',
-    headerName: 'EVALUACION',
-    type: 'boolean',
-    width: 100,
-    renderCell: ({ value }) => {
-      if (value === null) return null
-      return <CheckLogo checked={value} />
-    },
-  },
-  {
-    field: 'canceled_on',
-    headerName: 'FECHA CANCELADO',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-  {
-    field: 'canceled_by',
-    headerName: 'USUARIO CANCELA',
-    type: 'string',
-    width: 100,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <TextFilterHeader
+        headerName={headerName}
+        onChange={(e) => handleChangeFilter(e, 'user')}
+      />
+    ),
   },
 ]
