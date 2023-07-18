@@ -2,8 +2,26 @@ import CustomDataGrid from '@/components/custom/DataGrid'
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import CheckLogo from '@/components/Core/CheckLogo'
 import { formatDate, utcToLocal } from '@/utils/dates'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  selectReportsQuery,
+  setFilters,
+  resetFilters,
+} from '@/reducers/reportsQuerySlice'
 
 function ReportsMonitor() {
+  const { filters } = useSelector(selectReportsQuery)
+  const dispatch = useDispatch()
+
+  const handleChangeFilter = (filter, value) => {
+    dispatch(setFilters({ ...filters, [filter]: value }))
+  }
+
+  const handleCleanFilters = () => {
+    dispatch(resetFilters())
+  }
+
+  console.log(filters)
   return (
     <Box sx={{ m: 2 }}>
       <Typography variant="h6">Reportes</Typography>
@@ -11,7 +29,17 @@ function ReportsMonitor() {
         <Box sx={{ minWidth: 200 }}>
           <Stack sx={{ mt: 1 }} spacing={1}>
             <Button fullWidth>BUSCAR</Button>
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <Button fullWidth size="small" onClick={handleCleanFilters}>
+              LIMPIAR FILTROS
+            </Button>
+            <TextField
+              fullWidth
+              label="FOLIO"
+              margin="dense"
+              size="small"
+              onChange={(e) => handleChangeFilter('folio', e.target.value)}
+              value={filters.folio}
+            />
             <TextField fullWidth label="ESTATUS" margin="dense" size="small" />
             <TextField
               fullWidth
