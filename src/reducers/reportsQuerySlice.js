@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { fetchReports } from '@/services/reports'
 
 const initialState = {
   filters: {
@@ -9,7 +10,32 @@ const initialState = {
     vehicle: null,
     usuario: null,
   },
+  reports: [],
+  loadingReports: false,
 }
+
+export const searchReports = createAsyncThunk(
+  'fetchReportDetail',
+  async (_, { getState, rejectWithValue }) => {
+    const filters = getState().reportsQuery.filters
+    try {
+      const resp = await fetchReports({
+        params: {
+          folio: filters.folio,
+          status_id: filters.status?.id,
+          type_id: filters.type?.id,
+          ot_folio: filters.ot,
+          vehicle: filters.vehicle?.id,
+          user: filters.usuario,
+        },
+      })
+      console.log(resp.data)
+      return resp.data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)
 
 export const reportsQuerySlice = createSlice({
   name: 'reportsQuery',
@@ -21,6 +47,20 @@ export const reportsQuerySlice = createSlice({
     setFilters: (state, action) => {
       state.filters = action.payload
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(searchReports.pending, (state) => {
+      state.reports = []
+      state.loadingReports = true
+    })
+    builder.addCase(searchReports.fulfilled, (state, action) => {
+      state.reports = action.payload
+      state.loadingReports = false
+    })
+    builder.addCase(searchReports.rejected, (state) => {
+      state.reports = []
+      state.loadingReports = false
+    })
   },
 })
 

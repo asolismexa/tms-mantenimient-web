@@ -7,11 +7,13 @@ import {
   selectReportsQuery,
   setFilters,
   resetFilters,
+  searchReports,
 } from '@/reducers/reportsQuerySlice'
 import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
 import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
 import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 import AutoCompleteDrivers from '../MonitorReports/AutoCompleteAsyncDrivers'
+import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
 
 const inputStyles = {
   width: '100%',
@@ -21,7 +23,7 @@ const inputStyles = {
 }
 
 function ReportsMonitor() {
-  const { filters } = useSelector(selectReportsQuery)
+  const { filters, reports, loadingReports } = useSelector(selectReportsQuery)
   const dispatch = useDispatch()
 
   const handleChangeFilter = (filter, value) => {
@@ -32,6 +34,10 @@ function ReportsMonitor() {
     dispatch(resetFilters())
   }
 
+  const handleSearchReports = () => {
+    dispatch(searchReports())
+  }
+
   console.log(filters)
   return (
     <Box sx={{ m: 2 }}>
@@ -39,7 +45,9 @@ function ReportsMonitor() {
       <Stack direction="row" spacing={2}>
         <Box sx={{ minWidth: 200 }}>
           <Stack sx={{ mt: 1 }} spacing={1}>
-            <Button fullWidth>BUSCAR</Button>
+            <Button fullWidth onClick={handleSearchReports}>
+              BUSCAR
+            </Button>
             <Button fullWidth size="small" onClick={handleCleanFilters}>
               LIMPIAR FILTROS
             </Button>
@@ -94,7 +102,11 @@ function ReportsMonitor() {
           </Stack>
         </Box>
         <Box>
-          <CustomDataGrid columns={columns} rows={[]} />
+          {loadingReports ? (
+            <LoadingBackdrop open={loadingReports} />
+          ) : (
+            <CustomDataGrid columns={columns} rows={reports} />
+          )}
         </Box>
       </Stack>
     </Box>
