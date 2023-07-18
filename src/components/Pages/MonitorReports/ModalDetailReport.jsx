@@ -41,6 +41,7 @@ import FileInput from '@/components/Core/FileInput'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
 import LabelValue from '@/components/Core/LabelValue'
+import { useFetchVehicle } from '@/hooks/useFetchVehicle'
 
 const initialValidateDialogState = {
   open: false,
@@ -60,6 +61,7 @@ export default function ModalDetailReport({
   tab,
   setTab,
 }) {
+  const vehicleData = useFetchVehicle(report?.vehicle_id)
   const [errorMessage, setErrorMessage] = useState(null)
   const [createNewReportDialog, setCreateNewReportDialog] = useState(false)
   const [observation, setObservation] = useState('')
@@ -217,7 +219,7 @@ export default function ModalDetailReport({
   }
 
   if (loading) return <LoadingBackdrop open />
-
+  console.log(vehicleData)
   return (
     <div>
       <Dialog
@@ -253,7 +255,27 @@ export default function ModalDetailReport({
                   value={report && formatDate(report.time)}
                 />
                 <LabelValue label="UNIDAD:" value={report?.vehicle} />
-                <LabelValue label=" HOROMETRO:" value={report?.odometer} />
+
+                {vehicleData?.vehicle && (
+                  <LabelValue
+                    label="CONFIGURACION MOTRIZ:"
+                    value={vehicleData?.vehicle.performance_type}
+                  />
+                )}
+
+                {vehicleData.vehicle &&
+                  vehicleData.vehicle?.freight_type_id != -1 && (
+                    <LabelValue
+                      label="REMOLQUE:"
+                      value={`${vehicleData.vehicle?.freight_type} 
+                         ,${vehicleData.vehicle?.door_type}
+                         ,${vehicleData.vehicle?.model_year}`}
+                    />
+                  )}
+
+                {report?.odometer && (
+                  <LabelValue label=" HOROMETRO:" value={report?.odometer} />
+                )}
                 <LabelValue
                   label="OPERADOR:"
                   value={
@@ -280,6 +302,12 @@ export default function ModalDetailReport({
                     )
                   }
                 />
+                {report?.vehicle_assinged && (
+                  <LabelValue
+                    label="UNIDAD ASIGNADA:"
+                    value={report?.vehicle_assinged}
+                  />
+                )}
                 <LabelValue
                   label="TIPO DE FALLA:"
                   value={report?.report_type}
