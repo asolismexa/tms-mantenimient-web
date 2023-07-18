@@ -10,6 +10,15 @@ import {
 } from '@/reducers/reportsQuerySlice'
 import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
 import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
+import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
+import AutoCompleteDrivers from '../MonitorReports/AutoCompleteAsyncDrivers'
+
+const inputStyles = {
+  width: '100%',
+  inputProps: {
+    size: 'small',
+  },
+}
 
 function ReportsMonitor() {
   const { filters } = useSelector(selectReportsQuery)
@@ -47,12 +56,9 @@ function ReportsMonitor() {
               value={filters.status}
             />
             <AutoCompleteTypes
+              {...inputStyles}
               onChange={(_, value) => handleChangeFilter('type', value)}
               value={filters.type}
-              width="100%"
-              inputProps={{
-                size: 'small',
-              }}
             />
             <TextField
               fullWidth
@@ -62,8 +68,16 @@ function ReportsMonitor() {
               onChange={(e) => handleChangeFilter('ot', e.target.value)}
               value={filters.ot}
             />
-            <TextField fullWidth label="UNIDAD" margin="dense" size="small" />
-            <TextField fullWidth label="OPERADOR" margin="dense" size="small" />
+            <AutoCompleteVehicles
+              {...inputStyles}
+              onChange={(_, value) => handleChangeFilter('vehicle', value)}
+              value={filters.vehicle}
+            />
+            <AutoCompleteDrivers
+              {...inputStyles}
+              onChange={(_, value) => handleChangeFilter('driver', value)}
+              value={filters.driver}
+            />
             <TextField fullWidth label="USUARIO" margin="dense" size="small" />
             <TextField
               fullWidth

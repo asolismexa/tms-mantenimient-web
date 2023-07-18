@@ -3,10 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   filters: {
     folio: '',
-    date: {
-      from: null,
-      to: null,
-    },
     status: null,
     type: null,
     ot: '',
