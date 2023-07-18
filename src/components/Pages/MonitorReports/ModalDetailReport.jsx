@@ -49,15 +49,16 @@ const initialValidateDialogState = {
   reports: [],
 }
 
+const emtpy = () => {}
 export default function ModalDetailReport({
   report,
   open,
-  handleClose,
+  handleClose = emtpy,
   error,
   loading = true,
-  refreshReport,
-  refreshReports,
-  createNewReport,
+  refreshReport = emtpy,
+  refreshReports = emtpy,
+  createNewReport = emtpy,
   tab,
   setTab,
 }) {
@@ -230,7 +231,7 @@ export default function ModalDetailReport({
         onClose={onClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Detalle de Reporte</DialogTitle>
+        <DialogTitle>Detalle de Reporte #{report?.id}</DialogTitle>
         <DialogContent>
           <Tabs
             value={tab}
@@ -337,7 +338,7 @@ export default function ModalDetailReport({
               <Grid item xs={6}>
                 <LabelValue
                   label="FOLIO:"
-                  value={report?.number ? report.number : ''}
+                  value={report?.id ? report.id : ''}
                 />
                 <LabelValue label="ESTATUS:" value={report?.status} />
                 <LabelValue
