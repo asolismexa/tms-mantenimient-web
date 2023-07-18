@@ -1,7 +1,12 @@
 import CustomDataGrid from '@/components/custom/DataGrid'
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import CheckLogo from '@/components/Core/CheckLogo'
-import { formatDate, utcToLocal } from '@/utils/dates'
+import {
+  formatDate,
+  utcToLocal,
+  dateTimeToString,
+  fromStringToDate,
+} from '@/utils/dates'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   selectReportsQuery,
@@ -13,7 +18,7 @@ import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
 import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
 import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 import AutoCompleteDrivers from '../MonitorReports/AutoCompleteAsyncDrivers'
-import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
+import { DateTimePicker } from '@mui/x-date-pickers'
 
 const inputStyles = {
   width: '100%',
@@ -36,6 +41,19 @@ function ReportsMonitor() {
 
   const handleSearchReports = () => {
     dispatch(searchReports())
+  }
+
+  const handleChangeDate = (filter, date) => {
+    // Convert date to UTC
+    const utcDate = dateTimeToString(date)
+    dispatch(setFilters({ ...filters, [filter]: utcDate }))
+  }
+
+  const getDateValue = (date) => {
+    if (date) {
+      return new fromStringToDate(date)
+    }
+    return null
   }
 
   console.log(filters)
@@ -87,26 +105,40 @@ function ReportsMonitor() {
               value={filters.driver}
             />
             <TextField fullWidth label="USUARIO" margin="dense" size="small" />
-            <TextField
+            <DateTimePicker
               fullWidth
+              format="DD / MM / YYYY"
               label="REPORTADO EN"
               margin="dense"
               size="small"
+              onChange={(val) => handleChangeDate('from_time', val)}
+              value={getDateValue(filters.from_time)}
             />
-            <TextField
+            <DateTimePicker
               fullWidth
+              format="DD / MM / YYYY"
               label="REPORTADO HASTA"
               margin="dense"
               size="small"
+              onChange={(val) => handleChangeDate('to_time', val)}
+              value={getDateValue(filters.to_time)}
             />
           </Stack>
         </Box>
         <Box>
-          {loadingReports ? (
-            <LoadingBackdrop open={loadingReports} />
-          ) : (
-            <CustomDataGrid columns={columns} rows={reports} />
-          )}
+          <CustomDataGrid
+            loading={loadingReports}
+            getRowHeight={() => 'auto'}
+            columns={columns}
+            rows={reports}
+            disableColumnSelector
+            disableDensitySelector
+            sx={{
+              maxWidth: '950px',
+              height: '600px',
+              maxHeight: '600px',
+            }}
+          />
         </Box>
       </Stack>
     </Box>
@@ -196,6 +228,13 @@ const columns = [
     headerName: 'FECHA OT ASIGNADA',
     type: 'string',
     width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) {
+        const localDate = utcToLocal(value)
+        return formatDate(localDate)
+      }
+      return null
+    },
   },
   {
     field: 'assigned_by',
@@ -209,13 +248,54 @@ const columns = [
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
+      if (value) {
+        const localDate = utcToLocal(value)
+        return formatDate(localDate)
+      }
       return null
     },
   },
   {
     field: 'process_by',
     headerName: 'USUARIO PROCESA OT',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'attended_on',
+    headerName: 'FECHA OT FINALIZADA',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) {
+        const localDate = utcToLocal(value)
+        return formatDate(localDate)
+      }
+      return null
+    },
+  },
+  {
+    field: 'attended_by',
+    headerName: 'USUARIO FINALIZA OT',
+    type: 'string',
+    width: 100,
+  },
+  {
+    field: 'canceled_on',
+    headerName: 'FECHA OT CANCELADA',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) {
+        const localDate = utcToLocal(value)
+        return formatDate(localDate)
+      }
+      return null
+    },
+  },
+  {
+    field: 'canceled_by',
+    headerName: 'USUARIO CANCELA OT',
     type: 'string',
     width: 100,
   },

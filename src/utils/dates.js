@@ -11,3 +11,11 @@ export function dateTimeToString(date) {
 export function utcToLocal(date) {
   return dayjs(date).utc().local()
 }
+
+export function localToUtc(date) {
+  return dayjs(date).utc()
+}
+
+export function fromStringToDate(date) {
+  return dayjs(date)
+}

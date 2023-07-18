@@ -9,6 +9,9 @@ const initialState = {
     ot: '',
     vehicle: null,
     usuario: null,
+    driver: null,
+    from_time: null,
+    to_time: null,
   },
   reports: [],
   loadingReports: false,
@@ -21,12 +24,15 @@ export const searchReports = createAsyncThunk(
     try {
       const resp = await fetchReports({
         params: {
-          folio: filters.folio,
+          id: filters.folio,
           status_id: filters.status?.id,
           type_id: filters.type?.id,
           ot_folio: filters.ot,
           vehicle: filters.vehicle?.id,
           user: filters.usuario,
+          driver_id: filters.driver?.id,
+          from_time: filters.from_time,
+          to_time: filters.to_time,
         },
       })
       console.log(resp.data)
