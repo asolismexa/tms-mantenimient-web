@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchReports } from '@/services/reports'
+import { fetchReports, fetchReportById } from '@/services/reports'
 
 const initialState = {
   filters: {
@@ -15,10 +15,16 @@ const initialState = {
   },
   reports: [],
   loadingReports: false,
+  detail: {
+    open: false,
+    report: null,
+    loading: false,
+    tab: 0,
+  },
 }
 
 export const searchReports = createAsyncThunk(
-  'fetchReportDetail',
+  'searchReports',
   async (_, { getState, rejectWithValue }) => {
     const filters = getState().reportsQuery.filters
     try {
@@ -43,6 +49,18 @@ export const searchReports = createAsyncThunk(
   },
 )
 
+export const fetchReportDetail = createAsyncThunk(
+  'fetchReportDetail',
+  async (id, { rejectWithValue }) => {
+    try {
+      const resp = await fetchReportById(id)
+      return resp
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)
+
 export const reportsQuerySlice = createSlice({
   name: 'reportsQuery',
   initialState,
@@ -52,6 +70,12 @@ export const reportsQuerySlice = createSlice({
     },
     setFilters: (state, action) => {
       state.filters = action.payload
+    },
+    setDetailTab: (state, action) => {
+      state.detail.tab = action.payload
+    },
+    resetDetail: (state) => {
+      state.detail = initialState.detail
     },
   },
   extraReducers: (builder) => {
@@ -67,8 +91,24 @@ export const reportsQuerySlice = createSlice({
       state.reports = []
       state.loadingReports = false
     })
+    builder.addCase(fetchReportDetail.pending, (state) => {
+      state.detail.open = false
+      state.detail.report = null
+      state.detail.loading = true
+    })
+    builder.addCase(fetchReportDetail.fulfilled, (state, action) => {
+      state.detail.open = true
+      state.detail.report = action.payload
+      state.detail.loading = false
+    })
+    builder.addCase(fetchReportDetail.rejected, (state) => {
+      state.detail.open = false
+      state.detail.report = null
+      state.detail.loading = false
+    })
   },
 })
 
-export const { resetFilters, setFilters } = reportsQuerySlice.actions
+export const { resetFilters, setFilters, setDetailTab, resetDetail } =
+  reportsQuerySlice.actions
 export const selectReportsQuery = (state) => state.reportsQuery

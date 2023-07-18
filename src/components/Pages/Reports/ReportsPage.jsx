@@ -11,14 +11,18 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   selectReportsQuery,
   setFilters,
+  setDetailTab,
   resetFilters,
   searchReports,
+  fetchReportDetail,
+  resetDetail,
 } from '@/reducers/reportsQuerySlice'
 import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
 import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
 import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 import AutoCompleteDrivers from '../MonitorReports/AutoCompleteAsyncDrivers'
 import { DateTimePicker } from '@mui/x-date-pickers'
+import ModalDetailReport from '../MonitorReports/ModalDetailReport'
 
 const inputStyles = {
   width: '100%',
@@ -28,7 +32,8 @@ const inputStyles = {
 }
 
 function ReportsMonitor() {
-  const { filters, reports, loadingReports } = useSelector(selectReportsQuery)
+  const { filters, reports, loadingReports, detail } =
+    useSelector(selectReportsQuery)
   const dispatch = useDispatch()
 
   const handleChangeFilter = (filter, value) => {
@@ -49,6 +54,14 @@ function ReportsMonitor() {
     dispatch(setFilters({ ...filters, [filter]: utcDate }))
   }
 
+  const handleChangeDetailTab = (tab) => {
+    dispatch(setDetailTab(tab))
+  }
+
+  const handleOnCloseDetail = () => {
+    dispatch(resetDetail())
+  }
+
   const getDateValue = (date) => {
     if (date) {
       return new fromStringToDate(date)
@@ -56,7 +69,10 @@ function ReportsMonitor() {
     return null
   }
 
-  console.log(filters)
+  const handleSelectReport = ({ id }) => {
+    dispatch(fetchReportDetail(id))
+  }
+
   return (
     <Box sx={{ m: 2 }}>
       <Typography variant="h6">Reportes</Typography>
@@ -138,9 +154,21 @@ function ReportsMonitor() {
               height: '600px',
               maxHeight: '600px',
             }}
+            onRowDoubleClick={handleSelectReport}
           />
         </Box>
       </Stack>
+      <ModalDetailReport
+        open={detail.open}
+        loading={detail.loading}
+        tab={detail.tab}
+        handleClose={handleOnCloseDetail}
+        report={detail.report}
+        setTab={handleChangeDetailTab}
+        refreshReport={() => {
+          dispatch(fetchReportDetail(detail.report.id))
+        }}
+      />
     </Box>
   )
 }
