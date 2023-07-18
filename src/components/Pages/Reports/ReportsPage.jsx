@@ -1,126 +1,64 @@
-import { useState } from 'react'
 import CustomDataGrid from '@/components/custom/DataGrid'
-import {
-  Box,
-  Alert,
-  Grid,
-  Button,
-  Stack,
-  TextField,
-  IconButton,
-} from '@mui/material'
+import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import CheckLogo from '@/components/Core/CheckLogo'
 import { formatDate, utcToLocal } from '@/utils/dates'
-import { useFetchReportDetail } from '@/hooks/fetchReportDetail'
-import ModalDetailReport from '../MonitorReports/ModalDetailReport'
-import { SnackbarProvider } from 'notistack'
-import { useSearchReports } from './useSearchReports'
-import ReplayIcon from '@mui/icons-material/Replay'
-import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 
 function ReportsMonitor() {
-  const { reports, loading, searchReports, error, pagination, setPagination } =
-    useSearchReports({ pageSize: 100 })
-  const {
-    reportDetail,
-    loadingReportDetail,
-    setReportId,
-    openDetail,
-    closeDetail,
-    openModalDetail,
-    refreshReportDetail,
-  } = useFetchReportDetail()
-
-  // Handle pagination of the reports
-  const handleOnPageChange = (_, newPage) => {
-    const newStart = (newPage - 1) * pagination.pageSize
-    const newEnd = newPage * pagination.pageSize
-    setPagination((prev) => ({
-      ...prev,
-      page: newPage - 1,
-      start: newStart,
-      end: newEnd,
-    }))
-    searchReports()
-  }
-  const handleOpenDetailModal = ({ id }) => {
-    setReportId(id)
-    openDetail()
-  }
-
-  const handleSearch = () => {
-    searchReports()
-  }
-
   return (
     <Box sx={{ m: 2 }}>
-      {Boolean(error) && (
-        <Alert sx={{ my: 1 }} severity="error">
-          {error}
-        </Alert>
-      )}
-      <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Stack direction="row">
-            <Button fullWidth onClick={handleSearch}>
-              BUSCAR
-            </Button>
-            <IconButton size="small">
-              <ReplayIcon />
-            </IconButton>
-          </Stack>
-          <Stack>
+      <Typography variant="h6">Reportes</Typography>
+      <Stack direction="row" spacing={2}>
+        <Box sx={{ minWidth: 200 }}>
+          <Stack sx={{ mt: 1 }} spacing={1}>
+            <Button fullWidth>BUSCAR</Button>
             <TextField fullWidth label="FOLIO" margin="dense" size="small" />
-            <AutoCompleteVehicles
-              inputProps={{
-                fullWidth: true,
-              }}
+            <TextField fullWidth label="ESTATUS" margin="dense" size="small" />
+            <TextField
+              fullWidth
+              label="TIPO FALLA"
+              margin="dense"
+              size="small"
             />
+            <TextField fullWidth label="OT" margin="dense" size="small" />
+            <TextField fullWidth label="UNIDAD" margin="dense" size="small" />
+            <TextField fullWidth label="OPERADOR" margin="dense" size="small" />
+            <TextField fullWidth label="USUARIO" margin="dense" size="small" />
             <TextField fullWidth label="FOLIO" margin="dense" size="small" />
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
+            <TextField
+              fullWidth
+              label="REPORTADO EN"
+              margin="dense"
+              size="small"
+            />
+            <TextField
+              fullWidth
+              label="REPORTADO HASTA"
+              margin="dense"
+              size="small"
+            />
           </Stack>
-        </Grid>
-        <Grid item xs={9}>
-          <CustomDataGrid
-            loading={loading}
-            columns={reportsColumns}
-            rows={reports}
-            page={pagination.page + 1}
-            pageCount={pagination.pageCount}
-            onPageChange={handleOnPageChange}
-            onRowDoubleClick={handleOpenDetailModal}
-            disableColumnSelector
-            disableDensitySelector
-          />
-        </Grid>
-      </Grid>
-      <SnackbarProvider />
-      <ModalDetailReport
-        loading={loadingReportDetail}
-        open={openModalDetail}
-        handleClose={closeDetail}
-        report={reportDetail}
-        refreshReport={refreshReportDetail}
-      />
+        </Box>
+        <Box>
+          <CustomDataGrid columns={columns} rows={[]} />
+        </Box>
+      </Stack>
     </Box>
   )
 }
 
 export default ReportsMonitor
 
-const reportsColumns = [
+const columns = [
   {
-    field: 'number',
+    field: 'id',
     headerName: 'FOLIO',
-    width: 200,
+    width: 150,
   },
   {
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'dateTime',
-    width: 200,
+    width: 110,
     valueFormatter: ({ value }) => {
       return formatDate(value)
     },
@@ -133,9 +71,13 @@ const reportsColumns = [
     headerName: 'UNIDAD',
   },
   {
+    field: 'odometer',
+    headerName: 'HOROMETRO',
+  },
+  {
     field: 'driver',
     headerName: 'OPERADOR',
-    width: 260,
+    width: 150,
   },
   {
     field: 'shipment_id',
@@ -144,6 +86,7 @@ const reportsColumns = [
   {
     field: 'ot',
     headerName: 'OT',
+    wdith: 150,
   },
   {
     field: 'status',
@@ -160,12 +103,20 @@ const reportsColumns = [
     headerName: 'OBS',
     type: 'boolean',
     width: 100,
+    renderCell: ({ value }) => {
+      if (value === null) return null
+      return <CheckLogo checked={value} />
+    },
   },
   {
     field: 'has_evidences',
     headerName: 'EVID',
     type: 'boolean',
     width: 100,
+    renderCell: ({ value }) => {
+      if (value === null) return null
+      return <CheckLogo checked={value} />
+    },
   },
   {
     field: 'user',
@@ -175,69 +126,30 @@ const reportsColumns = [
   },
   {
     field: 'assigned_on',
-    headerName: 'FECHA ASIGNADO',
-    type: 'dateTime',
+    headerName: 'FECHA OT ASIGNADA',
+    type: 'string',
     width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-    valueGetter: ({ value }) => {
-      value ? utcToLocal(value) : null
-    },
   },
   {
     field: 'assigned_by',
-    headerName: 'USUARIO ASIGNA',
+    headerName: 'USUARIO ASIGNA OT',
     type: 'string',
     width: 100,
   },
   {
-    field: 'attended_on',
-    headerName: 'FECHA ATIENDE',
-    type: 'dateTime',
+    field: 'process_on',
+    headerName: 'FECHA OT EN PROCESO',
+    type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
     },
-    valueGetter: ({ value }) => {
-      value ? utcToLocal(value) : null
-    },
   },
   {
-    field: 'attended_by',
-    headerName: 'USUARIO ATIENDE',
+    field: 'process_by',
+    headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 100,
-  },
-  {
-    field: 'validated_on',
-    headerName: 'FECHA VALIDA',
-    type: 'dateTime',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-    valueGetter: ({ value }) => {
-      return value ? utcToLocal(value) : null
-    },
-  },
-  {
-    field: 'validated_by',
-    headerName: 'USUARIO VALIDA',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'validated_success',
-    headerName: 'VALIDADACION EXITOSA',
-    type: 'boolean',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      console.log(value)
-      return value
-    },
   },
 ]
