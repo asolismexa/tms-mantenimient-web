@@ -1,6 +1,6 @@
 import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
-function AutoCompleteTypes({ onChange = null, value = null }) {
+function AutoCompleteTypes({ onChange = null, value = null, ...props }) {
   return (
     <AutoCompleteAsync
       margin="normal"
@@ -8,6 +8,7 @@ function AutoCompleteTypes({ onChange = null, value = null }) {
       label="TIPO DE FALLA"
       value={value}
       onChange={onChange}
+      {...props}
     />
   )
 }

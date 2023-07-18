@@ -13,14 +13,14 @@ function NavMenu() {
 
   return (
     <List>
-      {/* <NavItem
+      <NavItem
         label="Reportes"
         icon={<DescriptionIcon />}
         onClick={() => {
           dispatch(toggleSideBar())
           navigate('/reports')
         }}
-      /> */}
+      />
       <NavItemCollapse icon={<MonitorHeartIcon />} label="Monitores">
         <NavItem
           label="Reportes"

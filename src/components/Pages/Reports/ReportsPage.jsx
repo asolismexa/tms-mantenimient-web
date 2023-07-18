@@ -8,6 +8,8 @@ import {
   setFilters,
   resetFilters,
 } from '@/reducers/reportsQuerySlice'
+import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
+import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
 
 function ReportsMonitor() {
   const { filters } = useSelector(selectReportsQuery)
@@ -40,18 +42,29 @@ function ReportsMonitor() {
               onChange={(e) => handleChangeFilter('folio', e.target.value)}
               value={filters.folio}
             />
-            <TextField fullWidth label="ESTATUS" margin="dense" size="small" />
+            <AutoCompleteStatus
+              onChange={(_, value) => handleChangeFilter('status', value)}
+              value={filters.status}
+            />
+            <AutoCompleteTypes
+              onChange={(_, value) => handleChangeFilter('type', value)}
+              value={filters.type}
+              width="100%"
+              inputProps={{
+                size: 'small',
+              }}
+            />
             <TextField
               fullWidth
-              label="TIPO FALLA"
+              label="OT"
               margin="dense"
               size="small"
+              onChange={(e) => handleChangeFilter('ot', e.target.value)}
+              value={filters.ot}
             />
-            <TextField fullWidth label="OT" margin="dense" size="small" />
             <TextField fullWidth label="UNIDAD" margin="dense" size="small" />
             <TextField fullWidth label="OPERADOR" margin="dense" size="small" />
             <TextField fullWidth label="USUARIO" margin="dense" size="small" />
-            <TextField fullWidth label="FOLIO" margin="dense" size="small" />
             <TextField
               fullWidth
               label="REPORTADO EN"

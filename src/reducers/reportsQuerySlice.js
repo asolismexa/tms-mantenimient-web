@@ -9,6 +9,9 @@ const initialState = {
     },
     status: null,
     type: null,
+    ot: '',
+    vehicle: null,
+    usuario: null,
   },
 }
 
