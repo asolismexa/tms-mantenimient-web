@@ -42,6 +42,8 @@ import FileUploadIcon from '@mui/icons-material/FileUpload'
 import AutoCompleteDrivers from './AutoCompleteAsyncDrivers'
 import LabelValue from '@/components/Core/LabelValue'
 import { useFetchVehicle } from '@/hooks/useFetchVehicle'
+import { setError } from '@/reducers/createReportFormSlice'
+import { mettersToKilometers } from '@/utils/numbers'
 
 const initialValidateDialogState = {
   open: false,
@@ -87,7 +89,8 @@ export default function ModalDetailReport({
 
   const onClose = () => {
     handleClose()
-    // setTab(0)
+    setError(null)
+    setErrorMessage(null)
     setObservation('')
     setEvidences([])
   }
@@ -219,8 +222,18 @@ export default function ModalDetailReport({
       })
   }
 
+  const getVehicleFeatures = () => {
+    if (vehicleData.vehicle?.freight_type_id != -1) {
+      return `${vehicleData.vehicle?.freight_type} 
+                  ,${vehicleData.vehicle?.door_type}
+                  ,${vehicleData.vehicle?.model_year}`
+    }
+
+    return vehicleData?.vehicle.performance_type
+  }
+
   if (loading) return <LoadingBackdrop open />
-  console.log(vehicleData)
+
   return (
     <div>
       <Dialog
@@ -250,33 +263,28 @@ export default function ModalDetailReport({
           )}
           <TabPanel value={tab} index={0}>
             <Grid container>
+              <Grid itme xs={12}>
+                <LabelValue
+                  label="FOLIO:"
+                  value={report?.id ? report.id : ''}
+                />
+              </Grid>
+
               <Grid item xs={6}>
                 <LabelValue
                   label="FECHA REPORTADO:"
                   value={report && formatDate(report.time)}
                 />
+
                 <LabelValue label="UNIDAD:" value={report?.vehicle} />
 
-                {vehicleData?.vehicle && (
+                {report?.vehicle_assinged && (
                   <LabelValue
-                    label="CONFIGURACION MOTRIZ:"
-                    value={vehicleData?.vehicle.performance_type}
+                    label="UNIDAD ASIGNADA:"
+                    value={report?.vehicle_assinged}
                   />
                 )}
 
-                {vehicleData.vehicle &&
-                  vehicleData.vehicle?.freight_type_id != -1 && (
-                    <LabelValue
-                      label="REMOLQUE:"
-                      value={`${vehicleData.vehicle?.freight_type} 
-                         ,${vehicleData.vehicle?.door_type}
-                         ,${vehicleData.vehicle?.model_year}`}
-                    />
-                  )}
-
-                {report?.odometer && (
-                  <LabelValue label=" HOROMETRO:" value={report?.odometer} />
-                )}
                 <LabelValue
                   label="OPERADOR:"
                   value={
@@ -303,59 +311,41 @@ export default function ModalDetailReport({
                     )
                   }
                 />
-                {report?.vehicle_assinged && (
+              </Grid>
+
+              <Grid item xs={6}>
+                <LabelValue label="ESTATUS:" value={report?.status} />
+                {vehicleData?.vehicle && (
                   <LabelValue
-                    label="UNIDAD ASIGNADA:"
-                    value={report?.vehicle_assinged}
+                    label="CARACTERISTICAS"
+                    value={getVehicleFeatures()}
                   />
                 )}
-                <LabelValue
-                  label="TIPO DE FALLA:"
-                  value={report?.report_type}
-                />
-                <LabelValue
-                  label="ORDEN DE TRABAJO:"
-                  value={
-                    !report?.ot &&
-                    report?.status_id !== statusEnum.VALIDADO &&
-                    report?.status_id !== statusEnum.ATENDIDO ? (
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <TextField
-                          margin="dense"
-                          size="small"
-                          label="OT"
-                          value={otField}
-                          onChange={(e) => setOtField(e.target.value)}
-                        />
-                        <Button onClick={handleAssignOt}>Asignar</Button>
-                      </Stack>
-                    ) : (
-                      <Typography variant="body1">{report?.ot}</Typography>
-                    )
-                  }
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <LabelValue
-                  label="FOLIO:"
-                  value={report?.id ? report.id : ''}
-                />
-                <LabelValue label="ESTATUS:" value={report?.status} />
-                <LabelValue
-                  label="VALIDADO:"
-                  value={
-                    report?.validated_success !== null ? (
-                      <CheckLogo checked={report?.validated_success} />
-                    ) : null
-                  }
-                />
-                <LabelValue
-                  label="SOLICITUD:"
-                  value={
-                    report?.shipment_id ||
-                    'No hay solicitud asignada a esta unidad'
-                  }
-                />
+
+                {report?.odometer && (
+                  <LabelValue
+                    label="ODOMETRO:"
+                    value={mettersToKilometers(
+                      report?.odometer ? report?.odometer : 0,
+                    )}
+                  />
+                )}
+
+                {report?.validated_success !== null && (
+                  <LabelValue
+                    label="EVALUADO:"
+                    value={
+                      report?.validated_success !== null ? (
+                        <CheckLogo checked={report?.validated_success} />
+                      ) : null
+                    }
+                  />
+                )}
+
+                {report?.shipment_id && (
+                  <LabelValue label="SOLICITUD:" value={report?.shipment_id} />
+                )}
+
                 <LabelValue
                   label="UBICACION:"
                   value={
@@ -373,6 +363,38 @@ export default function ModalDetailReport({
             </Grid>
             <Divider sx={{ my: 1 }} />
             <Box>
+              <Grid container>
+                <Grid item xs={6}>
+                  <LabelValue
+                    label="TIPO DE FALLA:"
+                    value={report?.report_type}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <LabelValue
+                    label="ORDEN DE TRABAJO:"
+                    value={
+                      !report?.ot &&
+                      report?.status_id !== statusEnum.VALIDADO &&
+                      report?.status_id !== statusEnum.ATENDIDO ? (
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <TextField
+                            margin="dense"
+                            size="small"
+                            label="OT"
+                            value={otField}
+                            onChange={(e) => setOtField(e.target.value)}
+                          />
+                          <Button onClick={handleAssignOt}>Asignar</Button>
+                        </Stack>
+                      ) : (
+                        <Typography variant="body1">{report?.ot}</Typography>
+                      )
+                    }
+                  />
+                </Grid>
+              </Grid>
+
               <LabelValue
                 label="PRIMERA OBSERVACION:"
                 value={

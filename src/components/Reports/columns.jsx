@@ -5,6 +5,7 @@ import { setFilters } from '@/reducers/reportMonitorSlice'
 import { reportStatusUrl } from '@/services/reportStatus'
 import { AsyncSelectHeader, TextFilterHeader } from '../Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
+import { mettersToKilometers } from '@/utils/numbers'
 
 const { dispatch } = store
 
@@ -54,13 +55,17 @@ export const reportsColumns = [
   },
   {
     field: 'odometer',
-    headerName: 'HOROMETRO',
+    headerName: 'ODOMETRO',
     renderHeader: ({ colDef: { headerName } }) => (
       <TextFilterHeader
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'odometer')}
       />
     ),
+    valueFormatter: ({ value }) => {
+      if (value) return mettersToKilometers(value)
+      return null
+    },
   },
   {
     field: 'driver',

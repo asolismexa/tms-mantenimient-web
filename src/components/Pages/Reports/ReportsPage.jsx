@@ -124,7 +124,7 @@ function ReportsMonitor() {
             <DateTimePicker
               fullWidth
               format="DD / MM / YYYY"
-              label="REPORTADO EN"
+              label="FECHA INICIO"
               margin="dense"
               size="small"
               onChange={(val) => handleChangeDate('from_time', val)}
@@ -133,7 +133,7 @@ function ReportsMonitor() {
             <DateTimePicker
               fullWidth
               format="DD / MM / YYYY"
-              label="REPORTADO HASTA"
+              label="FECHA FIN"
               margin="dense"
               size="small"
               onChange={(val) => handleChangeDate('to_time', val)}
