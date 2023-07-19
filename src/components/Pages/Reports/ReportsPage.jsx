@@ -120,7 +120,6 @@ function ReportsMonitor() {
               onChange={(_, value) => handleChangeFilter('driver', value)}
               value={filters.driver}
             />
-            <TextField fullWidth label="USUARIO" margin="dense" size="small" />
             <DateTimePicker
               fullWidth
               format="DD / MM / YYYY"
