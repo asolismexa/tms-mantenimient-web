@@ -13,6 +13,8 @@ export default function AutoCompleteAsync({
   disabled,
   inputProps,
   width,
+  exclude = [-1],
+  idOrdering = [],
 }) {
   const [inputValue, setInputValue] = useState('')
   const { options, loading, setOpen, open } = useFetchOptions(url)
@@ -21,9 +23,19 @@ export default function AutoCompleteAsync({
     setInputValue(newInputValue)
   }
 
+  const filterOptions = (options = []) =>
+    options.filter((option) => !exclude.includes(option.id))
+
+  const orderOptions = (options = []) => {
+    if (idOrdering.length === 0) return options
+    return options.sort((a, b) => {
+      return idOrdering.indexOf(a.id) - idOrdering.indexOf(b.id)
+    })
+  }
+
   return (
     <Autocomplete
-      sx={{ width: width? width : 300 }}
+      sx={{ width: width ? width : 300 }}
       disabled={disabled}
       open={open}
       onOpen={() => {
@@ -36,7 +48,7 @@ export default function AutoCompleteAsync({
       value={value}
       onInputChange={handleChange}
       inputValue={inputValue}
-      options={options}
+      options={orderOptions(filterOptions(options))}
       loading={loading}
       getOptionLabel={(option) => {
         return option.name ? option.name : option[nameKey]
