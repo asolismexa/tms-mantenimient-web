@@ -97,6 +97,12 @@ function ReportsMonitor() {
               onChange={(_, value) => handleChangeFilter('status', value)}
               exclude={[6]}
               value={filters.status}
+              extendOptions={[
+                {
+                  id: 8,
+                  name: 'CERRADOS',
+                },
+              ]}
             />
             <AutoCompleteTypes
               {...inputStyles}

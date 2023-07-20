@@ -15,6 +15,7 @@ export default function AutoCompleteAsync({
   width,
   exclude = [-1],
   idOrdering = [],
+  extendOptions = [],
 }) {
   const [inputValue, setInputValue] = useState('')
   const { options, loading, setOpen, open } = useFetchOptions(url)
@@ -33,6 +34,11 @@ export default function AutoCompleteAsync({
     })
   }
 
+  const extend = (options = []) => {
+    if (extendOptions.length === 0) return options
+    return [...options, ...extendOptions]
+  }
+
   return (
     <Autocomplete
       sx={{ width: width ? width : 300 }}
@@ -48,7 +54,7 @@ export default function AutoCompleteAsync({
       value={value}
       onInputChange={handleChange}
       inputValue={inputValue}
-      options={orderOptions(filterOptions(options))}
+      options={orderOptions(filterOptions(extend(options)))}
       loading={loading}
       getOptionLabel={(option) => {
         return option.name ? option.name : option[nameKey]
