@@ -129,6 +129,7 @@ function ReportsMonitor() {
               size="small"
               onChange={(val) => handleChangeDate('from_time', val)}
               value={getDateValue(filters.from_time)}
+              disabled={!filters.status}
             />
             <DateTimePicker
               fullWidth
@@ -138,6 +139,7 @@ function ReportsMonitor() {
               size="small"
               onChange={(val) => handleChangeDate('to_time', val)}
               value={getDateValue(filters.to_time)}
+              disabled={!filters.status}
             />
           </Stack>
         </Box>
@@ -326,5 +328,29 @@ const columns = [
     headerName: 'USUARIO CANCELA OT',
     type: 'string',
     width: 100,
+  },
+  {
+    field: 'validated_on',
+    headerName: 'FECHA OT EVALUADA',
+    valueFormatter: ({ value }) => {
+      if (value) {
+        const localDate = utcToLocal(value)
+        return formatDate(localDate)
+      }
+      return null
+    },
+  },
+  {
+    field: 'validated_by',
+    headerName: 'USUARIO EVALUA OT',
+  },
+  {
+    field: 'validated_success',
+    type: 'boolean',
+    width: 100,
+    renderCell: ({ value }) => {
+      if (value === null) return null
+      return <CheckLogo checked={value} />
+    },
   },
 ]

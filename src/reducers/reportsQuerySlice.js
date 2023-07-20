@@ -37,8 +37,8 @@ export const searchReports = createAsyncThunk(
           vehicle: filters.vehicle?.id,
           user: filters.usuario,
           driver_id: filters.driver?.id,
-          from_time: filters.from_time,
-          to_time: filters.to_time,
+          from_time: filters.status ? filters.from_time : null,
+          to_time: filters.status ? filters.to_time : null,
         },
       })
       console.log(resp.data)
