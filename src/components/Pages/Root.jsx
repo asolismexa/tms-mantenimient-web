@@ -25,13 +25,13 @@ function Root() {
   }
 
   return (
-    <>
+    <div>
       <AppBar />
       <MainContainer>
         <Outlet />
       </MainContainer>
       <MainFooter />
-    </>
+    </div>
   )
 }
 

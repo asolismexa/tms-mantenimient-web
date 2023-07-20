@@ -3,7 +3,8 @@ export default function MainContainer({ children }) {
     <main
       style={{
         width: '100%',
-        backgroundColor: '#000',
+        height: '100vh',
+        marginTop: '80px',
       }}
     >
       {children}

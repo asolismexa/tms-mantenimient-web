@@ -1,11 +1,11 @@
 import CustomDataGrid from '@/components/custom/DataGrid'
 import {
-  Box,
   Button,
   Stack,
   TextField,
   Typography,
   IconButton,
+  Grid,
 } from '@mui/material'
 import CheckLogo from '@/components/Core/CheckLogo'
 import {
@@ -38,6 +38,7 @@ import { useSnackbar } from 'notistack'
 import { useCreateReports } from '@/hooks/useCreateReports'
 import ModalAddItems from '../MonitorReports/ModalAddItems'
 import { NoteAdd } from '@mui/icons-material'
+import { mettersToKilometers } from '@/utils/numbers'
 
 const inputStyles = {
   width: '100%',
@@ -136,19 +137,23 @@ function ReportsMonitor() {
   }
 
   return (
-    <Box sx={{ m: 2 }}>
-      <Stack direction="row" spacing={3}>
-        <IconButton
-          onClick={onOpenCreateReportsModal}
-          color="primary"
-          size="large"
-        >
-          <NoteAdd />
-        </IconButton>
-      </Stack>
+    <div
+      style={{
+        padding: '0 1rem',
+      }}
+    >
       <Typography variant="h6">Reportes</Typography>
-      <Stack direction="row" spacing={2}>
-        <Box sx={{ minWidth: 200 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={2}>
+          <Stack direction="row" spacing={3} alignItems="center">
+            <IconButton
+              onClick={onOpenCreateReportsModal}
+              color="primary"
+              size="large"
+            >
+              <NoteAdd />
+            </IconButton>
+          </Stack>
           <Stack sx={{ mt: 1 }} spacing={1}>
             <Button fullWidth onClick={handleSearchReports}>
               BUSCAR
@@ -219,8 +224,8 @@ function ReportsMonitor() {
               disabled={!filters.status}
             />
           </Stack>
-        </Box>
-        <Box>
+        </Grid>
+        <Grid item xs={10}>
           <CustomDataGrid
             loading={loadingReports}
             getRowHeight={() => 'auto'}
@@ -228,15 +233,10 @@ function ReportsMonitor() {
             rows={reports}
             disableColumnSelector
             disableDensitySelector
-            sx={{
-              maxWidth: '950px',
-              height: '600px',
-              maxHeight: '600px',
-            }}
             onRowDoubleClick={handleSelectReport}
           />
-        </Box>
-      </Stack>
+        </Grid>
+      </Grid>
       <ModalDetailReport
         open={detail.open}
         loading={detail.loading}
@@ -285,7 +285,7 @@ function ReportsMonitor() {
         onClose={closeAddReportItemModal}
         onAdd={onAddReportItem}
       />
-    </Box>
+    </div>
   )
 }
 
@@ -301,7 +301,7 @@ const columns = [
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'dateTime',
-    width: 110,
+    width: 150,
     valueFormatter: ({ value }) => {
       return formatDate(value)
     },
@@ -312,10 +312,16 @@ const columns = [
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
+    width: 150,
   },
   {
     field: 'odometer',
-    headerName: 'HOROMETRO',
+    headerName: 'ODOMETRO',
+    width: 150,
+    valueFormatter: ({ value }) => {
+      if (value) return mettersToKilometers(value)
+      return null
+    },
   },
   {
     field: 'driver',
@@ -325,27 +331,29 @@ const columns = [
   {
     field: 'shipment_id',
     headerName: 'SOLICITUD',
+    width: 150,
   },
   {
     field: 'ot',
     headerName: 'OT',
-    wdith: 150,
+    width: 150,
   },
   {
     field: 'status',
     headerName: 'ESTATUS',
-    width: 100,
+    width: 150,
   },
   {
     field: 'report_type',
     headerName: 'TIPO FALLA',
-    width: 200,
+    width: 150,
   },
   {
     field: 'has_observations',
     headerName: 'OBS',
     type: 'boolean',
-    width: 100,
+    width: 150,
+
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />
@@ -355,7 +363,7 @@ const columns = [
     field: 'has_evidences',
     headerName: 'EVID',
     type: 'boolean',
-    width: 100,
+    width: 150,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />
@@ -365,13 +373,14 @@ const columns = [
     field: 'user',
     headerName: 'USUARIO',
     type: 'string',
-    width: 130,
+    width: 150,
   },
   {
     field: 'assigned_on',
     headerName: 'FECHA OT ASIGNADA',
     type: 'string',
-    width: 100,
+    width: 150,
+
     valueFormatter: ({ value }) => {
       if (value) {
         const localDate = utcToLocal(value)
@@ -384,13 +393,14 @@ const columns = [
     field: 'assigned_by',
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
-    width: 100,
+    width: 150,
   },
   {
     field: 'process_on',
     headerName: 'FECHA OT EN PROCESO',
     type: 'string',
-    width: 100,
+    width: 150,
+
     valueFormatter: ({ value }) => {
       if (value) {
         const localDate = utcToLocal(value)
@@ -403,13 +413,14 @@ const columns = [
     field: 'process_by',
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
-    width: 100,
+    width: 150,
   },
   {
     field: 'attended_on',
     headerName: 'FECHA OT FINALIZADA',
     type: 'string',
-    width: 100,
+    width: 150,
+
     valueFormatter: ({ value }) => {
       if (value) {
         const localDate = utcToLocal(value)
@@ -422,13 +433,14 @@ const columns = [
     field: 'attended_by',
     headerName: 'USUARIO FINALIZA OT',
     type: 'string',
-    width: 100,
+    width: 150,
   },
   {
     field: 'canceled_on',
     headerName: 'FECHA OT CANCELADA',
     type: 'string',
-    width: 100,
+    width: 150,
+
     valueFormatter: ({ value }) => {
       if (value) {
         const localDate = utcToLocal(value)
@@ -441,7 +453,7 @@ const columns = [
     field: 'canceled_by',
     headerName: 'USUARIO CANCELA OT',
     type: 'string',
-    width: 100,
+    width: 150,
   },
   {
     field: 'validated_on',
@@ -461,7 +473,7 @@ const columns = [
   {
     field: 'validated_success',
     type: 'boolean',
-    width: 100,
+    width: 150,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />

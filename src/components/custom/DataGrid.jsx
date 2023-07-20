@@ -12,14 +12,29 @@ function CustomDataGrid({
   ...props
 }) {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid
+      sx={{
+        width: '100%',
+        padding: '0 !important',
+        margin: '0 !important',
+      }}
+      container
+      spacing={2}
+    >
+      <Grid
+        sx={{
+          padding: '0 !important',
+          margin: '0 !important',
+        }}
+        item
+        xs={12}
+      >
         <DataGrid
           paginationMode="server"
           pagination
           sx={{
-            height: '600px',
-            maxHeight: '600px',
+            width: '100%',
+            height: '80vh',
           }}
           columns={columns}
           rows={rows}
