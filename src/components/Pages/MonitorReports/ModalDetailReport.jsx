@@ -263,7 +263,7 @@ export default function ModalDetailReport({
           )}
           <TabPanel value={tab} index={0}>
             <Grid container>
-              <Grid itme xs={12}>
+              <Grid item xs={12}>
                 <LabelValue
                   label="FOLIO:"
                   value={report?.id ? report.id : ''}

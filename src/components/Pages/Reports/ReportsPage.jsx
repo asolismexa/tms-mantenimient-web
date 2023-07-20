@@ -1,5 +1,12 @@
 import CustomDataGrid from '@/components/custom/DataGrid'
-import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  IconButton,
+} from '@mui/material'
 import CheckLogo from '@/components/Core/CheckLogo'
 import {
   formatDate,
@@ -23,6 +30,14 @@ import AutoCompleteVehicles from '../MonitorReports/AutoCompleteVehicles'
 import AutoCompleteDrivers from '../MonitorReports/AutoCompleteAsyncDrivers'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import ModalDetailReport from '../MonitorReports/ModalDetailReport'
+import ModalCreateReports from '../MonitorReports/ModalCreateReports'
+import FormCreateReport from '../MonitorReports/FormCreateReport'
+import TableCreateReports from '../MonitorReports/TableCreateReports'
+import RowReportItem from '../MonitorReports/RowReportItem'
+import { useSnackbar } from 'notistack'
+import { useCreateReports } from '@/hooks/useCreateReports'
+import ModalAddItems from '../MonitorReports/ModalAddItems'
+import { NoteAdd } from '@mui/icons-material'
 
 const inputStyles = {
   width: '100%',
@@ -31,10 +46,42 @@ const inputStyles = {
   },
 }
 
+const createFormInitialState = {
+  vehicle: null,
+  driver: null,
+  shipment: null,
+  items: [],
+}
+
+const addItemFormInitialState = {
+  type: null,
+  observation: '',
+  evidences: [],
+  error: null,
+}
+
 function ReportsMonitor() {
   const { filters, reports, loadingReports, detail } =
     useSelector(selectReportsQuery)
   const dispatch = useDispatch()
+  const {
+    formCreateReport,
+    setFormCreateReport,
+    formAddItem,
+    setFormAddItem,
+    loadingCreateReport,
+    openCreateModal,
+    openAddItemModal,
+    closeAddReportItemModal,
+    onOpenAddItemModal,
+    onAddReportItem,
+    onDeleteReportItem,
+    onOpenCreateReportsModal,
+    onCloseCreateReportsModal,
+    onCreateReports,
+    createError,
+  } = useCreateReports({ createFormInitialState, addItemFormInitialState })
+  const { enqueueSnackbar } = useSnackbar()
 
   const handleChangeFilter = (filter, value) => {
     dispatch(setFilters({ ...filters, [filter]: value }))
@@ -73,8 +120,32 @@ function ReportsMonitor() {
     dispatch(fetchReportDetail(id))
   }
 
+  const onSuccessCreateReports = (resp) => {
+    console.log('onSuccessCreateReports')
+    console.log(resp)
+    for (const item of resp) {
+      enqueueSnackbar(`Se creo con exito el reporte ${item.data}`, {
+        variant: 'success',
+      })
+    }
+  }
+
+  const onFailureCreateReports = (err) => {
+    console.log('onErrorCreateReports')
+    console.log(err)
+  }
+
   return (
     <Box sx={{ m: 2 }}>
+      <Stack direction="row" spacing={3}>
+        <IconButton
+          onClick={onOpenCreateReportsModal}
+          color="primary"
+          size="large"
+        >
+          <NoteAdd />
+        </IconButton>
+      </Stack>
       <Typography variant="h6">Reportes</Typography>
       <Stack direction="row" spacing={2}>
         <Box sx={{ minWidth: 200 }}>
@@ -176,6 +247,43 @@ function ReportsMonitor() {
         refreshReport={() => {
           dispatch(fetchReportDetail(detail.report.id))
         }}
+        createNewReport={onOpenCreateReportsModal}
+      />
+      <ModalCreateReports
+        loading={loadingCreateReport}
+        open={openCreateModal}
+        handleClose={onCloseCreateReportsModal}
+        handleCreate={() => {
+          onCreateReports({
+            onSuccess: onSuccessCreateReports,
+            onFailure: onFailureCreateReports,
+          })
+        }}
+        error={createError}
+      >
+        <FormCreateReport form={formCreateReport} setForm={setFormCreateReport}>
+          {formCreateReport.vehicle && (
+            <TableCreateReports
+              items={formCreateReport.items}
+              onAddItem={onOpenAddItemModal}
+            >
+              {formCreateReport.items.map((item) => (
+                <RowReportItem
+                  key={item.id}
+                  report={item}
+                  onDelete={onDeleteReportItem}
+                />
+              ))}
+            </TableCreateReports>
+          )}
+        </FormCreateReport>
+      </ModalCreateReports>
+      <ModalAddItems
+        open={openAddItemModal}
+        form={formAddItem}
+        setForm={setFormAddItem}
+        onClose={closeAddReportItemModal}
+        onAdd={onAddReportItem}
       />
     </Box>
   )
