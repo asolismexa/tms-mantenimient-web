@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import CustomDataGrid from '@/components/custom/DataGrid'
-import { Box, Alert, IconButton, Stack } from '@mui/material'
+import { Box, IconButton, Stack } from '@mui/material'
 import useFetchReports from '@/hooks/useFetchReports'
 import { NoteAdd, Refresh } from '@mui/icons-material'
 import ModalCreateReports from './ModalCreateReports'
@@ -32,7 +32,7 @@ const addItemFormInitialState = {
 
 function ReportsMonitor() {
   const { enqueueSnackbar } = useSnackbar()
-  const { reports, loading, error, pagination, setPagination, setRefresh } =
+  const { reports, loading, pagination, setPagination, setRefresh } =
     useFetchReports({ pageSize: 10000, alive: true })
   const {
     reportDetail,
@@ -202,11 +202,6 @@ function ReportsMonitor() {
 
   return (
     <Box sx={{ m: 2 }}>
-      {Boolean(error) && (
-        <Alert sx={{ my: 1 }} severity="error">
-          {error}
-        </Alert>
-      )}
       <Stack direction="row" spacing={3}>
         <IconButton
           onClick={onOpenCreateReportsModal}

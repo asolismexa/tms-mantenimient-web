@@ -295,13 +295,13 @@ const columns = [
   {
     field: 'id',
     headerName: 'FOLIO',
-    width: 150,
+    width: 100,
   },
   {
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'dateTime',
-    width: 150,
+    width: 120,
     valueFormatter: ({ value }) => {
       return formatDate(value)
     },
@@ -312,12 +312,12 @@ const columns = [
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
-    width: 150,
+    width: 100,
   },
   {
     field: 'odometer',
     headerName: 'ODOMETRO',
-    width: 150,
+    width: 100,
     valueFormatter: ({ value }) => {
       if (value) return mettersToKilometers(value)
       return null
@@ -326,12 +326,12 @@ const columns = [
   {
     field: 'driver',
     headerName: 'OPERADOR',
-    width: 150,
+    width: 100,
   },
   {
     field: 'shipment_id',
     headerName: 'SOLICITUD',
-    width: 150,
+    width: 100,
   },
   {
     field: 'ot',
@@ -341,18 +341,18 @@ const columns = [
   {
     field: 'status',
     headerName: 'ESTATUS',
-    width: 150,
+    width: 100,
   },
   {
     field: 'report_type',
     headerName: 'TIPO FALLA',
-    width: 150,
+    width: 100,
   },
   {
     field: 'has_observations',
     headerName: 'OBS',
     type: 'boolean',
-    width: 150,
+    width: 50,
 
     renderCell: ({ value }) => {
       if (value === null) return null
@@ -363,7 +363,7 @@ const columns = [
     field: 'has_evidences',
     headerName: 'EVID',
     type: 'boolean',
-    width: 150,
+    width: 50,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />
@@ -373,13 +373,13 @@ const columns = [
     field: 'user',
     headerName: 'USUARIO',
     type: 'string',
-    width: 150,
+    width: 100,
   },
   {
     field: 'assigned_on',
     headerName: 'FECHA OT ASIGNADA',
     type: 'string',
-    width: 150,
+    width: 120,
 
     valueFormatter: ({ value }) => {
       if (value) {
@@ -393,13 +393,13 @@ const columns = [
     field: 'assigned_by',
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
-    width: 150,
+    width: 100,
   },
   {
     field: 'process_on',
     headerName: 'FECHA OT EN PROCESO',
     type: 'string',
-    width: 150,
+    width: 120,
 
     valueFormatter: ({ value }) => {
       if (value) {
@@ -413,13 +413,13 @@ const columns = [
     field: 'process_by',
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
-    width: 150,
+    width: 100,
   },
   {
     field: 'attended_on',
     headerName: 'FECHA OT FINALIZADA',
     type: 'string',
-    width: 150,
+    width: 120,
 
     valueFormatter: ({ value }) => {
       if (value) {
@@ -433,13 +433,13 @@ const columns = [
     field: 'attended_by',
     headerName: 'USUARIO FINALIZA OT',
     type: 'string',
-    width: 150,
+    width: 100,
   },
   {
     field: 'canceled_on',
     headerName: 'FECHA OT CANCELADA',
     type: 'string',
-    width: 150,
+    width: 100,
 
     valueFormatter: ({ value }) => {
       if (value) {
@@ -453,10 +453,11 @@ const columns = [
     field: 'canceled_by',
     headerName: 'USUARIO CANCELA OT',
     type: 'string',
-    width: 150,
+    width: 100,
   },
   {
     field: 'validated_on',
+    width: 100,
     headerName: 'FECHA OT EVALUADA',
     valueFormatter: ({ value }) => {
       if (value) {
@@ -471,9 +472,10 @@ const columns = [
     headerName: 'USUARIO EVALUA OT',
   },
   {
+    headerName: 'OT EVALUADO',
     field: 'validated_success',
     type: 'boolean',
-    width: 150,
+    width: 80,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />

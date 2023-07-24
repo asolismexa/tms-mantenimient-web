@@ -5,7 +5,11 @@ function ObservationItem({ observation }) {
   return (
     <ListItem>
       <ListItemText>
-        {observation.observation_text}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: observation.observation_text,
+          }}
+        ></div>
         <Typography textAlign="end" sx={{ display: 'block' }} variant="caption">
           {observation.user}
         </Typography>
