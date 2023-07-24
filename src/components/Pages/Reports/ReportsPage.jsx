@@ -39,6 +39,8 @@ import { useCreateReports } from '@/hooks/useCreateReports'
 import ModalAddItems from '../MonitorReports/ModalAddItems'
 import { NoteAdd } from '@mui/icons-material'
 import { mettersToKilometers } from '@/utils/numbers'
+import { useGridApiRef } from '@mui/x-data-grid'
+import SaveAltIcon from '@mui/icons-material/SaveAlt'
 
 const inputStyles = {
   width: '100%',
@@ -62,6 +64,8 @@ const addItemFormInitialState = {
 }
 
 function ReportsMonitor() {
+  const gridRef = useGridApiRef()
+  console.log(gridRef)
   const { filters, reports, loadingReports, detail } =
     useSelector(selectReportsQuery)
   const dispatch = useDispatch()
@@ -153,6 +157,15 @@ function ReportsMonitor() {
             >
               <NoteAdd />
             </IconButton>
+            <IconButton
+              color="primary"
+              size="large"
+              onClick={() => {
+                gridRef.current.exportDataAsCsv()
+              }}
+            >
+              <SaveAltIcon />
+            </IconButton>
           </Stack>
           <Stack sx={{ mt: 1 }} spacing={1}>
             <Button fullWidth onClick={handleSearchReports}>
@@ -234,6 +247,7 @@ function ReportsMonitor() {
             disableColumnSelector
             disableDensitySelector
             onRowDoubleClick={handleSelectReport}
+            apiRef={gridRef}
           />
         </Grid>
       </Grid>
