@@ -18,7 +18,7 @@ function NavMenu() {
         icon={<DescriptionIcon />}
         onClick={() => {
           dispatch(toggleSideBar())
-          navigate('/reports')
+          navigate('reports')
         }}
       />
       <NavItemCollapse icon={<MonitorHeartIcon />} label="Monitores">
@@ -27,7 +27,7 @@ function NavMenu() {
           icon={<DescriptionIcon />}
           onClick={() => {
             dispatch(toggleSideBar())
-            navigate('/monitor/reports')
+            navigate('monitor/reports')
           }}
         />
       </NavItemCollapse>

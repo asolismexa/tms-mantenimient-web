@@ -21,7 +21,7 @@ function NavigationMenu() {
         <ArrowDropDownCircleIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <NavLink to="/reports">
+        <NavLink to="reports">
           <MenuItem onClick={handleClose}>Reportes</MenuItem>
         </NavLink>
       </Menu>

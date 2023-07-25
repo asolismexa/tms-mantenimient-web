@@ -6,16 +6,16 @@ import ReportsMonitor from './components/Pages/MonitorReports/ReportsMonitor'
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: 'maintenance.web/',
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/reports',
+        path: 'reports',
         element: <ReportsPage />,
       },
       {
-        path: '/monitor/reports',
+        path: 'monitor/reports',
         element: <ReportsMonitor />,
       },
     ],
