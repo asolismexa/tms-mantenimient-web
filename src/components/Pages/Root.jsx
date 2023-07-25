@@ -2,11 +2,15 @@ import MainFooter from '@components/Core/MainFooter'
 import AppBar from '@components/Core/AppBar'
 import MainContainer from '@components/Core/MainContainer'
 import { Outlet, useSearchParams } from 'react-router-dom'
+import ImageViewer from '../Core/ImageViewer'
+import { useSelector } from 'react-redux'
+import { selectImageViewer } from '@/reducers/uiSlice'
 
 function Root() {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token')
   const descriptor = searchParams.get('descriptor')
+  const imageViewer = useSelector(selectImageViewer)
 
   if (window.App && window.App.token) {
     console.log('El token ya existe por lo tanto se almaceno en window')
@@ -27,6 +31,7 @@ function Root() {
   return (
     <div>
       <AppBar />
+      <ImageViewer src={imageViewer.src} open={imageViewer.open} />
       <MainContainer>
         <Outlet />
       </MainContainer>

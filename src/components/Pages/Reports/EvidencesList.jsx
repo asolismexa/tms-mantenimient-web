@@ -4,12 +4,25 @@ import ImageListItemBar from '@mui/material/ImageListItemBar'
 import IconButton from '@mui/material/IconButton'
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline'
 import { Link } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { openImageViewer } from '@/reducers/uiSlice'
 
 export default function EvidencesList({ evidences }) {
+  const dispatch = useDispatch()
+  const handleOpenViewer = (src = '') => {
+    dispatch(openImageViewer(src))
+  }
+
   return (
     <ImageList sx={{ width: '100%', height: 450 }} rowHeight={164}>
       {evidences.map((item) => (
-        <ImageListItem key={item.id}>
+        <ImageListItem
+          sx={{
+            cursor: 'pointer',
+          }}
+          key={item.id}
+          onClick={() => handleOpenViewer(item?.mediaLink)}
+        >
           <img
             style={{
               height: '100%',
