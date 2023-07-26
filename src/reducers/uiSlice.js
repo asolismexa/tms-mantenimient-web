@@ -5,7 +5,7 @@ const initialState = {
     open: false,
   },
   imageViewer: {
-    open: true,
+    open: false,
     src: null,
   },
 }

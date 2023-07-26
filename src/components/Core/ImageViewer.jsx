@@ -2,7 +2,7 @@ import { Backdrop } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { closeImageViewer } from '@/reducers/uiSlice'
 
-function ImageViewer({ open = true, src = '' }) {
+function ImageViewer({ open = false, src = '' }) {
   const dispatch = useDispatch()
   const handleClose = () => {
     dispatch(closeImageViewer())
