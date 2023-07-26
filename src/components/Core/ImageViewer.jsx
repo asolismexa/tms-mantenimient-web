@@ -1,15 +1,12 @@
 import { Backdrop } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { closeImageViewer } from '@/reducers/uiSlice'
-import LoadingBackdrop from './LoadingBackdrop'
 
 function ImageViewer({ open = true, src = '' }) {
   const dispatch = useDispatch()
   const handleClose = () => {
     dispatch(closeImageViewer())
   }
-
-  if (open && !src) return <LoadingBackdrop open />
 
   return (
     <Backdrop
