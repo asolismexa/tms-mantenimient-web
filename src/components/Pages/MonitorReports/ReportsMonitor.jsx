@@ -96,7 +96,7 @@ function ReportsMonitor() {
   }
 
   const handleSetDetailTab = (data) => {
-    if (data.field === 'has_observations') {
+    if (data.field === 'has_observations' || data.field == 'last_observation') {
       setTab(1)
       return
     }
