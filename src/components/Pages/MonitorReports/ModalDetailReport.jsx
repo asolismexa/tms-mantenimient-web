@@ -148,7 +148,6 @@ export default function ModalDetailReport({
   }
 
   const handleOpenValidateDialog = () => {
-    console.log(validateDialog)
     openValidateDialog()
     setValidateDialog((prev) => ({ ...prev, loading: true }))
     fetchReports({
@@ -443,7 +442,6 @@ export default function ModalDetailReport({
                 value={evidences}
                 onChange={(val) => {
                   if (!val) return
-                  console.log(val)
                   setEvidences([...val])
                 }}
               />

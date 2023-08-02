@@ -67,8 +67,6 @@ function ReportsMonitor() {
   const handleRefreshReports = () => setRefresh((prev) => !prev)
 
   const onSuccessCreateReports = (resp) => {
-    console.log('onSuccessCreateReports')
-    console.log(resp)
     handleRefreshReports()
     for (const item of resp) {
       enqueueSnackbar(`Se creo con exito el reporte ${item.data}`, {
@@ -78,7 +76,6 @@ function ReportsMonitor() {
   }
 
   const onFailureCreateReports = (err) => {
-    console.log('onErrorCreateReports')
     console.log(err)
   }
 

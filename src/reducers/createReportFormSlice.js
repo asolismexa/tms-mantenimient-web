@@ -80,7 +80,6 @@ const createReportFormSlice = createSlice({
     builder.addCase(createReport.rejected, (state, { payload }) => {
       state.loading = false
       state.error = payload
-      console.log(payload)
     })
   },
 })

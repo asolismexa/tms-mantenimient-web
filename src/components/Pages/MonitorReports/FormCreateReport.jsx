@@ -30,7 +30,6 @@ function FormCreateReport({ form, setForm, children }) {
     }
   }, [form.vehicle, setForm])
 
-  console.log(form)
   return (
     <Stack padding={1} spacing={2}>
       <Stack direction="row" spacing={2}>

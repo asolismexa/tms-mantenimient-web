@@ -62,7 +62,6 @@ const authSlice = createSlice({
       state.token = null
       localStorage.setItem('token', null)
       localStorage.setItem('user', null)
-      console.log('logOutUser')
     },
   },
   extraReducers: (builder) => {
