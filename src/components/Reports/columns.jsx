@@ -168,6 +168,11 @@ export const reportsColumns = [
     },
   },
   {
+    field: 'last_observation',
+    headerName: 'ULTIMA OBSERVACION',
+    width: 130,
+  },
+  {
     field: 'has_evidences',
     headerName: 'EVID',
     type: 'boolean',
