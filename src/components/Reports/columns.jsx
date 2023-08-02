@@ -3,7 +3,11 @@ import CheckLogo from '@/components/Core/CheckLogo'
 import { store } from '@/store'
 import { setFilters } from '@/reducers/reportMonitorSlice'
 import { reportStatusUrl } from '@/services/reportStatus'
-import { AsyncSelectHeader, TextFilterHeader } from '../Core/headers'
+import {
+  AsyncSelectHeader,
+  SelectFilterHeader,
+  TextFilterHeader,
+} from '../Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
 import { groupsBaseUrl } from '@/services/vehicles'
@@ -60,6 +64,16 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
     },
+    renderHeader: ({ colDef: { headerName } }) => (
+      <SelectFilterHeader
+        headerName={headerName}
+        options={[
+          { id: 1, name: 'MOTRIZ' },
+          { id: 2, name: 'REMOLQUE' },
+        ]}
+        onChange={(e) => handleChangeFilter(e, 'vehicleType')}
+      />
+    ),
   },
   {
     field: 'odometer',

@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import AsyncSelectFilter from './AsyncSelectFilter'
 import AsyncDataList from './AsyncDataList'
+import SelectFilter from './SelectFilter'
 
 export function FilterHeader({ headerName, children }) {
   return (
@@ -33,6 +34,25 @@ export function TextFilterHeader({ headerName, onClick, onChange }) {
         type="text"
         onClick={handleClick}
         onChange={onChange}
+      />
+    </FilterHeader>
+  )
+}
+
+export function SelectFilterHeader({
+  headerName,
+  onClick,
+  onChange,
+  options = [],
+}) {
+  const handleClick = onClick ? onClick : stopEvents
+
+  return (
+    <FilterHeader headerName={headerName}>
+      <SelectFilter
+        onClick={handleClick}
+        onChange={onChange}
+        options={options}
       />
     </FilterHeader>
   )

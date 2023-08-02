@@ -6,6 +6,7 @@ const initialState = {
     status: '',
     date: '',
     vehicle: '',
+    vehicleType: '',
     odometer: '',
     driver: '',
     shipment: '',

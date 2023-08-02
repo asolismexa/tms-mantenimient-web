@@ -113,6 +113,7 @@ function ReportsMonitor() {
     const folio = filters.folio.trim()
     const status = filters.status
     const vehicle = filters.vehicle.trim()
+    const vehicleType = filters.vehicleType
     const odometer = filters.odometer
     const driver = filters.driver.toUpperCase()
     const shipment = filters.shipment.toUpperCase()
@@ -143,6 +144,11 @@ function ReportsMonitor() {
     // By Vehicle
     filtered = filtered.filter((report) => {
       return filters.vehicle === '' || report.vehicle.includes(vehicle)
+    })
+
+    // By Vehicle Type
+    filtered = filtered.filter((report) => {
+      return vehicleType == 0 || report.vehicle_type_id == vehicleType
     })
 
     // By Odometer
