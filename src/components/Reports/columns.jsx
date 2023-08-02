@@ -6,6 +6,7 @@ import { reportStatusUrl } from '@/services/reportStatus'
 import { AsyncSelectHeader, TextFilterHeader } from '../Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
+import { groupsBaseUrl } from '@/services/vehicles'
 
 const { dispatch } = store
 
@@ -75,6 +76,18 @@ export const reportsColumns = [
       <TextFilterHeader
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'driver')}
+      />
+    ),
+  },
+  {
+    field: 'cell',
+    headerName: 'CELULA OPERATIVA',
+    width: 150,
+    renderHeader: ({ colDef: { headerName } }) => (
+      <AsyncSelectHeader
+        headerName={headerName}
+        url={groupsBaseUrl}
+        onChange={(e) => handleChangeFilter(e, 'cell')}
       />
     ),
   },

@@ -121,6 +121,7 @@ function ReportsMonitor() {
     const user = filters.user.toLowerCase()
     const userAssign = filters.userAssign.toLowerCase()
     const userProcess = filters.userProcess.toLowerCase()
+    const cell = filters.cell
 
     let filtered = []
 
@@ -192,6 +193,11 @@ function ReportsMonitor() {
         filters.userProcess === '' ||
         report?.process_by?.toLowerCase().includes(userProcess)
       )
+    })
+
+    // By Cell Id
+    filtered = filtered.filter((report) => {
+      return cell == 0 || report.cell_id == cell
     })
 
     return filtered
