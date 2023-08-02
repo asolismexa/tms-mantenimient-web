@@ -11,7 +11,7 @@ export function FilterHeader({ headerName, children }) {
         width: '100%',
       }}
     >
-      <Typography component="span" variant="body2" fontWeight="bold" wr>
+      <Typography component="span" variant="body2" fontWeight="bold">
         {headerName}
       </Typography>
       {children}

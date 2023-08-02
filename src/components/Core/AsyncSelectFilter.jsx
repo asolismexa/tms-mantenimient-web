@@ -15,10 +15,9 @@ function AsyncSelectFilter({
         onClick(e)
       }}
       onChange={onChange}
+      defaultValue={0}
     >
-      <option value={0} selected>
-        [TODOS]
-      </option>
+      <option value={0}>[TODOS]</option>
       {loading && '...'}
       {options.map((opt) => (
         <option key={opt.id} value={opt.id}>

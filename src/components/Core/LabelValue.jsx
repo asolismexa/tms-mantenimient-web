@@ -6,7 +6,9 @@ function LabelValue({ label = '', value = '' }) {
       <Typography component="span" fontWeight="bold" variant="body2" noWrap>
         {label}
       </Typography>
-      <Typography variant="body1">{value}</Typography>
+      <Typography component="span" variant="body1">
+        {value}
+      </Typography>
     </Stack>
   )
 }

@@ -486,10 +486,10 @@ const columns = [
     headerName: 'USUARIO EVALUA OT',
   },
   {
-    headerName: 'OT EVALUADO',
+    headerName: 'EVALUADO CORRECTO',
     field: 'validated_success',
     type: 'boolean',
-    width: 80,
+    width: 100,
     renderCell: ({ value }) => {
       if (value === null) return null
       return <CheckLogo checked={value} />

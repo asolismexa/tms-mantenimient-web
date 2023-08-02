@@ -21,7 +21,10 @@ export const useFetchVehicle = (vehicleId) => {
         setLoading(false)
       }
     }
-    fetchVehicle()
+
+    if (vehicleId) {
+      fetchVehicle()
+    }
   }, [vehicleId])
 
   return { vehicle, error, loading }
