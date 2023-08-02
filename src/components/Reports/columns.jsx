@@ -55,6 +55,13 @@ export const reportsColumns = [
     ),
   },
   {
+    field: 'vehicle_type_id',
+    headerName: 'TIPO UNIDAD',
+    valueFormatter: ({ value }) => {
+      return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
+    },
+  },
+  {
     field: 'odometer',
     headerName: 'ODOMETRO',
     renderHeader: ({ colDef: { headerName } }) => (
