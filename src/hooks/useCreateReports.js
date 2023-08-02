@@ -79,10 +79,6 @@ export const useCreateReports = ({
   }
   const onCreateReports = ({ onSuccess, onFailure }) => {
     const { vehicle, driver, shipment } = formCreateReport
-    const location = {
-      lat: null,
-      lon: null,
-    }
 
     if (!vehicle) {
       setCreateError('Debes selccionar una unidad')
@@ -94,54 +90,42 @@ export const useCreateReports = ({
       return
     }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        location.lat = position.coords.latitude
-        location.lon = position.coords.longitude
+    const data = []
+    for (const item of formCreateReport.items) {
+      const formData = new FormData()
+      formData.append('vehicle_id', vehicle.id)
+      formData.append('report_type_id', item.report_type.id)
+      formData.append('observation', item.observation)
+      if (driver) {
+        formData.append('driver_id', driver.driver_id)
+      }
+      if (shipment) {
+        formData.append('shipment_id', shipment.shipment_id)
+      }
 
-        const data = []
-        for (const item of formCreateReport.items) {
-          const formData = new FormData()
-          formData.append('vehicle_id', vehicle.id)
-          formData.append('report_type_id', item.report_type.id)
-          formData.append('observation', item.observation)
-          formData.append('lat', location.lat.toString())
-          formData.append('lon', location.lon.toString())
-          if (driver) {
-            formData.append('driver_id', driver.driver_id)
-          }
-          if (shipment) {
-            formData.append('shipment_id', shipment.shipment_id)
-          }
+      for (const evidence of item.evidences) {
+        formData.append(evidence.name, evidence)
+      }
 
-          for (const evidence of item.evidences) {
-            formData.append(evidence.name, evidence)
-          }
+      data.push(formData)
+    }
 
-          data.push(formData)
-        }
-
-        setLoadingCreateReport(true)
-        axios
-          .all(data.map((formData) => postReports(formData)))
-          .then((resp) => {
-            resetForms()
-            setCreateError(null)
-            setOpenCreateModal(false)
-            if (onSuccess) onSuccess(resp)
-          })
-          .catch((err) => {
-            setCreateError(err)
-            if (onFailure) onFailure(err)
-          })
-          .finally(() => {
-            setLoadingCreateReport(false)
-          })
-      },
-      (error) => {
-        console.log(error)
-      },
-    )
+    setLoadingCreateReport(true)
+    axios
+      .all(data.map((formData) => postReports(formData)))
+      .then((resp) => {
+        resetForms()
+        setCreateError(null)
+        setOpenCreateModal(false)
+        if (onSuccess) onSuccess(resp)
+      })
+      .catch((err) => {
+        setCreateError(err)
+        if (onFailure) onFailure(err)
+      })
+      .finally(() => {
+        setLoadingCreateReport(false)
+      })
   }
 
   return {
