@@ -21,7 +21,7 @@ function ErrorPage() {
       }}
     >
       <Typography
-        component="div"
+        component="span"
         variant="h3"
         fontWeight="bold"
         color="secondary"
