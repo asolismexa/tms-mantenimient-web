@@ -182,7 +182,8 @@ export const reportsColumns = [
     field: 'assigned_by',
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
-    width: 100,
+    width: 170,
+    headerClassNames: 'MuiDataGrid-columnHeaderTitle',
     renderHeader: ({ colDef: { headerName } }) => (
       <TextFilterHeader
         headerName={headerName}
@@ -193,6 +194,7 @@ export const reportsColumns = [
   {
     field: 'process_on',
     headerName: 'FECHA OT EN PROCESO',
+    headerClassNames: 'MuiDataGrid-columnHeaderTitle',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
