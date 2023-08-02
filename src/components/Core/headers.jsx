@@ -1,15 +1,21 @@
-import { Stack, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import AsyncSelectFilter from './AsyncSelectFilter'
 import AsyncDataList from './AsyncDataList'
 
 export function FilterHeader({ headerName, children }) {
   return (
-    <Stack>
-      <Typography variant="body2" fontWeight="bold" wr>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+      }}
+    >
+      <Typography component="div" variant="body2" fontWeight="bold" wr>
         {headerName}
       </Typography>
       {children}
-    </Stack>
+    </Box>
   )
 }
 
@@ -21,7 +27,7 @@ export function TextFilterHeader({ headerName, onClick, onChange }) {
       <input
         style={{
           display: 'block',
-          width: '100%',
+          width: '90%',
           zIndex: 1,
         }}
         type="text"

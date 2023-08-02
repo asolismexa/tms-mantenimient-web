@@ -206,7 +206,7 @@ export const reportsColumns = [
     field: 'process_by',
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
-    width: 100,
+    width: 180,
     renderHeader: ({ colDef: { headerName } }) => (
       <TextFilterHeader
         headerName={headerName}
