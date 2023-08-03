@@ -391,6 +391,24 @@ export default function ModalDetailReport({
                       )
                     }
                   />
+                  {report?.ot_date && (
+                    <LabelValue
+                      label="FECHA OT"
+                      value={formatDate(report?.ot_date)}
+                    />
+                  )}
+                  {report?.ot_initial_date && (
+                    <LabelValue
+                      label="FECHA INICIO OT"
+                      value={formatDate(report?.ot_initial_date)}
+                    />
+                  )}
+                  {report?.ot_promise_date && (
+                    <LabelValue
+                      label="FECHA PROMESA OT"
+                      value={formatDate(report?.ot_promise_date)}
+                    />
+                  )}
                 </Grid>
               </Grid>
 
