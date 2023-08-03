@@ -495,4 +495,34 @@ const columns = [
       return <CheckLogo checked={value} />
     },
   },
+  {
+    field: 'ot_date',
+    headerName: 'FECHA OT',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+  },
+  {
+    field: 'ot_initial_date',
+    headerName: 'FECHA INICIO OT',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+  },
+  {
+    field: 'ot_promise_date',
+    headerName: 'FECHA PROMESA OT',
+    type: 'string',
+    width: 100,
+    valueFormatter: ({ value }) => {
+      if (value) return formatDate(value)
+      return null
+    },
+  },
 ]
