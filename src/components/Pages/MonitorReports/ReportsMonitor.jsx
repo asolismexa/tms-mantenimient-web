@@ -277,6 +277,7 @@ function ReportsMonitor() {
         setForm={setFormAddItem}
         onClose={closeAddReportItemModal}
         onAdd={onAddReportItem}
+        vehicleTypeId={formCreateReport?.vehicle?.type_id}
       />
       <ModalDetailReport
         loading={loadingReportDetail}
