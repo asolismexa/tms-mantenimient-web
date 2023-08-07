@@ -24,7 +24,6 @@ function ModalAddItems({
     vehicleTypeId == 2
       ? `${reportTypeBaseUrl}?vehicle_type_id=0`
       : reportTypeBaseUrl
-  console.log(form)
   return (
     <Dialog fullWidth maxWidth="sm" open={open}>
       <DialogTitle>Agregar Falla</DialogTitle>

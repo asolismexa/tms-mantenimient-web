@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import axios from 'axios'
-import { postReports } from '@/services/reports'
+import { postReports, uploadEvidence } from '@/services/reports'
 import { v4 as uuid } from 'uuid'
 
 export const useCreateReports = ({
@@ -77,7 +76,8 @@ export const useCreateReports = ({
     setFormCreateReport(createFormInitialState)
     setCreateError(null)
   }
-  const onCreateReports = ({ onSuccess, onFailure }) => {
+
+  const onCreateReports = async ({ onSuccess, onFailure }) => {
     const { vehicle, driver, shipment } = formCreateReport
 
     if (!vehicle) {
@@ -90,7 +90,9 @@ export const useCreateReports = ({
       return
     }
 
-    const data = []
+    setLoadingCreateReport(true)
+    const createdSucces = []
+
     for (const item of formCreateReport.items) {
       const formData = new FormData()
       formData.append('vehicle_id', vehicle.id)
@@ -103,29 +105,25 @@ export const useCreateReports = ({
         formData.append('shipment_id', shipment.shipment_id)
       }
 
-      for (const evidence of item.evidences) {
-        formData.append(evidence.name, evidence)
+      try {
+        const reportId = (await postReports(formData)).data
+        if (item.evidences.length !== 0) {
+          console.log('Creating with evidences ...')
+          uploadEvidence({ reportId, data: item.evidences })
+        }
+        createdSucces.push(reportId)
+      } catch (err) {
+        setCreateError(err?.message)
+        if (onFailure) onFailure(err?.message)
+        return
       }
-
-      data.push(formData)
     }
 
-    setLoadingCreateReport(true)
-    axios
-      .all(data.map((formData) => postReports(formData)))
-      .then((resp) => {
-        resetForms()
-        setCreateError(null)
-        setOpenCreateModal(false)
-        if (onSuccess) onSuccess(resp)
-      })
-      .catch((err) => {
-        setCreateError(err)
-        if (onFailure) onFailure(err)
-      })
-      .finally(() => {
-        setLoadingCreateReport(false)
-      })
+    if (onSuccess) onSuccess(createdSucces)
+    setLoadingCreateReport(false)
+    resetForms()
+    setCreateError(null)
+    setOpenCreateModal(false)
   }
 
   return {
