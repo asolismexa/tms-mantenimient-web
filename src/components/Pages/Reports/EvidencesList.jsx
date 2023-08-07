@@ -6,6 +6,8 @@ import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline'
 import { Link } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { openImageViewer } from '@/reducers/uiSlice'
+import { isVideo } from '@/utils/media'
+import videoLogo from '/video_icon.png'
 
 export default function EvidencesList({ evidences }) {
   const dispatch = useDispatch()
@@ -28,17 +30,19 @@ export default function EvidencesList({ evidences }) {
               height: '100%',
               objectFit: 'contain',
             }}
-            src={`${item.mediaLink}`}
+            src={isVideo(item.objectName) ? videoLogo : `${item.mediaLink}`}
             loading="lazy"
           />
           <ImageListItemBar
+            title={isVideo(item.objectName) ? 'VIDEO' : 'IMAGEN'}
             actionIcon={
-              <IconButton
-                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${item.title}`}
-              >
+              <IconButton aria-label={`info about ${item.title}`}>
                 <Link href={item.mediaLink} download>
-                  <DownloadForOfflineIcon color="white" />
+                  <DownloadForOfflineIcon
+                    sx={{
+                      color: '#fff',
+                    }}
+                  />
                 </Link>
               </IconButton>
             }
