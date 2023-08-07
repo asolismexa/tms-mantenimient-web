@@ -2,7 +2,7 @@ import MainFooter from '@components/Core/MainFooter'
 import AppBar from '@components/Core/AppBar'
 import MainContainer from '@components/Core/MainContainer'
 import { Outlet, useSearchParams } from 'react-router-dom'
-import ImageViewer from '../Core/ImageViewer'
+import MediaViewer from '../Core/MediaViewer'
 import { useSelector } from 'react-redux'
 import { selectImageViewer } from '@/reducers/uiSlice'
 
@@ -31,7 +31,11 @@ function Root() {
   return (
     <div>
       <AppBar />
-      <ImageViewer src={imageViewer.src} open={imageViewer.open} />
+      <MediaViewer
+        src={imageViewer.src}
+        open={imageViewer.open}
+        name={imageViewer.name}
+      />
       <MainContainer>
         <Outlet />
       </MainContainer>

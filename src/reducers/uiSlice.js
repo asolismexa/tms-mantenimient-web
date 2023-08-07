@@ -7,6 +7,7 @@ const initialState = {
   imageViewer: {
     open: false,
     src: null,
+    name: '',
   },
 }
 
@@ -24,8 +25,10 @@ const uiSlice = createSlice({
       state.sideBar.open = false
     },
     openImageViewer(state, action) {
+      console.log('Opening ', action.payload.name)
       state.imageViewer.open = true
-      state.imageViewer.src = action.payload
+      state.imageViewer.src = action.payload.src
+      state.imageViewer.name = action.payload.name
     },
     closeImageViewer(state) {
       state.imageViewer.open = false

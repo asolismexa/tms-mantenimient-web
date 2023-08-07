@@ -48,6 +48,7 @@ const FileInput = ({
             setError(null)
             onChange([...e.target.files])
           }}
+          accept="image/*,video/*"
         />
       </Button>
       {error && (

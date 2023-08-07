@@ -9,8 +9,8 @@ import { openImageViewer } from '@/reducers/uiSlice'
 
 export default function EvidencesList({ evidences }) {
   const dispatch = useDispatch()
-  const handleOpenViewer = (src = '') => {
-    dispatch(openImageViewer(src))
+  const handleOpenViewer = (src = '', name = '') => {
+    dispatch(openImageViewer({ src, name }))
   }
 
   return (
@@ -21,7 +21,7 @@ export default function EvidencesList({ evidences }) {
             cursor: 'pointer',
           }}
           key={item.id}
-          onClick={() => handleOpenViewer(item?.mediaLink)}
+          onClick={() => handleOpenViewer(item?.mediaLink, item?.objectName)}
         >
           <img
             style={{
