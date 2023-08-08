@@ -241,9 +241,9 @@ function ReportsMonitor() {
         <Grid item xs={10}>
           <CustomDataGrid
             loading={loadingReports}
-            getRowHeight={() => 'auto'}
             columns={columns}
             rows={reports}
+            rowHeight={65}
             disableColumnSelector
             disableDensitySelector
             onRowDoubleClick={handleSelectReport}
@@ -372,6 +372,11 @@ const columns = [
       if (value === null) return null
       return <CheckLogo checked={value} />
     },
+  },
+  {
+    field: 'last_observation',
+    headerName: 'ULTIMA OBSERVACION',
+    width: 200,
   },
   {
     field: 'has_evidences',

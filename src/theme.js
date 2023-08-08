@@ -40,7 +40,6 @@ const theme = createTheme({
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          verticalAlign: 'middle!important',
           whiteSpace: 'break-spaces!important',
           '.odd': {
             backgroundColor: '#F2F5F9!important',
@@ -57,9 +56,10 @@ const theme = createTheme({
             backgroundColor: '#eee!important',
           },
           '& .MuiDataGrid-cell': {
+            display: 'flex',
+            'align-items': 'start',
             whiteSpace: 'break-spaces!important',
             padding: '2px!important',
-            minHeight: '4em!important',
           },
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 'bold!important',

@@ -102,7 +102,7 @@ export const reportsColumns = [
   },
   {
     field: 'cell',
-    headerName: 'CELULA OPERATIVA',
+    headerName: 'CE OP',
     width: 150,
     renderHeader: ({ colDef: { headerName } }) => (
       <AsyncSelectHeader
@@ -170,7 +170,7 @@ export const reportsColumns = [
   {
     field: 'last_observation',
     headerName: 'ULTIMA OBSERVACION',
-    width: 130,
+    width: 200,
   },
   {
     field: 'has_evidences',
