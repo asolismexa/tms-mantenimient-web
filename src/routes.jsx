@@ -21,3 +21,19 @@ export const router = createBrowserRouter([
     ],
   },
 ])
+
+export const monitorPaths = [
+  {
+    id: 1,
+    path: 'monitor/reports',
+    label: 'Reportes',
+  },
+]
+
+export const queryPaths = [
+  {
+    id: 1,
+    path: 'reports',
+    label: 'Reportes',
+  },
+]

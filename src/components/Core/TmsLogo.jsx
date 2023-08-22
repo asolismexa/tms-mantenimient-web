@@ -7,7 +7,7 @@ function TmsLogo() {
       <Stack direction="row" alignItems="center" spacing={1.4}>
         <img width={50} height={50} src={tmsLogo} alt="Logo de TMS" />
         <Typography variant="h6" color="primary">
-          Mantenimiento
+          tmsLOGSYS
         </Typography>
       </Stack>
     </Box>
