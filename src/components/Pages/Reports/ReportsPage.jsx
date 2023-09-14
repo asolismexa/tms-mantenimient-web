@@ -184,7 +184,6 @@ function ReportsMonitor() {
             />
             <AutoCompleteStatus
               onChange={(_, value) => handleChangeFilter('status', value)}
-              exclude={[6]}
               value={filters.status}
               extendOptions={[
                 {

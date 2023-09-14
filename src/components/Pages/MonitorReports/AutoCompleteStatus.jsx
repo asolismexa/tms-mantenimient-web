@@ -14,7 +14,7 @@ function AutoCompleteStatus({ onChange, value, ...props }) {
       inputProps={{
         size: 'small',
       }}
-      idOrdering={[1, 2, 5, 3, 4, 6, 8]}
+      exclude={[1, 2, 5]}
       {...props}
     />
   )
