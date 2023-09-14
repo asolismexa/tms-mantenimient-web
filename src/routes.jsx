@@ -26,7 +26,7 @@ export const monitorPaths = [
   {
     id: 1,
     path: 'monitor/reports',
-    label: 'Reportes',
+    label: 'REPORTE MTO',
   },
 ]
 
@@ -34,6 +34,6 @@ export const queryPaths = [
   {
     id: 1,
     path: 'reports',
-    label: 'Reportes',
+    label: 'CONSULTA CERRADOS',
   },
 ]

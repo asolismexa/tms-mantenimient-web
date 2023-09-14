@@ -24,8 +24,8 @@ function NavBar() {
             gap: '0.5rem',
           }}
         >
-          <NavMenu label="Monitores" items={monitorPaths} />
-          <NavMenu label="Consulta" items={queryPaths} />
+          <NavMenu label="MONITOR" items={monitorPaths} />
+          <NavMenu label="CONSULTA CERRADOS" items={queryPaths} />
         </Box>
       </Grid>
       <Grid
