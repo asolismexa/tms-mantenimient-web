@@ -221,6 +221,7 @@ function ReportsMonitor() {
               label="FECHA INICIO"
               margin="dense"
               size="small"
+              ampm={false}
               onChange={(val) => handleChangeDate('from_time', val)}
               value={getDateValue(filters.from_time)}
               disabled={!filters.status}
@@ -230,6 +231,7 @@ function ReportsMonitor() {
               format="DD / MM / YYYY"
               label="FECHA FIN"
               margin="dense"
+              ampm={false}
               size="small"
               onChange={(val) => handleChangeDate('to_time', val)}
               value={getDateValue(filters.to_time)}
