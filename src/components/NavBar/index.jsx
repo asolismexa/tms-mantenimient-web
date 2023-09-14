@@ -36,7 +36,7 @@ function NavBar() {
         item
       >
         <Typography>
-          Bienvenid&#64; {Window?.app?.descriptor ?? 'Desconocido'}
+          Bienvenid&#64; {window?.App?.descriptor ?? 'Desconocido'}
         </Typography>
       </Grid>
     </Grid>
