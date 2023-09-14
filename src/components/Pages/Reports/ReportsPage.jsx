@@ -189,7 +189,7 @@ function ReportsMonitor() {
               extendOptions={[
                 {
                   id: 8,
-                  name: 'CERRADOS',
+                  name: '[CERRADOS]',
                 },
               ]}
             />
