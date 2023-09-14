@@ -61,6 +61,7 @@ export const reportsColumns = [
   {
     field: 'vehicle_type_id',
     headerName: 'TIPO UNIDAD',
+    width: 150,
     valueFormatter: ({ value }) => {
       return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
     },
@@ -136,7 +137,7 @@ export const reportsColumns = [
   {
     field: 'status',
     headerName: 'ESTATUS',
-    width: 100,
+    width: 150,
     renderHeader: ({ colDef: { headerName } }) => (
       <AsyncSelectHeader
         headerName={headerName}
