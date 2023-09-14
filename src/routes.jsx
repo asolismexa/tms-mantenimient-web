@@ -34,6 +34,6 @@ export const queryPaths = [
   {
     id: 1,
     path: 'reports',
-    label: 'CONSULTA CERRADOS',
+    label: 'REPORTE MTO CERRADOS',
   },
 ]

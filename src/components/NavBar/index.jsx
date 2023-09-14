@@ -25,7 +25,7 @@ function NavBar() {
           }}
         >
           <NavMenu label="MONITOR" items={monitorPaths} />
-          <NavMenu label="CONSULTA CERRADOS" items={queryPaths} />
+          <NavMenu label="CONSULTA" items={queryPaths} />
         </Box>
       </Grid>
       <Grid
