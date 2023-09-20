@@ -25,7 +25,6 @@ const reportMonitorSlice = createSlice({
   reducers: {
     setFilters(state, action) {
       state.filters = action.payload
-      console.log(state.filters)
     },
   },
 })

@@ -35,6 +35,9 @@ function CustomDataGrid({
           sx={{
             width: '100%',
             height: '80vh',
+            '.blue': {
+              color: 'blue!important',
+            },
           }}
           columns={columns}
           rows={rows}
@@ -43,6 +46,9 @@ function CustomDataGrid({
             pagination: () => null,
           }}
           hideFooter={false}
+          getRowClassName={(params) => {
+            return params.row.row_color
+          }}
           {...props}
         />
       </Grid>

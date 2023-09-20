@@ -35,17 +35,21 @@ export const reportsColumns = [
         onChange={(e) => handleChangeFilter(e, 'folio')}
       />
     ),
+    renderCell: ({ value, row }) => {
+      return <span>{value !== 0 ? value : row.total_rows}</span>
+    },
   },
   {
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
-    type: 'dateTime',
+    type: 'string',
     width: 110,
     valueFormatter: ({ value }) => {
-      return formatDate(value)
+      if (value) return formatDate(value)
+      return null
     },
     valueGetter: ({ value }) => {
-      return value ? utcToLocal(value) : 'Sin fecha'
+      return value ? utcToLocal(value) : null
     },
   },
   {
@@ -165,6 +169,7 @@ export const reportsColumns = [
     width: 100,
     renderCell: ({ value }) => {
       if (value === null) return null
+      if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     },
   },
@@ -180,6 +185,7 @@ export const reportsColumns = [
     width: 100,
     renderCell: ({ value }) => {
       if (value === null) return null
+      if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     },
   },

@@ -28,7 +28,7 @@ function ErrorPage() {
       >
         {errorMessages[error.status]}
       </Typography>
-      <Link to="maintenance.web/">
+      <Link to="/maintenance.web">
         <Button>
           <ArrowLeftIcon />
           <Typography variant="body1">Volver</Typography>

@@ -15,6 +15,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack'
 import { reportsColumns } from '@/components/Reports/columns'
 import { useSelector } from 'react-redux'
 import { selectFilters } from '@/reducers/reportMonitorSlice'
+import { setAggregatedRow } from '@/components/Reports/blueRow'
 
 const createFormInitialState = {
   vehicle: null,
@@ -90,7 +91,8 @@ function ReportsMonitor() {
       end: newEnd,
     }))
   }
-  const handleOpenDetailModal = ({ id }) => {
+  const handleOpenDetailModal = ({ id, row }) => {
+    if (row.row_color === 'blue') return
     setReportId(id)
     openDetail()
   }
@@ -209,6 +211,11 @@ function ReportsMonitor() {
     return filtered
   }
 
+  const getRows = () => {
+    const reports = filteredReports()
+    return [setAggregatedRow(reports), ...reports]
+  }
+
   return (
     <Box sx={{ m: 2 }}>
       <Stack direction="row" spacing={3}>
@@ -232,7 +239,7 @@ function ReportsMonitor() {
       <CustomDataGrid
         loading={loading}
         columns={reportsColumns}
-        rows={filteredReports()}
+        rows={getRows()}
         page={pagination.page + 1}
         pageCount={pagination.pageCount}
         onPageChange={handleOnPageChange}
