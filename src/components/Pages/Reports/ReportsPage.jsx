@@ -316,6 +316,9 @@ const columns = [
     field: 'id',
     headerName: 'FOLIO',
     width: 100,
+    renderCell: ({ value, row }) => {
+      return <span>{value !== 0 ? value : row.total_rows}</span>
+    },
   },
   {
     field: 'time',

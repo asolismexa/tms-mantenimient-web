@@ -51,7 +51,7 @@ export const blueRow = {
   canceled_by_id: null,
   canceled_on: null,
   odometer: 0,
-  last_observation: 'luces interiores',
+  last_observation: '',
   ot_date: null,
   ot_initial_date: null,
   ot_promise_date: null,
