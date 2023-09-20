@@ -41,6 +41,7 @@ import { NoteAdd } from '@mui/icons-material'
 import { mettersToKilometers } from '@/utils/numbers'
 import { useGridApiRef } from '@mui/x-data-grid'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
+import { setAggregatedRow } from '@/components/Reports/blueRow'
 
 const inputStyles = {
   width: '100%',
@@ -138,6 +139,10 @@ function ReportsMonitor() {
   const onFailureCreateReports = (err) => {
     console.log('onErrorCreateReports')
     console.log(err)
+  }
+
+  const getRows = () => {
+    return [setAggregatedRow(reports), ...reports]
   }
 
   return (
@@ -243,7 +248,7 @@ function ReportsMonitor() {
           <CustomDataGrid
             loading={loadingReports}
             columns={columns}
-            rows={reports}
+            rows={getRows()}
             rowHeight={65}
             disableColumnSelector
             disableDensitySelector
@@ -318,10 +323,11 @@ const columns = [
     type: 'dateTime',
     width: 120,
     valueFormatter: ({ value }) => {
-      return formatDate(value)
+      if (value) return formatDate(value)
+      return null
     },
     valueGetter: ({ value }) => {
-      return value ? utcToLocal(value) : 'Sin fecha'
+      return value ? utcToLocal(value) : null
     },
   },
   {
@@ -368,9 +374,9 @@ const columns = [
     headerName: 'OBS',
     type: 'boolean',
     width: 50,
-
     renderCell: ({ value }) => {
       if (value === null) return null
+      if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     },
   },
@@ -386,6 +392,7 @@ const columns = [
     width: 50,
     renderCell: ({ value }) => {
       if (value === null) return null
+      if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     },
   },
