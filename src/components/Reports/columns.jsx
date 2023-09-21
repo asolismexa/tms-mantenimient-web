@@ -67,6 +67,7 @@ export const reportsColumns = [
     headerName: 'TIPO UNIDAD',
     width: 150,
     valueFormatter: ({ value }) => {
+      if (typeof value === 'string') return value
       return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
     },
     renderHeader: ({ colDef: { headerName } }) => (

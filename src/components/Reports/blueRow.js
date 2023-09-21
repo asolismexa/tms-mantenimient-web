@@ -76,6 +76,14 @@ export const setAggregatedRow = (reports = []) => {
 
   aggregatedRow.odometer = ''
 
+  // Get all unique vehicle types
+  const vehicleTypeSet = new Set()
+  reports.forEach((report) => {
+    if (!report.vehicle_type_id) return
+    vehicleTypeSet.add(report.vehicle_type_id)
+  })
+  aggregatedRow.vehicle_type_id = vehicleTypeSet.size.toString()
+
   // GET all unique drivers
   const driverSet = new Set()
   reports.forEach((report) => {
