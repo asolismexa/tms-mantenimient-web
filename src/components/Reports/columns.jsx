@@ -148,6 +148,7 @@ export const reportsColumns = [
         headerName={headerName}
         url={reportStatusUrl}
         onChange={(e) => handleChangeFilter(e, 'status')}
+        exclude={[3, 4, 6]}
       />
     ),
   },

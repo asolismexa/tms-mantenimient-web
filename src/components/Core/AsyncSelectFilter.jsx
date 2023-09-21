@@ -5,8 +5,20 @@ function AsyncSelectFilter({
   onClick,
   onChange,
   optNameKey = 'name',
+  idOrdering = [],
+  exclude = [],
 }) {
   const { options, setOpen, loading } = useFetchOptions(url)
+
+  const filterOptions = (options = []) =>
+    options.filter((option) => !exclude.includes(option.id))
+
+  const orderOptions = (options = []) => {
+    if (idOrdering.length === 0) return options
+    return options.sort((a, b) => {
+      return idOrdering.indexOf(a.id) - idOrdering.indexOf(b.id)
+    })
+  }
 
   return (
     <select
@@ -19,7 +31,7 @@ function AsyncSelectFilter({
     >
       <option value={0}>[TODOS]</option>
       {loading && '...'}
-      {options.map((opt) => (
+      {orderOptions(filterOptions(options)).map((opt) => (
         <option key={opt.id} value={opt.id}>
           {opt[optNameKey]}
         </option>

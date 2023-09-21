@@ -58,12 +58,23 @@ export function SelectFilterHeader({
   )
 }
 
-export function AsyncSelectHeader({ headerName, url, onClick, onChange }) {
+export function AsyncSelectHeader({
+  headerName,
+  url,
+  onClick,
+  onChange,
+  ...props
+}) {
   const handleClick = onClick ? onClick : stopEvents
 
   return (
     <FilterHeader headerName={headerName}>
-      <AsyncSelectFilter url={url} onClick={handleClick} onChange={onChange} />
+      <AsyncSelectFilter
+        url={url}
+        onClick={handleClick}
+        onChange={onChange}
+        {...props}
+      />
     </FilterHeader>
   )
 }
