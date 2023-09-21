@@ -139,5 +139,45 @@ export const setAggregatedRow = (reports = []) => {
   })
   aggregatedRow.user = userSet.size
 
+  // Get all unique user assigned
+  const assignedBySet = new Set()
+  reports.forEach((report) => {
+    if (!report.assigned_by) return
+    assignedBySet.add(report.assigned_by)
+  })
+  aggregatedRow.assigned_by = assignedBySet.size
+
+  // Get all unique user attended
+  const attendedBySet = new Set()
+  reports.forEach((report) => {
+    if (!report.attended_by) return
+    attendedBySet.add(report.attended_by)
+  })
+  aggregatedRow.attended_by = attendedBySet.size
+
+  // Get all unique user validated
+  const validatedBySet = new Set()
+  reports.forEach((report) => {
+    if (!report.validated_by) return
+    validatedBySet.add(report.validated_by)
+  })
+  aggregatedRow.validated_by = validatedBySet.size
+
+  // Get all unique user processed
+  const processedBySet = new Set()
+  reports.forEach((report) => {
+    if (!report.process_by) return
+    processedBySet.add(report.process_by)
+  })
+  aggregatedRow.process_by = processedBySet.size
+
+  // Get all unique user canceled
+  const canceledBySet = new Set()
+  reports.forEach((report) => {
+    if (!report.canceled_by) return
+    canceledBySet.add(report.canceled_by)
+  })
+  aggregatedRow.canceled_by = canceledBySet.size
+
   return aggregatedRow
 }
