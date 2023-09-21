@@ -507,6 +507,7 @@ const columns = [
     type: 'boolean',
     width: 100,
     renderCell: ({ value }) => {
+      if (typeof value === 'number') return value
       if (value === null) return null
       return <CheckLogo checked={value} />
     },

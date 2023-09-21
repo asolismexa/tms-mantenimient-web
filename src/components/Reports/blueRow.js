@@ -179,5 +179,10 @@ export const setAggregatedRow = (reports = []) => {
   })
   aggregatedRow.canceled_by = canceledBySet.size
 
+  // Count evaluated reports
+  aggregatedRow.validated_success = reports.filter(
+    (report) => report.validated_success,
+  ).length
+
   return aggregatedRow
 }
