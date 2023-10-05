@@ -1,4 +1,3 @@
-import MainFooter from '@components/Core/MainFooter'
 import AppBar from '@components/Core/AppBar'
 import MainContainer from '@components/Core/MainContainer'
 import { Outlet, useSearchParams } from 'react-router-dom'
@@ -39,7 +38,6 @@ function Root() {
       <MainContainer>
         <Outlet />
       </MainContainer>
-      <MainFooter />
     </div>
   )
 }

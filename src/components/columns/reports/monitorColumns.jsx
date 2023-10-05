@@ -1,42 +1,33 @@
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
-import { store } from '@/store'
-import { setFilters } from '@/reducers/reportMonitorSlice'
 import { reportStatusUrl } from '@/services/reportStatus'
 import {
   AsyncSelectHeader,
   SelectFilterHeader,
   TextFilterHeader,
-} from '../Core/headers'
+} from '@components/Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
 import { groupsBaseUrl } from '@/services/vehicles'
+import { CustomHeader } from '@/components/columns/CustomHeader'
 
-const { dispatch } = store
-
-const handleChangeFilter = (e, filterName) => {
-  const filters = store.getState().reportMonitor.filters
-  dispatch(
-    setFilters({
-      ...filters,
-      [filterName]: e.target.value,
-    }),
-  )
+export const stopEvents = (e) => {
+  e.preventDefault()
+  e.stopPropagation()
 }
 
-export const reportsColumns = [
+export const createMonitorColumns = ({ filters = [], aggregations = [] }) => [
   {
     field: 'id',
     headerName: 'FOLIO',
-    width: 150,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'folio')}
-      />
-    ),
-    renderCell: ({ value, row }) => {
-      return <span>{value !== 0 ? value : row.total_rows}</span>
+    width: 200,
+    renderHeader: ({ colDef: { headerName } }) => {
+      return (
+        <CustomHeader title={headerName}>
+          <div>0</div>
+          <input type="text" onClick={stopEvents} />
+        </CustomHeader>
+      )
     },
   },
   {
@@ -51,16 +42,24 @@ export const reportsColumns = [
     valueGetter: ({ value }) => {
       return value ? utcToLocal(value) : null
     },
+    renderHeader: ({ colDef: { headerName } }) => {
+      return (
+        <CustomHeader title={headerName}>
+          <div>0</div>
+        </CustomHeader>
+      )
+    },
   },
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'vehicle')}
-      />
-    ),
+    renderHeader: ({ colDef: { headerName } }) => {
+      return (
+        <CustomHeader title={headerName} onClick={stopEvents}>
+          <div>0</div>
+        </CustomHeader>
+      )
+    },
   },
   {
     field: 'vehicle_type_id',
@@ -70,26 +69,20 @@ export const reportsColumns = [
       if (typeof value === 'string') return value
       return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
     },
-    renderHeader: ({ colDef: { headerName } }) => (
-      <SelectFilterHeader
-        headerName={headerName}
-        options={[
-          { id: 1, name: 'MOTRIZ' },
-          { id: 2, name: 'REMOLQUE' },
-          { id: 3, name: 'DOLLY' },
-        ]}
-        onChange={(e) => handleChangeFilter(e, 'vehicleType')}
-      />
-    ),
+    renderHeader: ({ colDef: { headerName } }) => {
+      return (
+        <CustomHeader title={headerName}>
+          <div>0</div>
+          <input type="text" onClick={stopEvents} />
+        </CustomHeader>
+      )
+    },
   },
   {
     field: 'odometer',
     headerName: 'ODOMETRO',
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'odometer')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
     valueFormatter: ({ value }) => {
       if (value) return mettersToKilometers(value)
@@ -101,10 +94,7 @@ export const reportsColumns = [
     headerName: 'OPERADOR',
     width: 150,
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'driver')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {
@@ -112,21 +102,14 @@ export const reportsColumns = [
     headerName: 'CE OP',
     width: 150,
     renderHeader: ({ colDef: { headerName } }) => (
-      <AsyncSelectHeader
-        headerName={headerName}
-        url={groupsBaseUrl}
-        onChange={(e) => handleChangeFilter(e, 'cell')}
-      />
+      <AsyncSelectHeader headerName={headerName} url={groupsBaseUrl} />
     ),
   },
   {
     field: 'shipment_id',
     headerName: 'SOLICITUD',
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'shipment')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {
@@ -134,10 +117,7 @@ export const reportsColumns = [
     headerName: 'OT',
     wdith: 150,
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'ot')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {
@@ -148,7 +128,6 @@ export const reportsColumns = [
       <AsyncSelectHeader
         headerName={headerName}
         url={reportStatusUrl}
-        onChange={(e) => handleChangeFilter(e, 'status')}
         exclude={[3, 4, 6]}
       />
     ),
@@ -158,11 +137,7 @@ export const reportsColumns = [
     headerName: 'TIPO FALLA',
     width: 200,
     renderHeader: ({ colDef: { headerName } }) => (
-      <AsyncSelectHeader
-        headerName={headerName}
-        url={reportTypeBaseUrl}
-        onChange={(e) => handleChangeFilter(e, 'reportType')}
-      />
+      <AsyncSelectHeader headerName={headerName} url={reportTypeBaseUrl} />
     ),
   },
   {
@@ -198,10 +173,7 @@ export const reportsColumns = [
     type: 'string',
     width: 130,
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'user')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {
@@ -221,10 +193,7 @@ export const reportsColumns = [
     width: 170,
     headerClassNames: 'MuiDataGrid-columnHeaderTitle',
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'userAssign')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {
@@ -244,10 +213,7 @@ export const reportsColumns = [
     type: 'string',
     width: 180,
     renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader
-        headerName={headerName}
-        onChange={(e) => handleChangeFilter(e, 'userProcess')}
-      />
+      <TextFilterHeader headerName={headerName} />
     ),
   },
   {

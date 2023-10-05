@@ -1,6 +1,7 @@
 import { Grid } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import CustomPagination from '../Core/Pagination'
+import CustomExportToolbar from '@/components/custom/CustomExportToolbar'
 
 function CustomDataGrid({
   rows,
@@ -8,7 +9,6 @@ function CustomDataGrid({
   page,
   pageCount,
   onPageChange,
-  slots,
   ...props
 }) {
   return (
@@ -30,24 +30,27 @@ function CustomDataGrid({
         xs={12}
       >
         <DataGrid
-          paginationMode="server"
-          pagination
           sx={{
-            width: '100%',
-            height: '80vh',
-            '.blue': {
-              color: 'blue!important',
-            },
+            height: '70vh',
           }}
-          columns={columns}
           rows={rows}
+          columns={columns}
+          density="comfortable"
+          getRowHeight={() => 'auto'}
+          paginationMode="server"
           slots={{
-            ...(slots ? slots : {}),
-            pagination: () => null,
+            toolbar: CustomExportToolbar,
+            footer: () => null,
           }}
-          hideFooter={false}
-          getRowClassName={(params) => {
-            return params.row.row_color
+          getRowClassName={({ row, indexRelativeToCurrentPage }) => {
+            let className =
+              indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+            if (row.isConsolidated) className += 'consolidated'
+            return className
+          }}
+          localeText={{
+            toolbarExport: 'Exportar',
+            toolbarExportCSV: 'CSV',
           }}
           {...props}
         />

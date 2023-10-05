@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material'
-import validationInputBg from './assets/icons/validationInputBg.png'
 
 const theme = createTheme({
   palette: {
@@ -14,11 +13,16 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          color: '#ffffff',
-          backgroundColor: '#166ba2',
-          borderRadius: '25px',
+          color: 'white!important',
+          backgroundColor: '#166ba2!important',
+          borderRadius: '25px!important',
+          border: '1px solid transparent !important',
+          backgroundImage: 'none!important',
+          padding: '0 0.3em',
+          float: 'none!important',
+          verticalAlign: 'middle!important',
           ':hover': {
-            backgroundColor: '#e9931a',
+            backgroundColor: '#e9931a!important;',
           },
         },
       },
@@ -40,6 +44,12 @@ const theme = createTheme({
     MuiDataGrid: {
       styleOverrides: {
         root: {
+          fontSize: '12px!important',
+          borderWidth: '0!important',
+          textAlign: 'left!important',
+          padding: '2px!important',
+          verticalAlign: 'middle!important',
+          fontFamily: 'Helvetica!important',
           whiteSpace: 'break-spaces!important',
           '.odd': {
             backgroundColor: '#F2F5F9!important',
@@ -49,23 +59,31 @@ const theme = createTheme({
             fontWeight: 'bold!important',
           },
           '& .MuiDataGrid-row.Mui-selected': {
-            backgroundColor: '#A5BBD5',
+            backgroundColor: '#A5BBD5!important',
             border: '1px dotted gray!important',
           },
           '& .MuiDataGrid-columnHeader': {
             backgroundColor: '#eee!important',
+            height: '100px!important',
+            alignItems: 'start',
+          },
+          '.MuiDataGrid-columnHeadersInner': {
+            height: '100px!important',
           },
           '& .MuiDataGrid-cell': {
-            display: 'flex',
-            'align-items': 'start',
             whiteSpace: 'break-spaces!important',
             padding: '2px!important',
+            minHeight: '4em!important',
           },
           '& .MuiDataGrid-columnHeaderTitle': {
             fontWeight: 'bold!important',
             overflow: 'hidden',
             lineHeight: '20px',
             whiteSpace: 'normal',
+            height: '100%!important',
+          },
+          '.MuiDataGrid-columnHeaders': {
+            minHeight: '100px!important',
           },
         },
       },
@@ -81,12 +99,6 @@ const theme = createTheme({
             color: 'white!important',
           },
         }),
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        background: `#fff url(/assets/icons/${validationInputBg}) repeat-x top left !important`,
-        root: {},
       },
     },
   },
