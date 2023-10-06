@@ -11,10 +11,9 @@ import { useFetchReportDetail } from '@/hooks/fetchReportDetail'
 import ModalDetailReport from './ModalDetailReport'
 import { useCreateReports } from '@/hooks/useCreateReports'
 import { SnackbarProvider, useSnackbar } from 'notistack'
-import { useSelector } from 'react-redux'
-import { selectFilters } from '@/reducers/reportMonitorSlice'
 import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
 import TollBar from '@/components/Pages/MonitorReports/TollBar'
+import { useFilterReports } from '@/hooks/useFilterReports'
 
 const createFormInitialState = {
   vehicle: null,
@@ -30,6 +29,18 @@ const addItemFormInitialState = {
   error: null,
 }
 
+const initialFilters = () => ({
+  folio: '',
+  vehicle: '',
+  odometer: '',
+  driver: '',
+  cell: '0',
+  vehicleType: '',
+  shipment: '',
+  ot: '',
+  status: '',
+})
+
 function ReportsMonitor() {
   const { enqueueSnackbar } = useSnackbar()
   const { reports, loading, pagination, setPagination, setRefresh } =
@@ -43,8 +54,13 @@ function ReportsMonitor() {
     openModalDetail,
     refreshReportDetail,
   } = useFetchReportDetail()
+
   const [tab, setTab] = useState(0)
-  const filters = useSelector(selectFilters)
+
+  const { onFilterChange, filteredReports } = useFilterReports({
+    initialFilters,
+    reports,
+  })
 
   const {
     formCreateReport,
@@ -110,112 +126,12 @@ function ReportsMonitor() {
     setTab(0)
   }
 
-  const filteredReports = () => {
-    const folio = filters.folio.trim()
-    const status = filters.status
-    const vehicle = filters.vehicle.trim()
-    const vehicleType = filters.vehicleType
-    const odometer = filters.odometer
-    const driver = filters.driver.toUpperCase()
-    const shipment = filters.shipment.toUpperCase()
-    const ot = filters.ot.toUpperCase()
-    const reportType = filters.reportType
-    const user = filters.user.toLowerCase()
-    const userAssign = filters.userAssign.toLowerCase()
-    const userProcess = filters.userProcess.toLowerCase()
-    const cell = filters.cell
-
-    let filtered = []
-
-    // By Folio
-    filtered = reports.filter((report) => {
-      return filters.folio === '' || report.id.toString().includes(folio)
-    })
-
-    // By Status
-    filtered = filtered.filter((report) => {
-      return status == 0 || report.status_id == status
-    })
-
-    // By Vehicle
-    filtered = filtered.filter((report) => {
-      return filters.vehicle === '' || report.vehicle.includes(vehicle)
-    })
-
-    // By Vehicle
-    filtered = filtered.filter((report) => {
-      return filters.vehicle === '' || report.vehicle.includes(vehicle)
-    })
-
-    // By Vehicle Type
-    filtered = filtered.filter((report) => {
-      return vehicleType == 0 || report.vehicle_type_id == vehicleType
-    })
-
-    // By Odometer
-    filtered = filtered.filter((report) => {
-      return (
-        Boolean(!odometer) || report.odometer?.toString().includes(odometer)
-      )
-    })
-
-    // By Driver
-    filtered = filtered.filter((report) => {
-      return filters.driver === '' || report?.driver?.includes(driver)
-    })
-
-    // By Shipment
-    filtered = filtered.filter((report) => {
-      const shipement_id = report?.shipment_id?.toString()
-      return filters.shipment === '' || shipement_id?.includes(shipment)
-    })
-
-    // By OT
-    filtered = filtered.filter((report) => {
-      const ot_id = report?.ot?.toString()
-      return filters.ot === '' || ot_id?.includes(ot)
-    })
-
-    // By Report Type
-    filtered = filtered.filter((report) => {
-      return reportType == 0 || report.report_type_id == reportType
-    })
-
-    // By User
-    filtered = filtered.filter((report) => {
-      return filters.user === '' || report?.user?.toLowerCase()?.includes(user)
-    })
-
-    // By User Assign
-    filtered = filtered.filter((report) => {
-      return (
-        filters.userAssign === '' ||
-        report?.assigned_by?.toLowerCase()?.includes(userAssign)
-      )
-    })
-
-    // By Use Process
-    filtered = filtered.filter((report) => {
-      return (
-        filters.userProcess === '' ||
-        report?.process_by?.toLowerCase().includes(userProcess)
-      )
-    })
-
-    // By Cell Id
-    filtered = filtered.filter((report) => {
-      return cell == 0 || report.cell_id == cell
-    })
-
-    return filtered
-  }
-
   return (
     <Box sx={{ m: 2 }}>
       <CustomDataGrid
         loading={loading}
-        columns={createMonitorColumns({})}
-        rows={reports}
+        columns={createMonitorColumns({ onFilterChange })}
+        rows={filteredReports}
         page={pagination.page + 1}
         pageCount={pagination.pageCount}
         disableColumnMenu
@@ -224,7 +140,12 @@ function ReportsMonitor() {
         onCellDoubleClick={handleSetDetailTab}
         rowCount={reports?.length ?? 0}
         slots={{
-          toolbar: TollBar,
+          toolbar: () => (
+            <TollBar
+              onOpenCreateReportsModal={onOpenCreateReportsModal}
+              setRefresh={setRefresh}
+            />
+          ),
           footer: () => null,
         }}
       />

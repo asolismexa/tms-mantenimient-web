@@ -28,6 +28,11 @@ function AsyncSelectFilter({
       }}
       onChange={onChange}
       defaultValue={0}
+      style={{
+        display: 'block',
+        width: '100%',
+        outline: 'none',
+      }}
     >
       <option value={0}>[TODOS]</option>
       {loading && '...'}

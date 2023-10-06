@@ -1,32 +1,36 @@
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
+import Typography from '@mui/material/Typography'
 import { reportStatusUrl } from '@/services/reportStatus'
-import {
-  AsyncSelectHeader,
-  SelectFilterHeader,
-  TextFilterHeader,
-} from '@components/Core/headers'
+import { AsyncSelectHeader, TextFilterHeader } from '@components/Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
 import { groupsBaseUrl } from '@/services/vehicles'
 import { CustomHeader } from '@/components/columns/CustomHeader'
+import { Stack, TextField } from '@mui/material'
+import InputTextHeader from '@/components/columns/InputTextHeader'
+import { SelectAsyncHeader } from '@/components/columns/SelectAsyncHeader'
+import { SelectHeader } from '@/components/columns/SelectHeader'
+import { VEHICLE_TYPES_LIST } from '@/enums/vehicles'
 
 export const stopEvents = (e) => {
   e.preventDefault()
   e.stopPropagation()
 }
 
-export const createMonitorColumns = ({ filters = [], aggregations = [] }) => [
+export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
   {
     field: 'id',
     headerName: 'FOLIO',
-    width: 200,
-    renderHeader: ({ colDef: { headerName } }) => {
+    minWidth: 120,
+    renderHeader: () => {
       return (
-        <CustomHeader title={headerName}>
-          <div>0</div>
-          <input type="text" onClick={stopEvents} />
-        </CustomHeader>
+        <InputTextHeader
+          label="FOLIO"
+          onChange={({ target }) => onFilterChange('folio', target.value)}
+        >
+          <div style={{ color: 'blue', textAlign: 'center' }}>0</div>
+        </InputTextHeader>
       )
     },
   },
@@ -53,11 +57,15 @@ export const createMonitorColumns = ({ filters = [], aggregations = [] }) => [
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
-    renderHeader: ({ colDef: { headerName } }) => {
+    width: 120,
+    renderHeader: () => {
       return (
-        <CustomHeader title={headerName} onClick={stopEvents}>
-          <div>0</div>
-        </CustomHeader>
+        <InputTextHeader
+          label="UNIDAD"
+          onChange={({ target }) => onFilterChange('vehicle', target.value)}
+        >
+          0
+        </InputTextHeader>
       )
     },
   },
@@ -69,75 +77,121 @@ export const createMonitorColumns = ({ filters = [], aggregations = [] }) => [
       if (typeof value === 'string') return value
       return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
     },
-    renderHeader: ({ colDef: { headerName } }) => {
+    renderHeader: () => {
       return (
-        <CustomHeader title={headerName}>
-          <div>0</div>
-          <input type="text" onClick={stopEvents} />
-        </CustomHeader>
+        <SelectHeader
+          label="TIPO UNIDAD"
+          options={VEHICLE_TYPES_LIST}
+          onChange={({ target }) => onFilterChange('vehicleType', target.value)}
+        >
+          0
+        </SelectHeader>
       )
     },
   },
   {
     field: 'odometer',
     headerName: 'ODOMETRO',
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
-    ),
+    width: 130,
     valueFormatter: ({ value }) => {
       if (value) return mettersToKilometers(value)
       return null
+    },
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="ODOMETRO"
+          onChange={({ target }) => onFilterChange('odometer', target.value)}
+        >
+          <div style={{ color: 'blue', textAlign: 'center' }}>0</div>
+        </InputTextHeader>
+      )
     },
   },
   {
     field: 'driver',
     headerName: 'OPERADOR',
     width: 150,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
-    ),
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="OPERADOR"
+          onChange={({ target }) => onFilterChange('driver', target.value)}
+        >
+          0
+        </InputTextHeader>
+      )
+    },
   },
   {
     field: 'cell',
     headerName: 'CE OP',
     width: 150,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <AsyncSelectHeader headerName={headerName} url={groupsBaseUrl} />
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="CE OP"
+        url={groupsBaseUrl}
+        onChange={({ target }) => onFilterChange('cell', target.value)}
+      >
+        0
+      </SelectAsyncHeader>
     ),
   },
   {
     field: 'shipment_id',
     headerName: 'SOLICITUD',
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
-    ),
+    width: 120,
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="SOLICITUD"
+          onChange={({ target }) => onFilterChange('shipment', target.value)}
+        >
+          0
+        </InputTextHeader>
+      )
+    },
   },
   {
     field: 'ot',
     headerName: 'OT',
-    wdith: 150,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
-    ),
+    width: 150,
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="OT"
+          onChange={({ target }) => onFilterChange('ot', target.value)}
+        >
+          0
+        </InputTextHeader>
+      )
+    },
   },
   {
     field: 'status',
     headerName: 'ESTATUS',
     width: 150,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <AsyncSelectHeader
-        headerName={headerName}
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="ESTATUS"
         url={reportStatusUrl}
         exclude={[3, 4, 6]}
-      />
+        onChange={({ target }) => onFilterChange('status', target.value)}
+      >
+        0
+      </SelectAsyncHeader>
     ),
   },
   {
     field: 'report_type',
     headerName: 'TIPO FALLA',
     width: 200,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <AsyncSelectHeader headerName={headerName} url={reportTypeBaseUrl} />
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="TIPO FALLA"
+        url={reportTypeBaseUrl}
+        onChange={({ target }) => onFilterChange('reportType', target.value)}
+      />
     ),
   },
   {

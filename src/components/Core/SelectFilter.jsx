@@ -12,6 +12,11 @@ function SelectFilter({
       }}
       onChange={onChange}
       defaultValue={defaultValue}
+      style={{
+        display: 'block',
+        width: '100%',
+        outline: 'none',
+      }}
     >
       {includeAllOption && <option value={0}>[TODOS]</option>}
       {options.map((opt) => (

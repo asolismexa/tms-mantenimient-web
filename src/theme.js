@@ -64,11 +64,7 @@ const theme = createTheme({
           },
           '& .MuiDataGrid-columnHeader': {
             backgroundColor: '#eee!important',
-            height: '100px!important',
             alignItems: 'start',
-          },
-          '.MuiDataGrid-columnHeadersInner': {
-            height: '100px!important',
           },
           '& .MuiDataGrid-cell': {
             whiteSpace: 'break-spaces!important',
@@ -82,9 +78,7 @@ const theme = createTheme({
             whiteSpace: 'normal',
             height: '100%!important',
           },
-          '.MuiDataGrid-columnHeaders': {
-            minHeight: '100px!important',
-          },
+          '.MuiDataGrid-columnHeaders': {},
         },
       },
     },
