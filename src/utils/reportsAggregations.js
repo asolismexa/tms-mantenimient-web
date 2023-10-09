@@ -12,6 +12,12 @@ export const initialAggregations = Object.freeze({
   userCount: 0,
   userAssignCount: 0,
   userProcessCount: 0,
+  usersFinishCount: 0,
+  usersCancelsCount: 0,
+  usersEvaluateCount: 0,
+  evaluatedSuccess: 0,
+  evaluatedFail: 0,
+  evaluatedCount: 0,
 })
 
 export function getAggregations({ reports = [] }) {
@@ -63,6 +69,33 @@ export function getAggregations({ reports = [] }) {
     reports.filter((r) => r.assigned_by !== null).map((r) => r.assigned_by),
   )
   aggregations.userAssignCount = usersAssingSet.size
+
+  const usersFinishSet = new Set(
+    reports.filter((r) => r.attended_by !== null).map((r) => r.attended_by),
+  )
+  aggregations.usersFinishCount = usersFinishSet.size
+
+  const usersCancelsSet = new Set(
+    reports.filter((r) => r.canceled_by !== null).map((r) => r.canceled_by),
+  )
+  aggregations.usersCancelsCount = usersCancelsSet.size
+
+  const usersEvalutesSet = new Set(
+    reports.filter((r) => r.validated_by !== null).map((r) => r.validated_by),
+  )
+  aggregations.usersEvaluateCount = usersEvalutesSet.size
+
+  aggregations.evaluatedSuccess = reports.filter(
+    (r) => r.validated_success === true,
+  ).length
+
+  aggregations.evaluatedFail = reports.filter(
+    (r) => r.validated_success === false,
+  ).length
+
+  aggregations.evaluatedCount = reports.filter(
+    (r) => r.validated_success !== null,
+  ).length
 
   return aggregations
 }

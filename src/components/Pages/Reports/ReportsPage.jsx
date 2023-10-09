@@ -7,13 +7,7 @@ import {
   IconButton,
   Grid,
 } from '@mui/material'
-import CheckLogo from '@/components/Core/CheckLogo'
-import {
-  formatDate,
-  utcToLocal,
-  dateTimeToString,
-  fromStringToDate,
-} from '@/utils/dates'
+import { dateTimeToString, fromStringToDate } from '@/utils/dates'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   selectReportsQuery,
@@ -38,10 +32,10 @@ import { useSnackbar } from 'notistack'
 import { useCreateReports } from '@/hooks/useCreateReports'
 import ModalAddItems from '../MonitorReports/ModalAddItems'
 import { NoteAdd } from '@mui/icons-material'
-import { mettersToKilometers } from '@/utils/numbers'
 import { useGridApiRef } from '@mui/x-data-grid'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
-import { setAggregatedRow } from '@/components/Reports/blueRow'
+import { createSearchColumns } from '@/components/columns/reports/searchColumns'
+import { getAggregations } from '@/utils/reportsAggregations'
 
 const inputStyles = {
   width: '100%',
@@ -66,7 +60,6 @@ const addItemFormInitialState = {
 
 function ReportsMonitor() {
   const gridRef = useGridApiRef()
-  console.log(gridRef)
   const { filters, reports, loadingReports, detail } =
     useSelector(selectReportsQuery)
   const dispatch = useDispatch()
@@ -139,10 +132,6 @@ function ReportsMonitor() {
   const onFailureCreateReports = (err) => {
     console.log('onErrorCreateReports')
     console.log(err)
-  }
-
-  const getRows = () => {
-    return [setAggregatedRow(reports), ...reports]
   }
 
   return (
@@ -247,8 +236,10 @@ function ReportsMonitor() {
         <Grid item xs={10}>
           <CustomDataGrid
             loading={loadingReports}
-            columns={columns}
-            rows={getRows()}
+            columns={createSearchColumns({
+              aggregations: getAggregations({ reports }),
+            })}
+            rows={reports}
             rowHeight={65}
             disableColumnSelector
             disableDensitySelector
@@ -310,236 +301,3 @@ function ReportsMonitor() {
 }
 
 export default ReportsMonitor
-
-const columns = [
-  {
-    field: 'id',
-    headerName: 'FOLIO',
-    width: 100,
-    renderCell: ({ value, row }) => {
-      return <span>{value !== 0 ? value : row.total_rows}</span>
-    },
-  },
-  {
-    field: 'time',
-    headerName: 'FECHA / HORA REPORTE',
-    type: 'dateTime',
-    width: 120,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-    valueGetter: ({ value }) => {
-      return value ? utcToLocal(value) : null
-    },
-  },
-  {
-    field: 'vehicle',
-    headerName: 'UNIDAD',
-    width: 100,
-  },
-  {
-    field: 'odometer',
-    headerName: 'ODOMETRO',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return mettersToKilometers(value)
-      return null
-    },
-  },
-  {
-    field: 'driver',
-    headerName: 'OPERADOR',
-    width: 100,
-  },
-  {
-    field: 'shipment_id',
-    headerName: 'SOLICITUD',
-    width: 100,
-  },
-  {
-    field: 'ot',
-    headerName: 'OT',
-    width: 150,
-  },
-  {
-    field: 'status',
-    headerName: 'ESTATUS',
-    width: 100,
-  },
-  {
-    field: 'report_type',
-    headerName: 'TIPO FALLA',
-    width: 100,
-  },
-  {
-    field: 'has_observations',
-    headerName: 'OBS',
-    type: 'boolean',
-    width: 50,
-    renderCell: ({ value }) => {
-      if (value === null) return null
-      if (typeof value === 'number') return value
-      return <CheckLogo checked={value} />
-    },
-  },
-  {
-    field: 'last_observation',
-    headerName: 'ULTIMA OBSERVACION',
-    width: 200,
-  },
-  {
-    field: 'has_evidences',
-    headerName: 'EVID',
-    type: 'boolean',
-    width: 50,
-    renderCell: ({ value }) => {
-      if (value === null) return null
-      if (typeof value === 'number') return value
-      return <CheckLogo checked={value} />
-    },
-  },
-  {
-    field: 'user',
-    headerName: 'USUARIO',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'assigned_on',
-    headerName: 'FECHA OT ASIGNADA',
-    type: 'string',
-    width: 120,
-
-    valueFormatter: ({ value }) => {
-      if (value) {
-        const localDate = utcToLocal(value)
-        return formatDate(localDate)
-      }
-      return null
-    },
-  },
-  {
-    field: 'assigned_by',
-    headerName: 'USUARIO ASIGNA OT',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'process_on',
-    headerName: 'FECHA OT EN PROCESO',
-    type: 'string',
-    width: 120,
-
-    valueFormatter: ({ value }) => {
-      if (value) {
-        const localDate = utcToLocal(value)
-        return formatDate(localDate)
-      }
-      return null
-    },
-  },
-  {
-    field: 'process_by',
-    headerName: 'USUARIO PROCESA OT',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'attended_on',
-    headerName: 'FECHA OT FINALIZADA',
-    type: 'string',
-    width: 120,
-
-    valueFormatter: ({ value }) => {
-      if (value) {
-        const localDate = utcToLocal(value)
-        return formatDate(localDate)
-      }
-      return null
-    },
-  },
-  {
-    field: 'attended_by',
-    headerName: 'USUARIO FINALIZA OT',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'canceled_on',
-    headerName: 'FECHA OT CANCELADA',
-    type: 'string',
-    width: 100,
-
-    valueFormatter: ({ value }) => {
-      if (value) {
-        const localDate = utcToLocal(value)
-        return formatDate(localDate)
-      }
-      return null
-    },
-  },
-  {
-    field: 'canceled_by',
-    headerName: 'USUARIO CANCELA OT',
-    type: 'string',
-    width: 100,
-  },
-  {
-    field: 'validated_on',
-    width: 100,
-    headerName: 'FECHA OT EVALUADA',
-    valueFormatter: ({ value }) => {
-      if (value) {
-        const localDate = utcToLocal(value)
-        return formatDate(localDate)
-      }
-      return null
-    },
-  },
-  {
-    field: 'validated_by',
-    headerName: 'USUARIO EVALUA OT',
-  },
-  {
-    headerName: 'EVALUADO CORRECTO',
-    field: 'validated_success',
-    type: 'boolean',
-    width: 100,
-    renderCell: ({ value }) => {
-      if (typeof value === 'number') return value
-      if (value === null) return null
-      return <CheckLogo checked={value} />
-    },
-  },
-  {
-    field: 'ot_date',
-    headerName: 'FECHA OT',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-  {
-    field: 'ot_initial_date',
-    headerName: 'FECHA INICIO OT',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-  {
-    field: 'ot_promise_date',
-    headerName: 'FECHA PROMESA OT',
-    type: 'string',
-    width: 100,
-    valueFormatter: ({ value }) => {
-      if (value) return formatDate(value)
-      return null
-    },
-  },
-]
