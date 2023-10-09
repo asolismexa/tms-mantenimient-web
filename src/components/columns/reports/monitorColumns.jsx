@@ -1,17 +1,16 @@
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
-import Typography from '@mui/material/Typography'
 import { reportStatusUrl } from '@/services/reportStatus'
-import { AsyncSelectHeader, TextFilterHeader } from '@components/Core/headers'
+import { TextFilterHeader } from '@components/Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
 import { groupsBaseUrl } from '@/services/vehicles'
 import { CustomHeader } from '@/components/columns/CustomHeader'
-import { Stack, TextField } from '@mui/material'
 import InputTextHeader from '@/components/columns/InputTextHeader'
 import { SelectAsyncHeader } from '@/components/columns/SelectAsyncHeader'
 import { SelectHeader } from '@/components/columns/SelectHeader'
 import { VEHICLE_TYPES_LIST } from '@/enums/vehicles'
+import { CheckBoxHeader } from '@/components/columns/CheckBoxHeader'
 
 export const stopEvents = (e) => {
   e.preventDefault()
@@ -191,7 +190,9 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         label="TIPO FALLA"
         url={reportTypeBaseUrl}
         onChange={({ target }) => onFilterChange('reportType', target.value)}
-      />
+      >
+        0
+      </SelectAsyncHeader>
     ),
   },
   {
@@ -220,14 +221,31 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     },
+    renderHeader: () => {
+      return (
+        <CheckBoxHeader
+          label="EVID"
+          onChange={(_, value) => {
+            onFilterChange('hasEvidences', value)
+          }}
+        >
+          0
+        </CheckBoxHeader>
+      )
+    },
   },
   {
     field: 'user',
     headerName: 'USUARIO',
     type: 'string',
     width: 130,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
+    renderHeader: () => (
+      <InputTextHeader
+        label="USUARIO"
+        onChange={({ target }) => onFilterChange('user', target.value)}
+      >
+        0
+      </InputTextHeader>
     ),
   },
   {
@@ -246,8 +264,13 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
     type: 'string',
     width: 170,
     headerClassNames: 'MuiDataGrid-columnHeaderTitle',
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
+    renderHeader: () => (
+      <InputTextHeader
+        label="USUARIO ASIGNA OT"
+        onChange={({ target }) => onFilterChange('assignedBy', target.value)}
+      >
+        0
+      </InputTextHeader>
     ),
   },
   {
@@ -266,8 +289,13 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 180,
-    renderHeader: ({ colDef: { headerName } }) => (
-      <TextFilterHeader headerName={headerName} />
+    renderHeader: () => (
+      <InputTextHeader
+        label="USUARIO PROCESA OT"
+        onChange={({ target }) => onFilterChange('processBy', target.value)}
+      >
+        0
+      </InputTextHeader>
     ),
   },
   {

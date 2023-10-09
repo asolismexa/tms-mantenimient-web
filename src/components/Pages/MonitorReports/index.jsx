@@ -34,11 +34,16 @@ const initialFilters = () => ({
   vehicle: '',
   odometer: '',
   driver: '',
-  cell: '0',
+  cell: 0,
   vehicleType: '',
   shipment: '',
   ot: '',
   status: '',
+  reportType: 0,
+  hasEvidences: false,
+  user: '',
+  assignedBy: '',
+  processBy: '',
 })
 
 function ReportsMonitor() {

@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import ReportsPage from '@/components/Pages/Reports/ReportsPage'
 import Root from '@components/Pages/Root'
 import ErrorPage from './components/Pages/ErrorPage'
-import ReportsMonitor from './components/Pages/MonitorReports/ReportsMonitor'
+import ReportsMonitor from './components/Pages/MonitorReports'
 
 export const router = createBrowserRouter([
   {

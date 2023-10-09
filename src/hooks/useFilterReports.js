@@ -19,9 +19,10 @@ export function useFilterReports({ initialFilters, reports }) {
     const ot = filters.ot.toUpperCase()
     const status = filters.status
     const reportType = filters.reportType
-    // const user = filters.user.toLowerCase()
-    // const userAssign = filters.userAssign.toLowerCase()
-    // const userProcess = filters.userProcess.toLowerCase()
+    const hasEvidencesFilter = filters.hasEvidences
+    const user = filters.user.toLowerCase()
+    const assignedBy = filters.assignedBy.toLowerCase()
+    const processBy = filters.processBy.toLowerCase()
 
     let filtered = [...reports]
 
@@ -74,31 +75,38 @@ export function useFilterReports({ initialFilters, reports }) {
       return filters.ot === '' || ot_id?.includes(ot)
     })
 
-    // // By Report Type
-    // filtered = filtered.filter((report) => {
-    //   return reportType == 0 || report.report_type_id == reportType
-    // })
+    // By Report Type
+    filtered = filtered.filter((report) => {
+      return reportType == 0 || report.report_type_id == reportType
+    })
 
-    // // By User
-    // filtered = filtered.filter((report) => {
-    //   return filters.user === '' || report?.user?.toLowerCase()?.includes(user)
-    // })
+    // Has Evidence
+    if (hasEvidencesFilter) {
+      filtered = filtered.filter((report) => {
+        return report.has_evidences
+      })
+    }
 
-    // // By User Assign
-    // filtered = filtered.filter((report) => {
-    //   return (
-    //     filters.userAssign === '' ||
-    //     report?.assigned_by?.toLowerCase()?.includes(userAssign)
-    //   )
-    // })
+    // By User
+    filtered = filtered.filter((report) => {
+      return filters.user === '' || report?.user?.toLowerCase()?.includes(user)
+    })
 
-    // // By Use Process
-    // filtered = filtered.filter((report) => {
-    //   return (
-    //     filters.userProcess === '' ||
-    //     report?.process_by?.toLowerCase().includes(userProcess)
-    //   )
-    // })
+    // By User Assign
+    filtered = filtered.filter((report) => {
+      return (
+        filters.assignedBy === '' ||
+        report?.assigned_by?.toLowerCase()?.includes(assignedBy)
+      )
+    })
+
+    // By Use Process
+    filtered = filtered.filter((report) => {
+      return (
+        filters.processBy === '' ||
+        report?.process_by?.toLowerCase().includes(processBy)
+      )
+    })
 
     setFilteredReports([...filtered])
   }
