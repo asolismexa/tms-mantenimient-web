@@ -1,7 +1,6 @@
 import { formatDate, utcToLocal } from '@/utils/dates'
 import CheckLogo from '@/components/Core/CheckLogo'
 import { reportStatusUrl } from '@/services/reportStatus'
-import { TextFilterHeader } from '@components/Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
 import { groupsBaseUrl } from '@/services/vehicles'
@@ -11,13 +10,17 @@ import { SelectAsyncHeader } from '@/components/columns/SelectAsyncHeader'
 import { SelectHeader } from '@/components/columns/SelectHeader'
 import { VEHICLE_TYPES_LIST } from '@/enums/vehicles'
 import { CheckBoxHeader } from '@/components/columns/CheckBoxHeader'
+import { initialAggregations } from '@/utils/reportsAggregations'
 
 export const stopEvents = (e) => {
   e.preventDefault()
   e.stopPropagation()
 }
 
-export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
+export const createMonitorColumns = ({
+  onFilterChange,
+  aggregations = { ...initialAggregations },
+}) => [
   {
     field: 'id',
     headerName: 'FOLIO',
@@ -28,7 +31,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           label="FOLIO"
           onChange={({ target }) => onFilterChange('folio', target.value)}
         >
-          <div style={{ color: 'blue', textAlign: 'center' }}>0</div>
+          {aggregations.totalCount}
         </InputTextHeader>
       )
     },
@@ -46,11 +49,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
       return value ? utcToLocal(value) : null
     },
     renderHeader: ({ colDef: { headerName } }) => {
-      return (
-        <CustomHeader title={headerName}>
-          <div>0</div>
-        </CustomHeader>
-      )
+      return <CustomHeader title={headerName}></CustomHeader>
     },
   },
   {
@@ -63,18 +62,17 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           label="UNIDAD"
           onChange={({ target }) => onFilterChange('vehicle', target.value)}
         >
-          0
+          {aggregations.vehicleCount}
         </InputTextHeader>
       )
     },
   },
   {
-    field: 'vehicle_type_id',
+    field: 'vehicle_type',
     headerName: 'TIPO UNIDAD',
     width: 150,
     valueFormatter: ({ value }) => {
-      if (typeof value === 'string') return value
-      return value === 1 ? 'MOTRIZ' : 'REMOLQUE'
+      return value === 'CARGA' ? 'REMOLQUE' : value
     },
     renderHeader: () => {
       return (
@@ -83,7 +81,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           options={VEHICLE_TYPES_LIST}
           onChange={({ target }) => onFilterChange('vehicleType', target.value)}
         >
-          0
+          {aggregations.vehicleTypeCount}
         </SelectHeader>
       )
     },
@@ -101,9 +99,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         <InputTextHeader
           label="ODOMETRO"
           onChange={({ target }) => onFilterChange('odometer', target.value)}
-        >
-          <div style={{ color: 'blue', textAlign: 'center' }}>0</div>
-        </InputTextHeader>
+        ></InputTextHeader>
       )
     },
   },
@@ -117,7 +113,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           label="OPERADOR"
           onChange={({ target }) => onFilterChange('driver', target.value)}
         >
-          0
+          {aggregations.driversCount}
         </InputTextHeader>
       )
     },
@@ -132,7 +128,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         url={groupsBaseUrl}
         onChange={({ target }) => onFilterChange('cell', target.value)}
       >
-        0
+        {aggregations.cellCount}
       </SelectAsyncHeader>
     ),
   },
@@ -146,7 +142,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           label="SOLICITUD"
           onChange={({ target }) => onFilterChange('shipment', target.value)}
         >
-          0
+          {aggregations.shipmentCount}
         </InputTextHeader>
       )
     },
@@ -161,7 +157,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
           label="OT"
           onChange={({ target }) => onFilterChange('ot', target.value)}
         >
-          0
+          {aggregations.otCount}
         </InputTextHeader>
       )
     },
@@ -177,7 +173,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         exclude={[3, 4, 6]}
         onChange={({ target }) => onFilterChange('status', target.value)}
       >
-        0
+        {aggregations.statusCount}
       </SelectAsyncHeader>
     ),
   },
@@ -191,7 +187,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         url={reportTypeBaseUrl}
         onChange={({ target }) => onFilterChange('reportType', target.value)}
       >
-        0
+        {aggregations.reportTypeCount}
       </SelectAsyncHeader>
     ),
   },
@@ -229,7 +225,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
             onFilterChange('hasEvidences', value)
           }}
         >
-          0
+          {aggregations.evidencesCount}
         </CheckBoxHeader>
       )
     },
@@ -244,7 +240,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         label="USUARIO"
         onChange={({ target }) => onFilterChange('user', target.value)}
       >
-        0
+        {aggregations.userCount}
       </InputTextHeader>
     ),
   },
@@ -269,7 +265,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         label="USUARIO ASIGNA OT"
         onChange={({ target }) => onFilterChange('assignedBy', target.value)}
       >
-        0
+        {aggregations.userAssignCount}
       </InputTextHeader>
     ),
   },
@@ -294,7 +290,7 @@ export const createMonitorColumns = ({ onFilterChange, aggregations = [] }) => [
         label="USUARIO PROCESA OT"
         onChange={({ target }) => onFilterChange('processBy', target.value)}
       >
-        0
+        {aggregations.userProcessCount}
       </InputTextHeader>
     ),
   },

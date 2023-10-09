@@ -14,6 +14,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack'
 import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
 import TollBar from '@/components/Pages/MonitorReports/TollBar'
 import { useFilterReports } from '@/hooks/useFilterReports'
+import { getAggregations } from '@/utils/reportsAggregations'
 
 const createFormInitialState = {
   vehicle: null,
@@ -135,7 +136,10 @@ function ReportsMonitor() {
     <Box sx={{ m: 2 }}>
       <CustomDataGrid
         loading={loading}
-        columns={createMonitorColumns({ onFilterChange })}
+        columns={createMonitorColumns({
+          onFilterChange,
+          aggregations: getAggregations({ reports: filteredReports }),
+        })}
         rows={filteredReports}
         page={pagination.page + 1}
         pageCount={pagination.pageCount}
