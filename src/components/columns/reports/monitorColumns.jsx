@@ -106,7 +106,6 @@ export const createMonitorColumns = ({
   {
     field: 'driver',
     headerName: 'OPERADOR',
-    width: 120,
     renderHeader: () => {
       return (
         <InputTextHeader
@@ -206,19 +205,17 @@ export const createMonitorColumns = ({
     field: 'last_observation',
     headerName: 'ULTIMA OBSERVACION',
     width: 200,
-    renderCell: ({ value }) => {
-      return (
-        <span
-          style={{
-            display: 'block',
-            maxHeight: '3rem',
-            overflow: 'hidden',
-          }}
-        >
-          {value}
-        </span>
-      )
-    },
+    renderCell: ({ value }) => (
+      <span
+        style={{
+          display: 'block',
+          maxHeight: '3rem',
+          overflow: 'hidden',
+        }}
+      >
+        {value}
+      </span>
+    ),
   },
   {
     field: 'has_evidences',
@@ -242,6 +239,21 @@ export const createMonitorColumns = ({
         </CheckBoxHeader>
       )
     },
+  },
+  {
+    field: 'location',
+    headerName: 'UBICACION INICIO REP',
+    renderCell: ({ value }) => (
+      <span
+        style={{
+          display: 'block',
+          maxHeight: '3rem',
+          overflow: 'hidden',
+        }}
+      >
+        {value}
+      </span>
+    ),
   },
   {
     field: 'user',
