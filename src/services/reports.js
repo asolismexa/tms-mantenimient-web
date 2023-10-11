@@ -3,6 +3,9 @@ import api from '@/api/api'
 export const baseUrl = 'api/reports'
 export const baseAliveUrl = 'api/reports/alive'
 export const getToken = () => window.App?.token && `Bearer ${window.App.token}`
+export function getBaseUrl() {
+  return `${import.meta.env['VITE_BASE_API_URL']}/${baseUrl}`
+}
 
 export const getReports = async ({ params }) => {
   const config = {
@@ -99,4 +102,30 @@ export const assignDriver = async (reportId, driverId) => {
     driverId,
   })
   return resp.data
+}
+
+export async function assignReportsToOt({ ot, reports = [] }) {
+  const assigned = []
+  for (const report of reports) {
+    try {
+      const resp = await fetch(`${getBaseUrl()}/${report.id}/assign-ot`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          ot_folio: ot,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getToken(),
+        },
+      })
+      assigned.push({
+        id: report.id,
+        error: !resp.ok ? await resp.text() : null,
+      })
+    } catch (error) {
+      console.log('Ocurrio un error!')
+    }
+  }
+
+  return assigned
 }
