@@ -106,7 +106,7 @@ export const createMonitorColumns = ({
   {
     field: 'driver',
     headerName: 'OPERADOR',
-    width: 150,
+    width: 120,
     renderHeader: () => {
       return (
         <InputTextHeader
