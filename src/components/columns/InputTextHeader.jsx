@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 function InputTextHeader({ label, children, onChange }) {
   return (
     <Box className="MuiDataGrid-columnHeaderTitle" sx={{ pr: 1 }}>
-      <label style={{ display: 'block', width: '100%', textAlign: 'center' }}>
+      <label style={{ display: 'block', width: '100%' }}>
         <strong>{label}</strong>
         <input
           type="text"

@@ -10,7 +10,7 @@ export function SelectAsyncHeader({
 }) {
   return (
     <Box className="MuiDataGrid-columnHeaderTitle" sx={{ pr: 1 }}>
-      <label style={{ display: 'block', width: '100%', textAlign: 'center' }}>
+      <label style={{ display: 'block', width: '100%' }}>
         <strong>{label}</strong>
         <AsyncSelectFilter
           url={url}

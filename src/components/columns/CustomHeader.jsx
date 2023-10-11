@@ -11,7 +11,7 @@ export function CustomHeader({ title, children }) {
         height: '200px',
       }}
     >
-      <div style={{ textAlign: 'center' }}>
+      <div>
         <strong>{title}</strong>
       </div>
       <div style={{ textAlign: 'center', color: 'blue' }}>{children}</div>
