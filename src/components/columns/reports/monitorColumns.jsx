@@ -24,7 +24,7 @@ export const createMonitorColumns = ({
   {
     field: 'id',
     headerName: 'FOLIO',
-    minWidth: 120,
+    minWidth: 80,
     renderHeader: () => {
       return (
         <InputTextHeader
@@ -206,6 +206,19 @@ export const createMonitorColumns = ({
     field: 'last_observation',
     headerName: 'ULTIMA OBSERVACION',
     width: 200,
+    renderCell: ({ value }) => {
+      return (
+        <span
+          style={{
+            display: 'block',
+            maxHeight: '3rem',
+            overflow: 'hidden',
+          }}
+        >
+          {value}
+        </span>
+      )
+    },
   },
   {
     field: 'has_evidences',
