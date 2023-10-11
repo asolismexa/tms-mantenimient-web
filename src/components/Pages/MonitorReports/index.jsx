@@ -15,9 +15,6 @@ import { createMonitorColumns } from '@/components/columns/reports/monitorColumn
 import TollBar from '@/components/Pages/MonitorReports/TollBar'
 import { useFilterReports } from '@/hooks/useFilterReports'
 import { getAggregations } from '@/utils/reportsAggregations'
-import { ConfirmModal } from '@/components/Core/modals/ConfirmModal'
-import { useAssignReports } from '@/hooks/reports/monitor/useAssignReports'
-import { Typography } from '@mui/material'
 
 const createFormInitialState = {
   vehicle: null,
@@ -67,8 +64,6 @@ function ReportsMonitor() {
   const [tab, setTab] = useState(0)
 
   const [selectedRows, setSelectedRows] = useState([])
-
-  const { selectedReports } = useAssignReports({ ids: selectedRows, reports })
 
   const { onFilterChange, filteredReports } = useFilterReports({
     initialFilters,
@@ -165,6 +160,8 @@ function ReportsMonitor() {
         slots={{
           toolbar: () => (
             <TollBar
+              reports={reports}
+              selectedRows={selectedRows}
               onOpenCreateReportsModal={onOpenCreateReportsModal}
               setRefresh={setRefresh}
             />
@@ -220,19 +217,6 @@ function ReportsMonitor() {
         tab={tab}
         setTab={setTab}
       />
-      <ConfirmModal
-        title={
-          <span>
-            ¿DESEAS ASIGNAR LA OT <span style={{ color: 'blue' }}>{3333}</span>{' '}
-            A LOS SIGUIENTES REPORTES?
-          </span>
-        }
-        open={selectedReports.length > 0}
-      >
-        {selectedReports.map((report) => (
-          <Typography key={report.id}>{report.id}</Typography>
-        ))}
-      </ConfirmModal>
       <SnackbarProvider />
     </Box>
   )
