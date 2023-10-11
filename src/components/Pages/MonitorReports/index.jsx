@@ -148,6 +148,9 @@ function ReportsMonitor() {
         onRowDoubleClick={handleOpenDetailModal}
         onCellDoubleClick={handleSetDetailTab}
         rowCount={reports?.length ?? 0}
+        disableRowSelectionOnClick
+        checkboxSelection
+        isRowSelectable={({ row }) => row.ot === null}
         slots={{
           toolbar: () => (
             <TollBar
