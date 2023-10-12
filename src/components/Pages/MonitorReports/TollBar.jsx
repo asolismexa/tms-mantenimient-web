@@ -2,14 +2,8 @@ import Stack from '@mui/material/Stack'
 import CustomIconButton from '@/components/Core/buttons/IconButton'
 import CustomExportToolbar from '@/components/custom/CustomExportToolbar'
 import { NoteAdd, Refresh } from '@mui/icons-material'
-import { AssignReports } from '@/components/monitors/reports/AssignReports'
 
-function TollBar({
-  onOpenCreateReportsModal,
-  setRefresh,
-  reports,
-  selectedRows,
-}) {
+function TollBar({ onOpenCreateReportsModal, setRefresh, children }) {
   return (
     <CustomExportToolbar>
       <Stack direction="row" spacing={0.7}>
@@ -23,7 +17,7 @@ function TollBar({
         >
           <Refresh />
         </CustomIconButton>
-        <AssignReports reports={reports} selectedRows={selectedRows} />
+        {children}
       </Stack>
     </CustomExportToolbar>
   )

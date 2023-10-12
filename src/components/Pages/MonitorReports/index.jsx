@@ -15,6 +15,7 @@ import { createMonitorColumns } from '@/components/columns/reports/monitorColumn
 import TollBar from '@/components/Pages/MonitorReports/TollBar'
 import { useFilterReports } from '@/hooks/useFilterReports'
 import { getAggregations } from '@/utils/reportsAggregations'
+import { AssignReports } from '@/components/monitors/reports/AssignReports'
 
 const createFormInitialState = {
   vehicle: null,
@@ -152,7 +153,6 @@ function ReportsMonitor() {
         rowCount={reports?.length ?? 0}
         disableRowSelectionOnClick
         checkboxSelection
-        isRowSelectable={({ row }) => row.ot === null}
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={(newRowSelectionModel) =>
           setSelectedRows(newRowSelectionModel)
@@ -164,7 +164,14 @@ function ReportsMonitor() {
               selectedRows={selectedRows}
               onOpenCreateReportsModal={onOpenCreateReportsModal}
               setRefresh={setRefresh}
-            />
+            >
+              <AssignReports
+                selectedRows={selectedRows}
+                reports={reports}
+                onAssign={setRefresh}
+                onClose={() => setSelectedRows([])}
+              />
+            </TollBar>
           ),
           footer: () => null,
         }}
