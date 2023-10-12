@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material'
-import tmsLogo from '@assets/icons/tmsLOGSYS.png'
+import tmsLogo from '../../assets/icons/tmsLOGSYS.png'
 
 function TmsLogo() {
   return (
