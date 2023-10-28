@@ -1,17 +1,15 @@
 import { Box } from '@mui/material'
 import NavBar from '../NavBar'
 
-export default function MenuAppBar() {
+export default function MenuAppBar () {
   return (
     <Box
       sx={{
-        position: 'fixed',
+        flex: 1,
         zIndex: '1000',
-        top: 0,
-        left: 0,
-        right: 0,
+        height: '65px',
         backgroundColor: '#fff',
-        borderBottom: '1px solid #7eabcd',
+        borderBottom: '1px solid #7eabcd'
       }}
     >
       <NavBar />

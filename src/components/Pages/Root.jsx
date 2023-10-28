@@ -5,7 +5,7 @@ import MediaViewer from '../Core/MediaViewer'
 import { useSelector } from 'react-redux'
 import { selectImageViewer } from '@/reducers/uiSlice'
 
-function Root() {
+function Root () {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token')
   const descriptor = searchParams.get('descriptor')
@@ -18,12 +18,12 @@ function Root() {
   } else {
     window.App = {
       token,
-      descriptor,
+      descriptor
     }
 
     console.log('El token no existe y se almacena en window: ' + token)
     console.log(
-      'El descriptor no existe y se almacena en window: ' + descriptor,
+      'El descriptor no existe y se almacena en window: ' + descriptor
     )
   }
 

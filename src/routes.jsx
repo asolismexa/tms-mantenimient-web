@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import ReportsPage from '@/components/Pages/Reports/ReportsPage'
 import Root from '@components/Pages/Root'
 import ErrorPage from './components/Pages/ErrorPage'
-import ReportsMonitor from './components/Pages/MonitorReports'
+import { ReportsMonitor } from '@/components/Pages/ReportsMonitor'
 
 export const router = createBrowserRouter([
   {
@@ -12,28 +12,34 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'reports',
-        element: <ReportsPage />,
+        element: <ReportsPage />
       },
       {
-        path: 'monitor/reports',
+        path: 'monitor',
         element: <ReportsMonitor />,
-      },
-    ],
-  },
+        children: [
+          {
+            path: 'reports',
+            element: <ReportsMonitor />
+          }
+        ]
+      }
+    ]
+  }
 ])
 
 export const monitorPaths = [
   {
     id: 1,
     path: 'monitor/reports',
-    label: 'REPORTE MTO',
-  },
+    label: 'REPORTE MTO'
+  }
 ]
 
 export const queryPaths = [
   {
     id: 1,
     path: 'reports',
-    label: 'REPORTE MTO CERRADOS',
-  },
+    label: 'REPORTE MTO CERRADOS'
+  }
 ]

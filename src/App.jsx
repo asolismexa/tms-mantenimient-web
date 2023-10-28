@@ -9,10 +9,10 @@ import { store } from '@/store'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import 'dayjs/locale/es-mx'
-dayjs.extend(utc)
 import { SnackbarProvider } from 'notistack'
+dayjs.extend(utc)
 
-export default function App() {
+export default function App () {
   return (
     <Provider store={store}>
       <LocalizationProvider

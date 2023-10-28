@@ -7,32 +7,6 @@ export function getBaseUrl() {
   return `${import.meta.env['VITE_BASE_API_URL']}/${baseUrl}`
 }
 
-export const getReports = async ({ params }) => {
-  const config = {
-    params,
-  }
-
-  try {
-    const resp = await api.get(baseUrl, config)
-    return { data: resp.data, resp, error: null }
-  } catch (error) {
-    return { data: null, resp: null, error: error }
-  }
-}
-
-export const getAliveReports = async ({ params }) => {
-  const config = {
-    params,
-  }
-
-  try {
-    const resp = await api.get(`${baseUrl}/alive`, config)
-    return { data: resp.data, resp, error: null }
-  } catch (error) {
-    return { data: null, resp: null, error: error }
-  }
-}
-
 export const postReports = async (report) => {
   const resp = await api.post(baseUrl, report, {
     headers: {
