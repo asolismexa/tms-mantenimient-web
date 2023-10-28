@@ -1,11 +1,10 @@
-import PaginationFooter from '@/components/core/PaginationFooter'
 import CustomExportToolbar from '@/components/custom/CustomExportToolBar'
 import { DataGrid } from '@mui/x-data-grid'
 
 /**
  * Custom DataGrid
  */
-function CustomDataGrid({
+function CustomDataGrid ({
   rows = [],
   columns = [],
   loading = false,
@@ -17,9 +16,6 @@ function CustomDataGrid({
 }) {
   return (
     <DataGrid
-      sx={{
-        height: '88vh',
-      }}
       rows={rows}
       columns={columns}
       loading={loading}
@@ -28,14 +24,7 @@ function CustomDataGrid({
       getRowHeight={() => 'auto'}
       paginationMode="server"
       slots={{
-        toolbar: CustomExportToolbar,
-        footer: () => (
-          <PaginationFooter
-            page={pageNumber}
-            count={totalPages}
-            onChange={onPaginationChange}
-          />
-        ),
+        toolbar: CustomExportToolbar
       }}
       getRowClassName={({ row, indexRelativeToCurrentPage }) => {
         let className = indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
@@ -44,7 +33,7 @@ function CustomDataGrid({
       }}
       localeText={{
         toolbarExport: 'Exportar',
-        toolbarExportCSV: 'CSV',
+        toolbarExportCSV: 'CSV'
       }}
       {...props}
     />

@@ -28,7 +28,11 @@ function Root () {
   }
 
   return (
-    <div>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100vh'
+    }}>
       <AppBar />
       <MediaViewer
         src={imageViewer.src}

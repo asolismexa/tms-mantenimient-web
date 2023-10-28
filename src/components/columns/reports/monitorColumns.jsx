@@ -19,7 +19,7 @@ export const stopEvents = (e) => {
 
 export const createMonitorColumns = ({
   onFilterChange,
-  aggregations = { ...initialAggregations },
+  aggregations = { ...initialAggregations }
 }) => [
   {
     field: 'id',
@@ -34,7 +34,7 @@ export const createMonitorColumns = ({
           {aggregations.totalCount}
         </InputTextHeader>
       )
-    },
+    }
   },
   {
     field: 'time',
@@ -50,7 +50,7 @@ export const createMonitorColumns = ({
     },
     renderHeader: ({ colDef: { headerName } }) => {
       return <CustomHeader title={headerName}></CustomHeader>
-    },
+    }
   },
   {
     field: 'vehicle',
@@ -65,10 +65,10 @@ export const createMonitorColumns = ({
           {aggregations.vehicleCount}
         </InputTextHeader>
       )
-    },
+    }
   },
   {
-    field: 'vehicle_type',
+    field: 'vehicleType',
     headerName: 'TIPO UNIDAD',
     width: 150,
     valueFormatter: ({ value }) => {
@@ -84,7 +84,7 @@ export const createMonitorColumns = ({
           {aggregations.vehicleTypeCount}
         </SelectHeader>
       )
-    },
+    }
   },
   {
     field: 'odometer',
@@ -101,7 +101,7 @@ export const createMonitorColumns = ({
           onChange={({ target }) => onFilterChange('odometer', target.value)}
         ></InputTextHeader>
       )
-    },
+    }
   },
   {
     field: 'driver',
@@ -115,7 +115,7 @@ export const createMonitorColumns = ({
           {aggregations.driversCount}
         </InputTextHeader>
       )
-    },
+    }
   },
   {
     field: 'cell',
@@ -129,10 +129,10 @@ export const createMonitorColumns = ({
       >
         {aggregations.cellCount}
       </SelectAsyncHeader>
-    ),
+    )
   },
   {
-    field: 'shipment_id',
+    field: 'shipmentId',
     headerName: 'SOLICITUD',
     width: 120,
     renderHeader: () => {
@@ -144,7 +144,7 @@ export const createMonitorColumns = ({
           {aggregations.shipmentCount}
         </InputTextHeader>
       )
-    },
+    }
   },
   {
     field: 'ot',
@@ -159,7 +159,7 @@ export const createMonitorColumns = ({
           {aggregations.otCount}
         </InputTextHeader>
       )
-    },
+    }
   },
   {
     field: 'status',
@@ -174,10 +174,10 @@ export const createMonitorColumns = ({
       >
         {aggregations.statusCount}
       </SelectAsyncHeader>
-    ),
+    )
   },
   {
-    field: 'report_type',
+    field: 'reportType',
     headerName: 'TIPO FALLA',
     width: 200,
     renderHeader: () => (
@@ -188,10 +188,10 @@ export const createMonitorColumns = ({
       >
         {aggregations.reportTypeCount}
       </SelectAsyncHeader>
-    ),
+    )
   },
   {
-    field: 'has_observations',
+    field: 'hasObservations',
     headerName: 'OBS',
     type: 'boolean',
     width: 100,
@@ -199,10 +199,10 @@ export const createMonitorColumns = ({
       if (value === null) return null
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
-    },
+    }
   },
   {
-    field: 'last_observation',
+    field: 'lastObservation',
     headerName: 'ULTIMA OBSERVACION',
     width: 200,
     renderCell: ({ value }) => (
@@ -210,15 +210,15 @@ export const createMonitorColumns = ({
         style={{
           display: 'block',
           maxHeight: '3rem',
-          overflow: 'hidden',
+          overflow: 'hidden'
         }}
       >
         {value}
       </span>
-    ),
+    )
   },
   {
-    field: 'has_evidences',
+    field: 'hasEvidences',
     headerName: 'EVID',
     type: 'boolean',
     width: 100,
@@ -238,7 +238,7 @@ export const createMonitorColumns = ({
           {aggregations.evidencesCount}
         </CheckBoxHeader>
       )
-    },
+    }
   },
   {
     field: 'location',
@@ -248,12 +248,12 @@ export const createMonitorColumns = ({
         style={{
           display: 'block',
           maxHeight: '3rem',
-          overflow: 'hidden',
+          overflow: 'hidden'
         }}
       >
         {value}
       </span>
-    ),
+    )
   },
   {
     field: 'user',
@@ -267,20 +267,20 @@ export const createMonitorColumns = ({
       >
         {aggregations.userCount}
       </InputTextHeader>
-    ),
+    )
   },
   {
-    field: 'assigned_on',
+    field: 'assignedOn',
     headerName: 'FECHA OT ASIGNADA',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'assigned_by',
+    field: 'assignedBy',
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
     width: 170,
@@ -292,10 +292,10 @@ export const createMonitorColumns = ({
       >
         {aggregations.userAssignCount}
       </InputTextHeader>
-    ),
+    )
   },
   {
-    field: 'process_on',
+    field: 'processOn',
     headerName: 'FECHA OT EN PROCESO',
     headerClassNames: 'MuiDataGrid-columnHeaderTitle',
     type: 'string',
@@ -303,10 +303,10 @@ export const createMonitorColumns = ({
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'process_by',
+    field: 'processBy',
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 180,
@@ -317,36 +317,36 @@ export const createMonitorColumns = ({
       >
         {aggregations.userProcessCount}
       </InputTextHeader>
-    ),
+    )
   },
   {
-    field: 'ot_date',
+    field: 'otDate',
     headerName: 'FECHA OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'ot_initial_date',
+    field: 'otInitialDate',
     headerName: 'FECHA INICIO OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'ot_promise_date',
+    field: 'otPromiseDate',
     headerName: 'FECHA PROMESA OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
-  },
+    }
+  }
 ]

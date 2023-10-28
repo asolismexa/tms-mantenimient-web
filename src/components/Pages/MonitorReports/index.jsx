@@ -21,14 +21,14 @@ const createFormInitialState = {
   vehicle: null,
   driver: null,
   shipment: null,
-  items: [],
+  items: []
 }
 
 const addItemFormInitialState = {
   type: null,
   observation: '',
   evidences: [],
-  error: null,
+  error: null
 }
 
 const initialFilters = () => ({
@@ -45,10 +45,10 @@ const initialFilters = () => ({
   hasEvidences: false,
   user: '',
   assignedBy: '',
-  processBy: '',
+  processBy: ''
 })
 
-function ReportsMonitor() {
+function ReportsMonitor () {
   const { enqueueSnackbar } = useSnackbar()
   const { reports, loading, pagination, setPagination, setRefresh } =
     useFetchReports({ pageSize: 10000, alive: true })
@@ -59,7 +59,7 @@ function ReportsMonitor() {
     openDetail,
     closeDetail,
     openModalDetail,
-    refreshReportDetail,
+    refreshReportDetail
   } = useFetchReportDetail()
 
   const [tab, setTab] = useState(0)
@@ -68,7 +68,7 @@ function ReportsMonitor() {
 
   const { onFilterChange, filteredReports } = useFilterReports({
     initialFilters,
-    reports,
+    reports
   })
 
   const {
@@ -86,7 +86,7 @@ function ReportsMonitor() {
     onOpenCreateReportsModal,
     onCloseCreateReportsModal,
     onCreateReports,
-    createError,
+    createError
   } = useCreateReports({ createFormInitialState, addItemFormInitialState })
 
   const handleRefreshReports = () => setRefresh((prev) => !prev)
@@ -95,7 +95,7 @@ function ReportsMonitor() {
     handleRefreshReports()
     for (const item of resp) {
       enqueueSnackbar(`Se creo con exito el reporte ${item}`, {
-        variant: 'success',
+        variant: 'success'
       })
     }
   }
@@ -112,7 +112,7 @@ function ReportsMonitor() {
       ...prev,
       page: newPage - 1,
       start: newStart,
-      end: newEnd,
+      end: newEnd
     }))
   }
   const handleOpenDetailModal = ({ id, row }) => {
@@ -141,7 +141,7 @@ function ReportsMonitor() {
         loading={loading}
         columns={createMonitorColumns({
           onFilterChange,
-          aggregations: getAggregations({ reports: filteredReports }),
+          aggregations: getAggregations({ reports: filteredReports })
         })}
         rows={filteredReports}
         page={pagination.page + 1}
@@ -173,7 +173,7 @@ function ReportsMonitor() {
               />
             </TollBar>
           ),
-          footer: () => null,
+          footer: () => null
         }}
       />
       <ModalCreateReports
@@ -183,7 +183,7 @@ function ReportsMonitor() {
         handleCreate={() => {
           onCreateReports({
             onSuccess: onSuccessCreateReports,
-            onFailure: onFailureCreateReports,
+            onFailure: onFailureCreateReports
           })
         }}
         error={createError}
