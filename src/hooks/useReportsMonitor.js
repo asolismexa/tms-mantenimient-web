@@ -1,28 +1,24 @@
-import { useState, useEffect } from 'react'
-import { fetchReportsMonitor } from '@/services/reportsMonitor'
+import { useEffect } from 'react'
+import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
 export function useReportsMonitor () {
-  const [loading, setLoading] = useState(false)
-  const [reports, setReports] = useState([])
-  const [error, setError] = useState(null)
+  const [reports, loading, error, syncMonitor] = useReportsMonitorStore((state) => [
+    state.reports,
+    state.loading,
+    state.error,
+    state.syncMonitor
+  ])
 
-  const syncMonitor = () => {
-    setLoading(true)
-    setError(null)
-    fetchReportsMonitor()
-      .then(setReports)
-      .catch(() => setError('Error al cargar el monitor'))
-      .finally(() => setLoading(false))
-  }
-
-  useEffect(syncMonitor, [])
+  useEffect(() => {
+    syncMonitor()
+  }, [syncMonitor])
 
   useEffect(() => {
     const intervalId = setInterval(syncMonitor, 120000)
     return () => {
       clearInterval(intervalId)
     }
-  }, [])
+  }, [syncMonitor])
 
   return { reports, loading, error, syncMonitor }
 }

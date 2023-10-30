@@ -17,84 +17,84 @@ export const initialAggregations = Object.freeze({
   usersEvaluateCount: 0,
   evaluatedSuccess: 0,
   evaluatedFail: 0,
-  evaluatedCount: 0,
+  evaluatedCount: 0
 })
 
-export function getAggregations({ reports = [] }) {
+export function getAggregations ({ reports = [] }) {
   const aggregations = { ...initialAggregations }
 
   aggregations.totalCount = reports.length
 
-  const vehicleSet = new Set(reports.map((r) => r.vehicle_id))
+  const vehicleSet = new Set(reports.map((r) => r.vehicleId))
   aggregations.vehicleCount = vehicleSet.size
 
-  const vehicleTypeSet = new Set(reports.map((r) => r.vehicle_type_id))
+  const vehicleTypeSet = new Set(reports.map((r) => r.vehicleTypeId))
   aggregations.vehicleTypeCount = vehicleTypeSet.size
 
   const driverSet = new Set(
-    reports.filter((r) => r.driver !== null).map((r) => r.driver_id),
+    reports.filter((r) => r.driver !== null).map((r) => r.driverId)
   )
   aggregations.driversCount = driverSet.size
 
   const cellSet = new Set(
-    reports.filter((r) => r.cell !== null).map((r) => r.cell_id),
+    reports.filter((r) => r.cell !== null).map((r) => r.cellId)
   )
   aggregations.cellCount = cellSet.size
 
   const shipmentSet = new Set(
-    reports.filter((r) => r.shipment_id !== null).map((r) => r.shipment_id),
+    reports.filter((r) => r.shipmentId !== null).map((r) => r.shipmentId)
   )
   aggregations.shipmentCount = shipmentSet.size
 
   const otSet = new Set(reports.filter((r) => r.ot !== null).map((r) => r.ot))
   aggregations.otCount = otSet.size
 
-  const statusSet = new Set(reports.map((r) => r.status_id))
+  const statusSet = new Set(reports.map((r) => r.statusId))
   aggregations.statusCount = statusSet.size
 
-  const typesSet = new Set(reports.map((r) => r.report_type_id))
+  const typesSet = new Set(reports.map((r) => r.reportTypeId))
   aggregations.reportTypeCount = typesSet.size
 
-  aggregations.evidencesCount = reports.filter((r) => r.has_evidences).length
+  aggregations.evidencesCount = reports.filter((r) => r.hasEvidences).length
 
-  const usersSet = new Set(reports.map((r) => r.user_id))
+  const usersSet = new Set(reports.map((r) => r.userId))
   aggregations.userCount = usersSet.size
 
   const userProcessSet = new Set(
-    reports.filter((r) => r.process_by_id !== null).map((r) => r.process_by_id),
+    reports.filter((r) => r.processById !== null).map((r) => r.processById)
   )
   aggregations.userProcessCount = userProcessSet.size
 
   const usersAssingSet = new Set(
-    reports.filter((r) => r.assigned_by !== null).map((r) => r.assigned_by),
+    reports.filter((r) => r.assignedBy !== null).map((r) => r.assignedBy)
   )
   aggregations.userAssignCount = usersAssingSet.size
 
   const usersFinishSet = new Set(
-    reports.filter((r) => r.attended_by !== null).map((r) => r.attended_by),
+    reports.filter((r) => r.attendedBy !== null).map((r) => r.attendedBy)
   )
   aggregations.usersFinishCount = usersFinishSet.size
 
   const usersCancelsSet = new Set(
-    reports.filter((r) => r.canceled_by !== null).map((r) => r.canceled_by),
+    reports.filter((r) => r.canceledBy !== null).map((r) => r.canceledBy)
   )
   aggregations.usersCancelsCount = usersCancelsSet.size
 
   const usersEvalutesSet = new Set(
-    reports.filter((r) => r.validated_by !== null).map((r) => r.validated_by),
+    reports.filter((r) => r.validatedBy !== null).map((r) => r.validatedBy)
   )
   aggregations.usersEvaluateCount = usersEvalutesSet.size
 
   aggregations.evaluatedSuccess = reports.filter(
-    (r) => r.validated_success === true,
+    (r) => r.validatedSuccess === true
   ).length
 
   aggregations.evaluatedFail = reports.filter(
-    (r) => r.validated_success === false,
+    (r) => r.validatedSuccess === false
   ).length
 
   aggregations.evaluatedCount = reports.filter(
-    (r) => r.validated_success !== null,
+    (r) => r.validatedSuccess !== null
   ).length
 
   return aggregations
