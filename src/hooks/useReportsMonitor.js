@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchReportsMonitor } from '@/services/reports'
+import { fetchReportsMonitor } from '@/services/reportsMonitor'
 
 export function useReportsMonitor () {
   const [loading, setLoading] = useState(false)

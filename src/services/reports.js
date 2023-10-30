@@ -1,5 +1,4 @@
 import api from '@/api/api'
-import { mapReportsResponse } from '@/utils/maps'
 
 export const baseUrl = 'api/reports'
 export const baseAliveUrl = 'api/reports/alive'
@@ -103,20 +102,4 @@ export async function assignReportsToOt ({ ot, reports = [] }) {
   }
 
   return assigned
-}
-
-export async function fetchReportsMonitor () {
-  try {
-    const response = await fetch(`${getBaseUrl()}/alive`, {
-      method: 'GET',
-      headers: {
-        Authorization: getToken()
-      }
-    })
-
-    const data = await response.json()
-    return mapReportsResponse(data)
-  } catch (error) {
-    return []
-  }
 }
