@@ -6,7 +6,7 @@ import { reportStatusUrl } from '@/services/reportStatus'
 import {
   AsyncSelectHeader,
   SelectFilterHeader,
-  TextFilterHeader,
+  TextFilterHeader
 } from '../Core/headers'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
@@ -19,8 +19,8 @@ const handleChangeFilter = (e, filterName) => {
   dispatch(
     setFilters({
       ...filters,
-      [filterName]: e.target.value,
-    }),
+      [filterName]: e.target.value
+    })
   )
 }
 
@@ -37,7 +37,7 @@ export const reportsColumns = [
     ),
     renderCell: ({ value, row }) => {
       return <span>{value !== 0 ? value : row.total_rows}</span>
-    },
+    }
   },
   {
     field: 'time',
@@ -50,7 +50,7 @@ export const reportsColumns = [
     },
     valueGetter: ({ value }) => {
       return value ? utcToLocal(value) : null
-    },
+    }
   },
   {
     field: 'vehicle',
@@ -60,7 +60,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'vehicle')}
       />
-    ),
+    )
   },
   {
     field: 'vehicle_type_id',
@@ -76,11 +76,11 @@ export const reportsColumns = [
         options={[
           { id: 1, name: 'MOTRIZ' },
           { id: 2, name: 'REMOLQUE' },
-          { id: 3, name: 'DOLLY' },
+          { id: 3, name: 'DOLLY' }
         ]}
         onChange={(e) => handleChangeFilter(e, 'vehicleType')}
       />
-    ),
+    )
   },
   {
     field: 'odometer',
@@ -94,7 +94,7 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return mettersToKilometers(value)
       return null
-    },
+    }
   },
   {
     field: 'driver',
@@ -105,7 +105,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'driver')}
       />
-    ),
+    )
   },
   {
     field: 'cell',
@@ -117,7 +117,7 @@ export const reportsColumns = [
         url={groupsBaseUrl}
         onChange={(e) => handleChangeFilter(e, 'cell')}
       />
-    ),
+    )
   },
   {
     field: 'shipment_id',
@@ -127,7 +127,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'shipment')}
       />
-    ),
+    )
   },
   {
     field: 'ot',
@@ -138,7 +138,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'ot')}
       />
-    ),
+    )
   },
   {
     field: 'status',
@@ -151,7 +151,7 @@ export const reportsColumns = [
         onChange={(e) => handleChangeFilter(e, 'status')}
         exclude={[3, 4, 6]}
       />
-    ),
+    )
   },
   {
     field: 'report_type',
@@ -163,7 +163,7 @@ export const reportsColumns = [
         url={reportTypeBaseUrl}
         onChange={(e) => handleChangeFilter(e, 'reportType')}
       />
-    ),
+    )
   },
   {
     field: 'has_observations',
@@ -174,12 +174,12 @@ export const reportsColumns = [
       if (value === null) return null
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
-    },
+    }
   },
   {
     field: 'last_observation',
     headerName: 'ULTIMA OBSERVACION',
-    width: 200,
+    width: 200
   },
   {
     field: 'has_evidences',
@@ -190,7 +190,7 @@ export const reportsColumns = [
       if (value === null) return null
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
-    },
+    }
   },
   {
     field: 'user',
@@ -202,7 +202,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'user')}
       />
-    ),
+    )
   },
   {
     field: 'assigned_on',
@@ -212,7 +212,7 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
     field: 'assigned_by',
@@ -225,7 +225,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'userAssign')}
       />
-    ),
+    )
   },
   {
     field: 'process_on',
@@ -236,7 +236,7 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
     field: 'process_by',
@@ -248,7 +248,7 @@ export const reportsColumns = [
         headerName={headerName}
         onChange={(e) => handleChangeFilter(e, 'userProcess')}
       />
-    ),
+    )
   },
   {
     field: 'ot_date',
@@ -258,7 +258,7 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
     field: 'ot_initial_date',
@@ -268,7 +268,7 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
     field: 'ot_promise_date',
@@ -278,6 +278,6 @@ export const reportsColumns = [
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
-  },
+    }
+  }
 ]
