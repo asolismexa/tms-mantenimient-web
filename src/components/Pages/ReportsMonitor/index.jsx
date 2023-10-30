@@ -1,10 +1,12 @@
 import { Alert, Box } from '@mui/material'
-import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
-import { useReportsMonitor } from '@/hooks/useReportsMonitor'
 import { ReportsMonitorGrid } from '@/components/monitors/reports/ReportsMonitorGrid'
+import { useReportsMonitor } from '@/hooks/useReportsMonitor'
+import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
+import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
 
 export function ReportsMonitor () {
   const { reports, loading, error: monitorError, syncMonitor } = useReportsMonitor()
+  const { filteredReports, onFilterChange } = useReportsMonitorFilters({ reports })
 
   return (
     <Box sx={{
@@ -12,14 +14,14 @@ export function ReportsMonitor () {
       height: '100%',
       flexDirection: 'column',
       gap: 1
-    }} >
-      { monitorError && <Alert severity='error'>{monitorError}</Alert>}
+    }}>
+      { monitorError && <Alert severity='error'>{monitorError}</Alert> }
        <ReportsMonitorGrid
         loading={loading}
-        reports={reports}
+        reports={filteredReports}
         syncMonitor={syncMonitor}
         columns={createMonitorColumns({
-          onFilterChange: () => {}
+          onFilterChange
         })} />
     </Box>
   )

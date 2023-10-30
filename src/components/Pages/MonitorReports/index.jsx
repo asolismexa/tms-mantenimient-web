@@ -13,7 +13,7 @@ import { useCreateReports } from '@/hooks/useCreateReports'
 import { SnackbarProvider, useSnackbar } from 'notistack'
 import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
 import TollBar from '@/components/Pages/MonitorReports/TollBar'
-import { useFilterReports } from '@/hooks/useFilterReports'
+import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
 import { getAggregations } from '@/utils/reportsAggregations'
 import { AssignReports } from '@/components/monitors/reports/AssignReports'
 
@@ -66,7 +66,7 @@ function ReportsMonitor () {
 
   const [selectedRows, setSelectedRows] = useState([])
 
-  const { onFilterChange, filteredReports } = useFilterReports({
+  const { onFilterChange, filteredReports } = useReportsMonitorFilters({
     initialFilters,
     reports
   })

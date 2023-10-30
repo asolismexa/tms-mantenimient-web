@@ -29,7 +29,9 @@ export const createMonitorColumns = ({
       return (
         <InputTextHeader
           label="FOLIO"
-          onChange={({ target }) => onFilterChange('folio', target.value)}
+          onChange={({ target }) => {
+            onFilterChange('folio', target.value)
+          }}
         >
           {aggregations.totalCount}
         </InputTextHeader>
