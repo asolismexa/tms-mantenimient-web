@@ -107,7 +107,7 @@ export async function assignReportsToOt ({ ot, reports = [] }) {
 
 export async function fetchReportsMonitor () {
   try {
-    const response = await fetch(getBaseUrl(), {
+    const response = await fetch(`${getBaseUrl()}/alive`, {
       method: 'GET',
       headers: {
         Authorization: getToken()

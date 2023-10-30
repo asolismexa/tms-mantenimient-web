@@ -3,6 +3,7 @@ import { ReportsMonitorGrid } from '@/components/monitors/reports/ReportsMonitor
 import { useReportsMonitor } from '@/hooks/useReportsMonitor'
 import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
 import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
+import { debounce } from '@/utils/debounce'
 
 export function ReportsMonitor () {
   const { reports, loading, error: monitorError, syncMonitor } = useReportsMonitor()
@@ -21,7 +22,7 @@ export function ReportsMonitor () {
         reports={filteredReports}
         syncMonitor={syncMonitor}
         columns={createMonitorColumns({
-          onFilterChange
+          onFilterChange: debounce(onFilterChange, 300)
         })} />
     </Box>
   )
