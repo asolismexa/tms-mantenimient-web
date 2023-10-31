@@ -3,7 +3,7 @@ import { Divider, Typography, CircularProgress, Stack } from '@mui/material'
 import AutoCompleteVehicles from './AutoCompleteVehicles'
 import { getVehicleById } from '@/services/vehicles'
 
-function FormCreateReport({ form, setForm, children }) {
+function FormCreateReport ({ form, setForm, children }) {
   const [resp, setResponse] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -17,7 +17,7 @@ function FormCreateReport({ form, setForm, children }) {
             return {
               ...prev,
               driver: data.driver,
-              shipment: data.shipmentsCurrent,
+              shipment: data.shipmentsCurrent
             }
           })
         })
@@ -38,7 +38,7 @@ function FormCreateReport({ form, setForm, children }) {
           onChange={(_, newValue) => {
             setForm({
               ...form,
-              vehicle: newValue,
+              vehicle: newValue
             })
           }}
         />

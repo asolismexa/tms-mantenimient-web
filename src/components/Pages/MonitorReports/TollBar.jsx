@@ -3,7 +3,7 @@ import CustomIconButton from '@/components/Core/buttons/IconButton'
 import CustomExportToolbar from '@/components/custom/CustomExportToolbar'
 import { NoteAdd, Refresh } from '@mui/icons-material'
 
-function TollBar({ onOpenCreateReportsModal, setRefresh, children }) {
+function TollBar ({ onOpenCreateReportsModal, setRefresh, children }) {
   return (
     <CustomExportToolbar>
       <Stack direction="row" spacing={0.7}>

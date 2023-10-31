@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import CustomDataGrid from '@/components/custom/DataGrid'
+import CustomDataGrid from '@/components/custom/CustomDataGrid'
 import Box from '@mui/material/Box'
 import useFetchReports from '@/hooks/useFetchReports'
 import ModalCreateReports from './ModalCreateReports'
@@ -136,7 +136,13 @@ function ReportsMonitor () {
   }
 
   return (
-    <Box sx={{ m: 2 }}>
+    <Box sx={{
+      display: 'flex',
+      height: '100%',
+      flexDirection: 'column',
+      gap: 1
+    }}>
+      <p>Viejo Monitor</p>
       <CustomDataGrid
         loading={loading}
         columns={createMonitorColumns({

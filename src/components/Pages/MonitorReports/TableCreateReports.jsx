@@ -7,14 +7,14 @@ import {
   TableRow,
   TableContainer,
   IconButton,
-  Alert,
+  Alert
 } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 
-function TableCreateReports({ children, items, onAddItem = null }) {
+function TableCreateReports ({ children, items, onAddItem = null }) {
   return (
     <>
-      {items.length == 0 && (
+      {items.length === 0 && (
         <Alert severity="info">No has agregado ninguna falla</Alert>
       )}
       <TableContainer sx={{ my: 2, width: 500 }} component={Paper}>

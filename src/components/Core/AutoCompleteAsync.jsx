@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import CircularProgress from '@mui/material/CircularProgress'
 import useFetchOptions from '@/hooks/fetchOptions'
 
-export default function AutoCompleteAsync({
+export default function AutoCompleteAsync ({
   url,
   label,
   onChange,
@@ -15,7 +15,7 @@ export default function AutoCompleteAsync({
   width,
   exclude = [-1],
   idOrdering = [],
-  extendOptions = [],
+  extendOptions = []
 }) {
   const [inputValue, setInputValue] = useState('')
   const { options, loading, setOpen, open } = useFetchOptions(url)
@@ -41,7 +41,7 @@ export default function AutoCompleteAsync({
 
   return (
     <Autocomplete
-      sx={{ width: width ? width : 300 }}
+      sx={{ width: width || 300 }}
       disabled={disabled}
       open={open}
       onOpen={() => {
@@ -77,12 +77,14 @@ export default function AutoCompleteAsync({
             ...params.InputProps,
             endAdornment: (
               <>
-                {loading ? (
+                {loading
+                  ? (
                   <CircularProgress color="inherit" size={20} />
-                ) : null}
+                    )
+                  : null}
                 {params.InputProps.endAdornment}
               </>
-            ),
+            )
           }}
         />
       )}

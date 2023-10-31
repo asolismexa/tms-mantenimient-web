@@ -16,7 +16,6 @@ export const router = createBrowserRouter([
       },
       {
         path: 'monitor',
-        element: <ReportsMonitor />,
         children: [
           {
             path: 'reports',

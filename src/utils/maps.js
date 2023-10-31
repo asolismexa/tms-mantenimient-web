@@ -61,3 +61,34 @@ export const mapReportsResponse = (response) => response.map((report) => ({
   totalRows: report.total_rows,
   rowColor: report.row_color
 }))
+
+export const mapVehicleDetailResponse = (response) => ({
+  id: response.id,
+  alias: response.alias,
+  configuration: response.performance_type,
+  configurationId: response.performance_type_id,
+  type: response.type,
+  typeId: response.type_id,
+  driverId: response.driver_id,
+  driver: response.driver,
+  shipment: response.shipment,
+  doorTypeId: response.door_type_id,
+  doorType: response.door_type,
+  year: response.model_year
+})
+
+export const mapVehicleDetail = ({ vehicle, driver, shipmentsCurrent }) => ({
+  id: vehicle?.id,
+  alias: vehicle?.alias,
+  type: vehicle?.type,
+  typeId: vehicle.type_id,
+  configuration: vehicle?.performance_type,
+  configurationId: vehicle?.performance_type_id,
+  feature: vehicle.freight_type,
+  doorId: vehicle.door_type_id,
+  doorType: vehicle.door_type,
+  driver: driver?.driver,
+  driverId: driver?.id,
+  shipment: shipmentsCurrent?.shipment_id,
+  year: vehicle?.model_year
+})

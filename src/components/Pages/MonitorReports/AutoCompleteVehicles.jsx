@@ -1,7 +1,7 @@
 import { baseUrl } from '@/services/vehicles'
 import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
-function AutoCompleteVehicles({ onChange, value, ...props }) {
+function AutoCompleteVehicles ({ onChange, value, ...props }) {
   return (
     <AutoCompleteAsync
       margin="normal"

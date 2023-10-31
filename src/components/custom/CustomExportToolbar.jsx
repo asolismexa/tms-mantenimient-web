@@ -1,6 +1,6 @@
 import { GridToolbarExport, GridToolbarContainer } from '@mui/x-data-grid'
 
-function CustomExportToolbar({ children }) {
+function CustomExportToolbar ({ children }) {
   return (
     <GridToolbarContainer sx={{ mb: 1 }}>
       {children}
