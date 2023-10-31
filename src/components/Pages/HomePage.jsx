@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 
-function HomePage() {
+function HomePage () {
   return <Typography variant="h5">Bienvenido</Typography>
 }
 

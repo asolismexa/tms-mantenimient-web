@@ -4,10 +4,10 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
 
 const errorMessages = {
   404: 'La página que buscas no existe!',
-  500: 'Error al cargar la página contacte al administrador',
+  500: 'Error al cargar la página contacte al administrador'
 }
 
-function ErrorPage() {
+function ErrorPage () {
   const error = useRouteError()
 
   return (
@@ -17,7 +17,7 @@ function ErrorPage() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        height: '100vh'
       }}
     >
       <Typography

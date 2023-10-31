@@ -11,8 +11,8 @@ import {
 } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { useCreateReportsStore } from '@/store/createReports'
-import { NewReportsItem } from '@/components/Pages/ReportsMonitor/NewReportsItem'
-import { AddNewReportItemDialog } from '@/components/Pages/ReportsMonitor/AddNewReportItemDialog'
+import { NewReportsItem } from '@/components/tables/NewReportsItem'
+import { AddNewReportItemDialog } from '@/components/dialogs/AddNewReportItemDialog'
 
 export function NewReportsTable () {
   const vehicleSelected = useCreateReportsStore(state => state.vehicle)

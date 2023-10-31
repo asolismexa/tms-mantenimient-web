@@ -5,7 +5,7 @@ import { createMonitorColumns } from '@/components/columns/reports/monitorColumn
 import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
 import { debounce } from '@/utils/debounce'
 import { getAggregations } from '@/utils/reportsAggregations'
-import { CreateReportDetailDialog } from '@/components/Pages/ReportsMonitor/CreateReportDialog'
+import { CreateReportDetailDialog } from '@/components/dialogs/CreateReportDialog'
 import { SnackbarProvider } from 'notistack'
 
 export function ReportsMonitor () {
