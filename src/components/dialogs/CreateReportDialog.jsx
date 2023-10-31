@@ -9,7 +9,6 @@ import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 import AutoCompleteVehicles from '@/components/Pages/MonitorReports/AutoCompleteVehicles'
 import { useCreateReportsStore } from '@/store/createReports'
-import { mapVehicleDetailResponse } from '@/utils/maps'
 import { PerformanceType } from '@/components/Pages/ReportsMonitor/PerformanceType'
 import { VehicleDetail } from '@/components/Pages/ReportsMonitor/VehicleDetail'
 import { NewReportsTable } from '@/components/tables/NewReportsTable'
@@ -17,6 +16,7 @@ import { createReportsService } from '@/services/reports'
 import { useSnackbar } from 'notistack'
 import { SnackbarDismissAction } from '@/components/SnackbarDismissAction'
 import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
+import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
 export function CreateReportDetailDialog () {
   const {
@@ -31,6 +31,7 @@ export function CreateReportDetailDialog () {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const [loading, setLoading] = useState(false)
   const hasReportsItems = newReportsItems.length > 0
+  const syncMonitor = useReportsMonitorStore(state => state.syncMonitor)
 
   const handleOnChange = (_, vehicle) => {
     if (!vehicle) return selectVehicle(null)
@@ -51,6 +52,7 @@ export function CreateReportDetailDialog () {
     }))
     selectVehicle(null)
     setLoading(false)
+    syncMonitor()
   }
 
   const handleClose = () => {
