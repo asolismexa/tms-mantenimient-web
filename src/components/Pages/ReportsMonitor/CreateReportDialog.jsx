@@ -5,12 +5,12 @@ import {
   DialogActions,
   Button,
   Box,
-  Stack
+  Stack,
+  CircularProgress
 } from '@mui/material'
 import AutoCompleteVehicles from '@/components/Pages/MonitorReports/AutoCompleteVehicles'
 import { useCreateReportsStore } from '@/store/createReports'
 import { mapVehicleDetailResponse } from '@/utils/maps'
-import { useVehicleDetail } from '@/hooks/useVehicleDetail'
 import { PerformanceType } from '@/components/Pages/ReportsMonitor/PerformanceType'
 import { VehicleDetail } from '@/components/Pages/ReportsMonitor/VehicleDetail'
 
@@ -19,14 +19,15 @@ export function CreateReportDetailDialog () {
     isDialogOpen,
     closeDialog,
     vehicle,
-    setVehicle
+    loadingVehicleDetail,
+    selectVehicle,
+    detail
   } = useCreateReportsStore(state => state)
-  const { vehicleDetail } = useVehicleDetail(vehicle?.id)
 
   const handleOnChange = (_, newValue) => {
-    if (!newValue) return setVehicle(null)
+    if (!newValue) return selectVehicle(null)
     const mappedValue = mapVehicleDetailResponse(newValue)
-    setVehicle(mappedValue)
+    selectVehicle(mappedValue)
   }
 
   return (
@@ -46,10 +47,13 @@ export function CreateReportDetailDialog () {
             value={vehicle}
             onChange={handleOnChange}
           />
-          <PerformanceType detail={vehicleDetail} />
+          <PerformanceType detail={detail} />
         </Stack>
 
-        <VehicleDetail detail={vehicleDetail} />
+        { loadingVehicleDetail
+          ? <CircularProgress sx={{ my: 2 }} />
+          : <VehicleDetail detail={detail} />
+        }
 
       </Box>
     </DialogContent>

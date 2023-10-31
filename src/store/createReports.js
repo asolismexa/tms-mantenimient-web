@@ -1,8 +1,11 @@
+import { fetchVehicleDetail } from '@/services/vehicles'
 import { create } from 'zustand'
 
 const initialState = {
   vehicle: null,
-  isDialogOpen: false
+  detail: null,
+  isDialogOpen: false,
+  loadingVehicleDetail: false
 }
 
 export const useCreateReportsStore = create((set) => ({
@@ -13,8 +16,15 @@ export const useCreateReportsStore = create((set) => ({
   closeDialog: () => {
     set({ isDialogOpen: false })
   },
-  setVehicle: (vehicle) => {
-    set({ vehicle })
+  selectVehicle: (vehicle) => {
+    if (!vehicle) {
+      set({ vehicle: null, detail: null })
+      return
+    }
+    set({ vehicle, loadingVehicleDetail: true })
+    fetchVehicleDetail(vehicle.id)
+      .then((data) => set({ detail: data }))
+      .finally(() => set({ loadingVehicleDetail: false }))
   },
   resetState: () => {
     set(structuredClone(initialState))
