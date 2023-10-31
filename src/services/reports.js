@@ -144,3 +144,20 @@ export async function createReportsService (reports) {
     console.log('Error al crear reportes', error)
   }
 }
+
+/**
+ * Fetches the report data of the passed id.
+ * @param {number} reportId the id of the report to retrieve.
+ */
+export async function fetchReportDetailById (reportId) {
+  try {
+    const response = await fetch(`${getBaseUrl()}/${reportId}`, {
+      headers: {
+        Authorization: getToken()
+      }
+    })
+    return await response.json()
+  } catch (error) {
+    throw new Error('No se pudo recuperar la informacion del reporte', error)
+  }
+}

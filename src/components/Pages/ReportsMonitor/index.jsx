@@ -7,10 +7,19 @@ import { debounce } from '@/utils/debounce'
 import { getAggregations } from '@/utils/reportsAggregations'
 import { CreateReportDetailDialog } from '@/components/dialogs/CreateReportDialog'
 import { SnackbarProvider } from 'notistack'
+import { useReportDetailStore } from '@/store/reportDetailStore'
+import { ReportDetailDialog } from '@/components/dialogs/ReportDetailDialog'
 
 export function ReportsMonitor () {
-  const { reports, loading, error: monitorError, syncMonitor } = useReportsMonitor()
+  const { reports, loading, error: monitorError } = useReportsMonitor()
   const { filteredReports, onFilterChange } = useReportsMonitorFilters({ reports })
+  const getReportDetail = useReportDetailStore(state => state.getReportDetail)
+  const openDialog = useReportDetailStore(state => state.openDialog)
+
+  const handleRowDoubleClick = ({ id }) => {
+    getReportDetail(id)
+    openDialog()
+  }
 
   return (
     <Box sx={{
@@ -24,13 +33,14 @@ export function ReportsMonitor () {
         <ReportsMonitorGrid
           loading={loading}
           reports={filteredReports}
-          syncMonitor={syncMonitor}
+          onRowDoubleClick={handleRowDoubleClick}
           columns={createMonitorColumns({
             onFilterChange: debounce(onFilterChange, 300),
             aggregations: getAggregations({ reports: filteredReports })
           })}
         />
         <CreateReportDetailDialog />
+        <ReportDetailDialog />
       </SnackbarProvider>
     </Box>
   )

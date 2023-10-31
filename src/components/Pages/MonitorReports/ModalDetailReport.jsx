@@ -20,7 +20,7 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress,
+  CircularProgress
 } from '@mui/material'
 import TabPanel from '@/components/Core/TabPanel'
 import { formatDate } from '@/utils/dates'
@@ -33,7 +33,7 @@ import {
   fetchReports,
   postReportObservation,
   uploadEvidence,
-  validateReport,
+  validateReport
 } from '@/services/reports'
 import { statusEnum } from '@/constants/reports'
 import CheckLogo from '@/components/Core/CheckLogo'
@@ -48,11 +48,11 @@ import { mettersToKilometers } from '@/utils/numbers'
 const initialValidateDialogState = {
   open: false,
   loading: false,
-  reports: [],
+  reports: []
 }
 
 const emtpy = () => {}
-export default function ModalDetailReport({
+export default function ModalDetailReport ({
   report,
   open,
   handleClose = emtpy,
@@ -62,7 +62,7 @@ export default function ModalDetailReport({
   refreshReports = emtpy,
   createNewReport = emtpy,
   tab,
-  setTab,
+  setTab
 }) {
   const vehicleData = useFetchVehicle(report?.vehicle_id)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -71,7 +71,7 @@ export default function ModalDetailReport({
   const [otField, setOtField] = useState(report?.ot || '')
   const [evidences, setEvidences] = useState([])
   const [validateDialog, setValidateDialog] = useState(
-    initialValidateDialogState,
+    initialValidateDialogState
   )
   const [selectedDriver, setSelectedDriver] = useState(null)
 
@@ -98,7 +98,7 @@ export default function ModalDetailReport({
   const openValidateDialog = () => {
     setValidateDialog((prev) => ({
       ...prev,
-      open: true,
+      open: true
     }))
   }
 
@@ -112,8 +112,8 @@ export default function ModalDetailReport({
     assignOt({
       reportId: report?.id,
       data: {
-        ot_folio: parseInt(otField),
-      },
+        ot_folio: parseInt(otField)
+      }
     })
       .then(() => {
         refreshReport()
@@ -136,7 +136,7 @@ export default function ModalDetailReport({
     if (observation.trim() === '') return
     postReportObservation({
       report_id: report.id,
-      observation_text: observation,
+      observation_text: observation
     })
       .then(() => {
         refreshReport()
@@ -153,13 +153,13 @@ export default function ModalDetailReport({
     fetchReports({
       params: {
         status_id: statusEnum.ATENDIDO,
-        ot_folio: report?.ot,
-      },
+        ot_folio: report?.ot
+      }
     })
       .then((res) => {
         setValidateDialog((prev) => ({
           ...prev,
-          reports: res.data,
+          reports: res.data
         }))
       })
       .finally(() => {
@@ -172,8 +172,8 @@ export default function ModalDetailReport({
     validateReport({
       reportId: report?.id,
       data: {
-        validated_success: true,
-      },
+        validated_success: true
+      }
     })
       .then(() => {
         refreshReport()
@@ -191,8 +191,8 @@ export default function ModalDetailReport({
     validateReport({
       reportId: report?.id,
       data: {
-        validated_success: false,
-      },
+        validated_success: false
+      }
     })
       .then(() => {
         refreshReports()
@@ -287,12 +287,14 @@ export default function ModalDetailReport({
                 <LabelValue
                   label="OPERADOR:"
                   value={
-                    report?.driver ? (
-                      report.driver
-                    ) : (
+                    report?.driver
+                      ? (
+                          report.driver
+                        )
+                      : (
                       <Stack
                         sx={{
-                          mt: 1,
+                          mt: 1
                         }}
                         spacing={1}
                         alignItems="start"
@@ -307,7 +309,7 @@ export default function ModalDetailReport({
                           </Button>
                         )}
                       </Stack>
-                    )
+                        )
                   }
                 />
               </Grid>
@@ -325,7 +327,7 @@ export default function ModalDetailReport({
                   <LabelValue
                     label="ODOMETRO:"
                     value={mettersToKilometers(
-                      report?.odometer ? report?.odometer : 0,
+                      report?.odometer ? report?.odometer : 0
                     )}
                   />
                 )}
@@ -334,9 +336,11 @@ export default function ModalDetailReport({
                   <LabelValue
                     label="EVALUADO:"
                     value={
-                      report?.validated_success !== null ? (
+                      report?.validated_success !== null
+                        ? (
                         <CheckLogo checked={report?.validated_success} />
-                      ) : null
+                          )
+                        : null
                     }
                   />
                 )}
@@ -375,7 +379,8 @@ export default function ModalDetailReport({
                     value={
                       !report?.ot &&
                       report?.status_id !== statusEnum.VALIDADO &&
-                      report?.status_id !== statusEnum.ATENDIDO ? (
+                      report?.status_id !== statusEnum.ATENDIDO
+                        ? (
                         <Stack direction="row" spacing={1} alignItems="center">
                           <TextField
                             margin="dense"
@@ -386,9 +391,10 @@ export default function ModalDetailReport({
                           />
                           <Button onClick={handleAssignOt}>Asignar</Button>
                         </Stack>
-                      ) : (
+                          )
+                        : (
                         <Typography variant="body1">{report?.ot}</Typography>
-                      )
+                          )
                     }
                   />
                   {report?.ot_promise_date && (
@@ -519,7 +525,7 @@ export default function ModalDetailReport({
             onClick={() => {
               validateIncorrectReports({
                 id: report?.vehicle_id,
-                alias: report?.vehicle,
+                alias: report?.vehicle
               })
             }}
           >
