@@ -1,7 +1,7 @@
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export default function LoadingBackdrop({ open }) {
+export default function LoadingBackdrop ({ open }) {
   return (
     <div>
       <Backdrop

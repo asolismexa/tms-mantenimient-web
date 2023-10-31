@@ -31,6 +31,7 @@ export function AddNewReportItemDialog ({
     if (!isValidForm) return
     const newItem = {
       id: crypto.randomUUID(),
+      reportTypeId: form.reportType?.id,
       type: form.reportType.name,
       observation: form.observation,
       evidences: form.evidences

@@ -20,7 +20,7 @@ export const useCreateReportsStore = create((set) => ({
   },
   selectVehicle: (vehicle) => {
     if (!vehicle) {
-      set({ vehicle: null, detail: null })
+      set({ vehicle: null, detail: null, newReports: [] })
       return
     }
     set({ vehicle, loadingVehicleDetail: true })

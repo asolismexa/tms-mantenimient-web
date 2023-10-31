@@ -103,3 +103,42 @@ export async function assignReportsToOt ({ ot, reports = [] }) {
 
   return assigned
 }
+
+export async function createReport (report) {
+  try {
+    const formdata = new FormData()
+    formdata.append('vehicle_id', report.vehicleId)
+    formdata.append('report_type_id', report.reportTypeId)
+    formdata.append('observation', report.observation)
+    report.evidences.forEach((evidence) => {
+      formdata.append('', evidence)
+    })
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: getToken()
+      },
+      body: formdata,
+      redirect: 'follow'
+    }
+
+    const response = await fetch(getBaseUrl(), requestOptions)
+    return await response.json()
+  } catch (error) {
+    console.log('Error al crear reporte', error)
+  }
+}
+
+/**
+ * Posts the reports to the database
+ * @param {Object} reports the reports to post.
+ * @returns an array containing the ids of the created reports.
+ */
+export async function createReportsService (reports) {
+  try {
+    return await Promise.all(reports.map(report => createReport(report)))
+  } catch (error) {
+    console.log('Error al crear reportes', error)
+  }
+}

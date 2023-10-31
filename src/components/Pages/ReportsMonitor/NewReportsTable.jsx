@@ -15,6 +15,7 @@ import { NewReportsItem } from '@/components/Pages/ReportsMonitor/NewReportsItem
 import { AddNewReportItemDialog } from '@/components/Pages/ReportsMonitor/AddNewReportItemDialog'
 
 export function NewReportsTable () {
+  const vehicleSelected = useCreateReportsStore(state => state.vehicle)
   const newReports = useCreateReportsStore(state => state.newReports)
   const isOpen = useCreateReportsStore(state => state.isDialogAddNewReportItemOpen)
   const openDialog = useCreateReportsStore(state => state.openNewReportItemDialog)
@@ -23,7 +24,7 @@ export function NewReportsTable () {
   const removeItem = useCreateReportsStore(state => state.removeNewReportItem)
 
   const handleAddItem = (newItem) => {
-    addItem(newItem)
+    addItem({ ...newItem, vehicleId: vehicleSelected?.id })
     closeDialog()
   }
 

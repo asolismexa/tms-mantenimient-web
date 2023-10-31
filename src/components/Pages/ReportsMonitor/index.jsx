@@ -6,6 +6,7 @@ import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
 import { debounce } from '@/utils/debounce'
 import { getAggregations } from '@/utils/reportsAggregations'
 import { CreateReportDetailDialog } from '@/components/Pages/ReportsMonitor/CreateReportDialog'
+import { SnackbarProvider } from 'notistack'
 
 export function ReportsMonitor () {
   const { reports, loading, error: monitorError, syncMonitor } = useReportsMonitor()
@@ -18,17 +19,19 @@ export function ReportsMonitor () {
       flexDirection: 'column',
       gap: 1
     }}>
-      { monitorError && <Alert severity='error'>{monitorError}</Alert> }
-      <ReportsMonitorGrid
-        loading={loading}
-        reports={filteredReports}
-        syncMonitor={syncMonitor}
-        columns={createMonitorColumns({
-          onFilterChange: debounce(onFilterChange, 300),
-          aggregations: getAggregations({ reports: filteredReports })
-        })}
-      />
-      <CreateReportDetailDialog />
+      <SnackbarProvider>
+        { monitorError && <Alert severity='error'>{monitorError}</Alert> }
+        <ReportsMonitorGrid
+          loading={loading}
+          reports={filteredReports}
+          syncMonitor={syncMonitor}
+          columns={createMonitorColumns({
+            onFilterChange: debounce(onFilterChange, 300),
+            aggregations: getAggregations({ reports: filteredReports })
+          })}
+        />
+        <CreateReportDetailDialog />
+      </SnackbarProvider>
     </Box>
   )
 }
