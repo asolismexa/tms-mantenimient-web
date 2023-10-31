@@ -13,6 +13,7 @@ import { useCreateReportsStore } from '@/store/createReports'
 import { mapVehicleDetailResponse } from '@/utils/maps'
 import { PerformanceType } from '@/components/Pages/ReportsMonitor/PerformanceType'
 import { VehicleDetail } from '@/components/Pages/ReportsMonitor/VehicleDetail'
+import { NewReportsTable } from '@/components/Pages/ReportsMonitor/NewReportsTable'
 
 export function CreateReportDetailDialog () {
   const {
@@ -55,9 +56,11 @@ export function CreateReportDetailDialog () {
           : <VehicleDetail detail={detail} />
         }
 
-      </Box>
-    </DialogContent>
+        {vehicle && <NewReportsTable />}
 
+      </Box>
+
+    </DialogContent>
     <DialogActions>
       <Button>GUARDAR</Button>
       <Button onClick={closeDialog}>CANCELAR</Button>

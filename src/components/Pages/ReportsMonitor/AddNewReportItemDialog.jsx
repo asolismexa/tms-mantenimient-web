@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -8,22 +9,41 @@ import {
   TextField,
   Alert
 } from '@mui/material'
-import AutoCompleteTypes from './AutoCompleteTypes'
+import AutoCompleteTypes from '@/components/Pages/MonitorReports/AutoCompleteTypes'
 import FileInput from '@/components/Core/FileInput'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 
-function ModalAddItems ({
+const initialForm = {
+  reportType: null,
+  observation: '',
+  evidences: []
+}
+
+export function AddNewReportItemDialog ({
   open,
-  form,
-  vehicleTypeId = 0,
-  setForm,
   onClose = null,
   onAdd = null
 }) {
-  const typesUrl =
-    vehicleTypeId == 2
-      ? `${reportTypeBaseUrl}?vehicle_type_id=0`
-      : reportTypeBaseUrl
+  const [form, setForm] = useState(initialForm)
+  const isValidForm = form.reportType && form.observation.trim() !== ''
+
+  const handleAdd = () => {
+    if (!isValidForm) return
+    const newItem = {
+      id: crypto.randomUUID(),
+      type: form.reportType.name,
+      observation: form.observation,
+      evidences: form.evidences
+    }
+    onAdd(newItem)
+    setForm({ ...initialForm })
+  }
+
+  const handleClose = () => {
+    setForm({ ...initialForm })
+    onClose()
+  }
+
   return (
     <Dialog fullWidth maxWidth="sm" open={open}>
       <DialogTitle>Agregar Falla</DialogTitle>
@@ -32,10 +52,10 @@ function ModalAddItems ({
         <Box sx={{ p: 1 }}>
           <AutoCompleteTypes
             onChange={(_, value) => {
-              setForm({ ...form, type: value })
+              setForm({ ...form, reportType: value })
             }}
-            value={form.type}
-            url={typesUrl}
+            value={form.reportType}
+            url={reportTypeBaseUrl}
           />
           <TextField
             multiline
@@ -60,11 +80,11 @@ function ModalAddItems ({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onAdd}>Guardar</Button>
-        <Button onClick={onClose}>Cancelar</Button>
+        <Button sx={{
+          opacity: isValidForm ? 1.0 : 0.5
+        }} onClick={handleAdd} disabled={!isValidForm}>Guardar</Button>
+        <Button onClick={handleClose}>Cancelar</Button>
       </DialogActions>
     </Dialog>
   )
 }
-
-export default ModalAddItems

@@ -1,17 +1,17 @@
 import { TableRow, TableCell, Checkbox, IconButton, Stack } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-function RowReportItem ({ report, onDelete = null }) {
+export function NewReportsItem ({ report, onRemove }) {
   return (
     <TableRow>
-      <TableCell align="center">{report.report_type.name}</TableCell>
-      <TableCell align="center">{report.observation}</TableCell>
+      <TableCell align="center">{report.type}</TableCell>
+      <TableCell align="center">{report.observation }</TableCell>
       <TableCell align="center">
-        <Checkbox disabled checked={report.evidences.length > 0} />
+        <Checkbox disabled checked/>
       </TableCell>
       <TableCell align="center">
         <Stack>
-          <IconButton color="error" onClick={() => onDelete(report.id)}>
+          <IconButton onClick={onRemove} color="error">
             <DeleteIcon />
           </IconButton>
         </Stack>
@@ -19,5 +19,3 @@ function RowReportItem ({ report, onDelete = null }) {
     </TableRow>
   )
 }
-
-export default RowReportItem

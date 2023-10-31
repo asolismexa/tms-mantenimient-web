@@ -5,7 +5,9 @@ const initialState = {
   vehicle: null,
   detail: null,
   isDialogOpen: false,
-  loadingVehicleDetail: false
+  isDialogAddNewReportItemOpen: false,
+  loadingVehicleDetail: false,
+  newReports: []
 }
 
 export const useCreateReportsStore = create((set) => ({
@@ -25,6 +27,19 @@ export const useCreateReportsStore = create((set) => ({
     fetchVehicleDetail(vehicle.id)
       .then((data) => set({ detail: data }))
       .finally(() => set({ loadingVehicleDetail: false }))
+  },
+  addNewReportItem: (newReport) => {
+    set((state) => ({ newReports: [...state.newReports, newReport] }))
+  },
+  removeNewReportItem: (itemId) => set((state) => {
+    const newReports = state.newReports.filter((item) => item.id !== itemId)
+    return { ...state, newReports }
+  }),
+  openNewReportItemDialog: () => {
+    set({ isDialogAddNewReportItemOpen: true })
+  },
+  closeNewReportItemDialog: () => {
+    set({ isDialogAddNewReportItemOpen: false })
   },
   resetState: () => {
     set(structuredClone(initialState))
