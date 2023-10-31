@@ -33,10 +33,9 @@ export async function fetchVehicleDetail (vehicleId) {
         Authorization: getToken()
       }
     })
-    if (!response.ok) throw new Error('No se pudo recuperar la infomracion de la unidad')
     const data = await response.json()
     return mapVehicleDetail(data)
-  } catch {
-    throw new Error('No se pudo recuperar la infomracion de la unidad')
+  } catch (error) {
+    throw new Error('No se pudo recuperar la infomracion de la unidad', error)
   }
 }

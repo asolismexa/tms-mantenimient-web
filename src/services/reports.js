@@ -110,6 +110,8 @@ export async function createReport (report) {
     formdata.append('vehicle_id', report.vehicleId)
     formdata.append('report_type_id', report.reportTypeId)
     formdata.append('observation', report.observation)
+    formdata.append('driver_id', report.driverId ?? '')
+    formdata.append('shipment_id', report.shipment ?? '')
     report.evidences.forEach((evidence) => {
       formdata.append('', evidence)
     })

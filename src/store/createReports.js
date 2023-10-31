@@ -18,14 +18,14 @@ export const useCreateReportsStore = create((set) => ({
   closeDialog: () => {
     set({ isDialogOpen: false })
   },
-  selectVehicle: (vehicle) => {
-    if (!vehicle) {
+  selectVehicle: (vehicleId) => {
+    if (!vehicleId) {
       set({ vehicle: null, detail: null, newReports: [] })
       return
     }
-    set({ vehicle, loadingVehicleDetail: true })
-    fetchVehicleDetail(vehicle.id)
-      .then((data) => set({ detail: data }))
+    set({ loadingVehicleDetail: true })
+    fetchVehicleDetail(vehicleId)
+      .then((data) => set({ vehicle: data, detail: data }))
       .finally(() => set({ loadingVehicleDetail: false }))
   },
   addNewReportItem: (newReport) => {

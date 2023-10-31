@@ -1,14 +1,12 @@
 import { useState } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogActions,
-  Button,
-  Box,
-  Stack,
-  CircularProgress
-} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 import AutoCompleteVehicles from '@/components/Pages/MonitorReports/AutoCompleteVehicles'
 import { useCreateReportsStore } from '@/store/createReports'
 import { mapVehicleDetailResponse } from '@/utils/maps'
@@ -34,10 +32,9 @@ export function CreateReportDetailDialog () {
   const [loading, setLoading] = useState(false)
   const hasReportsItems = newReportsItems.length > 0
 
-  const handleOnChange = (_, newValue) => {
-    if (!newValue) return selectVehicle(null)
-    const mappedValue = mapVehicleDetailResponse(newValue)
-    selectVehicle(mappedValue)
+  const handleOnChange = (_, vehicle) => {
+    if (!vehicle) return selectVehicle(null)
+    selectVehicle(vehicle.id)
   }
 
   const handleCreateNewReports = async () => {

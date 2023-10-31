@@ -88,7 +88,7 @@ export const mapVehicleDetail = ({ vehicle, driver, shipmentsCurrent }) => ({
   doorId: vehicle.door_type_id,
   doorType: vehicle.door_type,
   driver: driver?.driver,
-  driverId: driver?.id,
+  driverId: driver?.driver_id,
   shipment: shipmentsCurrent?.shipment_id,
   year: vehicle?.model_year
 })

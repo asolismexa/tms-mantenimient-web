@@ -24,7 +24,12 @@ export function NewReportsTable () {
   const removeItem = useCreateReportsStore(state => state.removeNewReportItem)
 
   const handleAddItem = (newItem) => {
-    addItem({ ...newItem, vehicleId: vehicleSelected?.id })
+    addItem({
+      ...newItem,
+      vehicleId: vehicleSelected?.id,
+      driverId: vehicleSelected?.driverId,
+      shipment: vehicleSelected?.shipment
+    })
     closeDialog()
   }
 
