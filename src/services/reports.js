@@ -105,6 +105,11 @@ export async function assignReportsToOt ({ ot, reports = [] }) {
   return assigned
 }
 
+/**
+ * Creates a report
+ * @param {Object} report the report to create
+ * @returns the id of the created report
+ */
 export async function createReport (report) {
   try {
     const formdata = new FormData()

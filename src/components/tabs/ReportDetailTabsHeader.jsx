@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab'
 import { TabPanel } from '@/components/tabs/TabPanel'
 import { useReportDetailStore } from '@/store/reportDetailStore'
 import { ReportDetailTab } from '@/components/tabs/ReportDetailTab'
+import { ReportObservationsTab } from '@/components/tabs/ReportObservationsTab'
 
 export function ReportDetailTabs () {
   const tab = useReportDetailStore(state => state.dialogTab)
@@ -23,7 +24,9 @@ export function ReportDetailTabs () {
       <TabPanel index={0} value={tab}>
         <ReportDetailTab />
       </TabPanel>
-      <TabPanel index={1} value={tab}>OBSERVACIONES</TabPanel>
+      <TabPanel index={1} value={tab}>
+        <ReportObservationsTab />
+      </TabPanel>
       <TabPanel index={2} value={tab}>EVIDENCIAS</TabPanel>
     </Box>
   )

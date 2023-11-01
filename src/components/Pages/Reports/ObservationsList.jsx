@@ -1,7 +1,7 @@
 import { List, Divider } from '@mui/material'
 import ObservationItem from './ObservationItem'
 
-function ObservationsList({ observations }) {
+function ObservationsList ({ observations }) {
   return (
     <List>
       {observations.map((observation) => (

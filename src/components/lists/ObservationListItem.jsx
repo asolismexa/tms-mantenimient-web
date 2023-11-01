@@ -1,24 +1,23 @@
-import { ListItem, ListItemText, Typography } from '@mui/material'
+import { Divider, ListItem, ListItemText, Typography } from '@mui/material'
 import { formatDate } from '@/utils/dates'
 
-function ObservationItem ({ observation }) {
+export function ObservationListItem ({ observation }) {
   return (
     <ListItem>
       <ListItemText>
         <div
           dangerouslySetInnerHTML={{
-            __html: observation.observation_text
+            __html: observation.observationText
           }}
         ></div>
         <Typography textAlign="end" sx={{ display: 'block' }} variant="caption">
           {observation.user}
         </Typography>
         <Typography textAlign="end" sx={{ display: 'block' }} variant="caption">
-          {formatDate(observation.time)}
+          {formatDate(observation.createdAt)}
         </Typography>
+        <Divider sx={{ my: 1 }} />
       </ListItemText>
     </ListItem>
   )
 }
-
-export default ObservationItem
