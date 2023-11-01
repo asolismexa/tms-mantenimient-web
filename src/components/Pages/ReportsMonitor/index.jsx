@@ -15,10 +15,25 @@ export function ReportsMonitor () {
   const { filteredReports, onFilterChange } = useReportsMonitorFilters({ reports })
   const getReportDetail = useReportDetailStore(state => state.getReportDetail)
   const openDialog = useReportDetailStore(state => state.openDialog)
+  const setTab = useReportDetailStore(state => state.setDialogTab)
 
   const handleRowDoubleClick = ({ id }) => {
     getReportDetail(id)
     openDialog()
+  }
+
+  const handleCellDoubleClick = ({ field }) => {
+    if (field === 'hasObservations' || field === 'lastObservation') {
+      setTab(1)
+      return
+    }
+
+    if (field === 'hasEvidences') {
+      setTab(2)
+      return
+    }
+
+    setTab(0)
   }
 
   return (
@@ -34,6 +49,7 @@ export function ReportsMonitor () {
           loading={loading}
           reports={filteredReports}
           onRowDoubleClick={handleRowDoubleClick}
+          onCellDoubleClick={handleCellDoubleClick}
           columns={createMonitorColumns({
             onFilterChange: debounce(onFilterChange, 300),
             aggregations: getAggregations({ reports: filteredReports })

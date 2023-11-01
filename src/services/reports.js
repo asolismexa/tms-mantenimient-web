@@ -217,3 +217,31 @@ export async function assingReportDriver (driverId, reportId) {
     throw new Error('No se pudo asignar el operador', error)
   }
 }
+
+/**
+ * Post a new evidence to the report
+ * @param {number} reportId the report to assing the ot
+ * @param {File} evidence the evidence to be uploaded
+ * @returns an success and a message values
+ */
+export async function postReportEvidence (reportId, evidence) {
+  try {
+    const formdata = new FormData()
+    formdata.append('report_id', reportId)
+    formdata.append('evidence', evidence)
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: getToken()
+      },
+      body: formdata,
+      redirect: 'follow'
+    }
+
+    const response = await fetch(`${getBaseUrl()}/evidences`, requestOptions)
+    return { success: response.ok, message: await response.text() }
+  } catch (error) {
+    throw new Error('No se pudo crear la evidencia', error)
+  }
+}

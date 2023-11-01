@@ -45,5 +45,6 @@ export const useReportDetailStore = create((set) => ({
         set({ errorMessage: null })
       })
       .finally(() => set({ loading: false }))
-  }
+  },
+  setLoading: (loading) => set({ loading })
 }))
