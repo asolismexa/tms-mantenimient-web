@@ -187,3 +187,28 @@ export async function assingReportOt (otFolio, reportId) {
     throw new Error('No se pudo asignar la OT', error)
   }
 }
+
+/**
+ * Updates a report to bind with the folio of the OT
+ * @param {number} otFolio the folio of the ot to be assigned
+ * @param {number} reportId the report to assing the ot
+ * @returns an success and a message values
+ */
+export async function assingReportDriver (driverId, reportId) {
+  try {
+    const response = await fetch(`${getBaseUrl()}/${reportId}/assign-driver`, {
+      method: 'PUT',
+      headers: {
+        Authorization: getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        driverId
+      })
+    })
+
+    return { success: response.ok, message: await response.text() }
+  } catch (error) {
+    throw new Error('No se pudo asignar el operador', error)
+  }
+}

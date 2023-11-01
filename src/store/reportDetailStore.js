@@ -1,4 +1,4 @@
-import { assingReportOt, fetchReportDetailById } from '@/services/reports'
+import { assingReportOt, assingReportDriver, fetchReportDetailById } from '@/services/reports'
 import { create } from 'zustand'
 
 /**
@@ -23,6 +23,19 @@ export const useReportDetailStore = create((set) => ({
   assingOt: (otFolio, reportId) => {
     set({ loading: true })
     return assingReportOt(otFolio, reportId)
+      .then(({ success, message }) => {
+        if (!success) {
+          set({ errorMessage: message })
+          setTimeout(() => set({ errorMessage: null }), 7000)
+          return
+        }
+        set({ errorMessage: null })
+      })
+      .finally(() => set({ loading: false }))
+  },
+  assignDriver: (driverId, reportId) => {
+    set({ loading: true })
+    return assingReportDriver(driverId, reportId)
       .then(({ success, message }) => {
         if (!success) {
           set({ errorMessage: message })

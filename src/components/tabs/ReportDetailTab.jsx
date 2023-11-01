@@ -7,11 +7,13 @@ import Divider from '@mui/material/Divider'
 import { mettersToKilometers } from '@/utils/numbers'
 import { LocationLink } from '@/components/LocationLink'
 import { AssignOtInput } from '@/components/AssignOtInput'
+import { AssingDriverInput } from '@/components/AssignDriverInput'
 
 export function ReportDetailTab () {
   const report = useReportDetailStore(state => state.report)
   const firstObservation = report.observations[0]?.observationText
   const hasOt = report.ot !== null && report.ot !== undefined
+  const hasDriver = report.driver !== null && report.driver !== undefined
 
   if (!report) return (<Typography>No se ah seleccionado ningun reporte</Typography>)
 
@@ -24,7 +26,8 @@ export function ReportDetailTab () {
           <LabelValue label='FECHA REPORTADO:' value={formatDate(report.time)} />
           <LabelValue label='UNIDAD:' value={report.vehicle} />
           { report.vehicleAssigned && <LabelValue label='UNIDAD ASIGNADA:' value={report.vehicleAssigned} /> }
-          <LabelValue label='OPERADOR:' value={report.driver} />
+          { hasDriver && <LabelValue label='OPERADOR:' value={report.driver} /> }
+          { !hasDriver && <AssingDriverInput /> }
         </Box>
 
         <Box flex={1}>

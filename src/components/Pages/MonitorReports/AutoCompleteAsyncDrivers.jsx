@@ -1,6 +1,6 @@
 import AutoCompleteAsync from '../../Core/AutoCompleteAsync'
 
-function AutoCompleteDrivers({ onChange = null, value = null, ...props }) {
+function AutoCompleteDrivers ({ onChange = null, value = null, ...props }) {
   return (
     <AutoCompleteAsync
       margin="normal"

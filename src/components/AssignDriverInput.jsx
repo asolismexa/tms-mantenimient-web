@@ -1,23 +1,26 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 import { useReportDetailStore } from '@/store/reportDetailStore'
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Alert from '@mui/material/Alert'
+import AutoCompleteDrivers from '@/components/Pages/MonitorReports/AutoCompleteAsyncDrivers'
 import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
-export function AssignOtInput () {
-  const inputRef = useRef()
-  const assingOt = useReportDetailStore(state => state.assingOt)
+export function AssingDriverInput () {
+  const [value, setValue] = useState(null)
+  const assignDriver = useReportDetailStore(state => state.assignDriver)
   const getReportDetail = useReportDetailStore(state => state.getReportDetail)
   const report = useReportDetailStore(state => state.report)
   const errorMessage = useReportDetailStore(state => state.errorMessage)
   const syncMonitor = useReportsMonitorStore(state => state.syncMonitor)
 
+  const handleChange = (_, newValue) => {
+    setValue(newValue)
+  }
+
   const handleClick = () => {
-    const otFolio = inputRef.current.value
-    if (!otFolio) return
-    assingOt(otFolio, report.id)
+    if (!value) return
+    assignDriver(value.id, report.id)
       .then(() => {
         getReportDetail(report.id)
         syncMonitor()
@@ -27,7 +30,7 @@ export function AssignOtInput () {
   return (
     <div>
       <Box display='flex' alignItems='center' gap={1}>
-        <TextField inputRef={inputRef} size='small' margin='normal' label='ORDEN DE TRABAJO'/>
+        <AutoCompleteDrivers value={value} onChange={handleChange} />
         <Button onClick={handleClick}>ASIGNAR</Button>
       </Box>
       { errorMessage && <Alert severity='error'>{errorMessage}</Alert> }
