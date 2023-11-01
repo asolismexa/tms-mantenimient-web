@@ -52,7 +52,7 @@ export function CreateReportDetailDialog () {
     }))
     selectVehicle(null)
     setLoading(false)
-    syncMonitor()
+    setTimeout(syncMonitor, 3000)
   }
 
   const handleClose = () => {
