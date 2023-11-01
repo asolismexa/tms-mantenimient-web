@@ -5,6 +5,7 @@ import { TabPanel } from '@/components/tabs/TabPanel'
 import { useReportDetailStore } from '@/store/reportDetailStore'
 import { ReportDetailTab } from '@/components/tabs/ReportDetailTab'
 import { ReportObservationsTab } from '@/components/tabs/ReportObservationsTab'
+import { ReportEvidencesTab } from '@/components/tabs/ReportEvidencesTab'
 
 export function ReportDetailTabs () {
   const tab = useReportDetailStore(state => state.dialogTab)
@@ -27,7 +28,9 @@ export function ReportDetailTabs () {
       <TabPanel index={1} value={tab}>
         <ReportObservationsTab />
       </TabPanel>
-      <TabPanel index={2} value={tab}>EVIDENCIAS</TabPanel>
+      <TabPanel index={2} value={tab}>
+        <ReportEvidencesTab />
+      </TabPanel>
     </Box>
   )
 }

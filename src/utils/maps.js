@@ -25,7 +25,12 @@ export const mapReport = (response) => ({
   updatedBy: response.updated_by,
   latitude: response.latitude,
   longitude: response.longitude,
-  evidences: response.evidences,
+  evidences: response?.evidences?.map((evidence) => ({
+    id: evidence.id,
+    reportId: evidence.report_id,
+    createdAt: evidence.created_on,
+    link: evidence.mediaLink
+  })) ?? [],
   observations: response?.observations?.map((obs) => ({
     id: obs.id,
     reportId: obs.reportId,
@@ -33,7 +38,7 @@ export const mapReport = (response) => ({
     user: obs.user,
     observationText: obs.observation_text,
     createdAt: obs.time
-  })),
+  })) ?? [],
   geofenceId: response.geofence_id,
   geofence: response.geofence,
   address: response.address,

@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
+    "react-simple-image-viewer": "^1.2.2",
     "sort-by": "^0.0.2",
     "uuid": "^9.0.0",
     "zustand": "^4.4.4"
