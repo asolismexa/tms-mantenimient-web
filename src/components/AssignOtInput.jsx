@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Alert from '@mui/material/Alert'
+import { useReportsMonitor } from '@/hooks/useReportsMonitor'
 
 export function AssignOtInput () {
   const inputRef = useRef()
@@ -11,12 +12,16 @@ export function AssignOtInput () {
   const getReportDetail = useReportDetailStore(state => state.getReportDetail)
   const report = useReportDetailStore(state => state.report)
   const errorMessage = useReportDetailStore(state => state.errorMessage)
+  const syncMonitor = useReportsMonitor(state => state.syncMonitor)
 
   const handleClick = () => {
     const otFolio = inputRef.current.value
     if (!otFolio) return
     assingOt(otFolio, report.id)
-      .then(() => getReportDetail(report.id))
+      .then(() => {
+        getReportDetail(report.id)
+        syncMonitor()
+      })
   }
 
   return (

@@ -15,7 +15,6 @@ export function ReportDetailTab () {
 
   if (!report) return (<Typography>No se ah seleccionado ningun reporte</Typography>)
 
-  console.log(report)
   return (
     <Box sx={{ width: '100%' }}>
 
