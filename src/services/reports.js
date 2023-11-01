@@ -1,4 +1,5 @@
 import api from '@/api/api'
+import { mapReport } from '@/utils/maps'
 
 export const baseUrl = 'api/reports'
 export const baseAliveUrl = 'api/reports/alive'
@@ -156,8 +157,33 @@ export async function fetchReportDetailById (reportId) {
         Authorization: getToken()
       }
     })
-    return await response.json()
+    return mapReport(await response.json())
   } catch (error) {
     throw new Error('No se pudo recuperar la informacion del reporte', error)
+  }
+}
+
+/**
+ * Updates a report to bind with the folio of the OT
+ * @param {number} otFolio the folio of the ot to be assigned
+ * @param {number} reportId the report to assing the ot
+ * @returns an success and a message values
+ */
+export async function assingReportOt (otFolio, reportId) {
+  try {
+    const response = await fetch(`${getBaseUrl()}/${reportId}/assign-ot`, {
+      method: 'PUT',
+      headers: {
+        Authorization: getToken(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ot_folio: otFolio
+      })
+    })
+
+    return { success: response.ok, message: await response.text() }
+  } catch (error) {
+    throw new Error('No se pudo asignar la OT', error)
   }
 }

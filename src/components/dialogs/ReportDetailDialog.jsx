@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
+import { ReportDetailTabs } from '@/components/tabs/ReportDetailTabsHeader'
 
 export function ReportDetailDialog () {
   const open = useReportDetailStore(state => state.isDetailDialogOpened)
@@ -28,12 +29,13 @@ export function ReportDetailDialog () {
   }
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} fullWidth maxWidth='md' onClose={handleClose}>
       <DialogTitle>
         REPORTE DE REPORTE #{report.id}
       </DialogTitle>
 
       <DialogContent>
+        <ReportDetailTabs />
       </DialogContent>
 
       <DialogActions>
