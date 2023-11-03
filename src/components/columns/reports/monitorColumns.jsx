@@ -70,6 +70,11 @@ export const createMonitorColumns = ({
     }
   },
   {
+    field: 'vehicleStatus',
+    headerName: 'ESTATUS UNIDAD',
+    width: 120
+  },
+  {
     field: 'vehicleType',
     headerName: 'TIPO UNIDAD',
     width: 150,
