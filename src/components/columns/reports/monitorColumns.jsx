@@ -166,6 +166,10 @@ export const createMonitorColumns = ({
     width: 120
   },
   {
+    field: 'vehicleCurrentLocation',
+    headerName: 'UBICACION ACTUAL UNIDAD'
+  },
+  {
     field: 'vehicleType',
     headerName: 'TIPO UNIDAD',
     width: 150,
