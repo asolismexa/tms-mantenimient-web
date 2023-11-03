@@ -1,7 +1,7 @@
 import AsyncSelectFilter from '@/components/Core/AsyncSelectFilter'
 import Box from '@mui/material/Box'
 
-export function SelectAsyncHeader({
+export function SelectAsyncHeader ({
   label,
   url,
   onChange,

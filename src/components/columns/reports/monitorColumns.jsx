@@ -3,7 +3,7 @@ import CheckLogo from '@/components/Core/CheckLogo'
 import { reportStatusUrl } from '@/services/reportStatus'
 import { reportTypeBaseUrl } from '@/services/reportTypes'
 import { mettersToKilometers } from '@/utils/numbers'
-import { groupsBaseUrl } from '@/services/vehicles'
+import { groupsBaseUrl, vehicleEventsUrl } from '@/services/vehicles'
 import { CustomHeader } from '@/components/columns/CustomHeader'
 import InputTextHeader from '@/components/columns/InputTextHeader'
 import { SelectAsyncHeader } from '@/components/columns/SelectAsyncHeader'
@@ -164,7 +164,18 @@ export const createMonitorColumns = ({
   {
     field: 'vehicleStatus',
     headerName: 'ESTATUS UNIDAD',
-    width: 120
+    width: 120,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="ESTATUS UNIDAD"
+        url={vehicleEventsUrl}
+        optValueKey="vehicle_Status_Id"
+        onChange={({ target }) => {
+          onFilterChange('vehicleStatusId', target.value)
+        }}
+      >
+      </SelectAsyncHeader>
+    )
   },
   {
     field: 'vehicleCurrentLocation',

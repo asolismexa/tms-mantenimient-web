@@ -16,7 +16,8 @@ const initialFilters = {
   user: '',
   assignedBy: '',
   processBy: '',
-  vehicleCurrentLocationId: 0
+  vehicleCurrentLocationId: 0,
+  vehicleStatusId: 0
 }
 
 export function useReportsMonitorFilters ({ reports }) {
@@ -132,10 +133,17 @@ export function useReportsMonitorFilters ({ reports }) {
 
     // By terminal Id
     filtered = filtered.filter((report) => {
-      console.log(filters.vehicleCurrentLocationId)
       return (
         filters.vehicleCurrentLocationId == 0 ||
         report.vehicleCurrentLocationId == filters.vehicleCurrentLocationId
+      )
+    })
+
+    // By vehicle status Id
+    filtered = filtered.filter((report) => {
+      return (
+        filters.vehicleStatusId == 0 ||
+        report.vehicleStatusId == filters.vehicleStatusId
       )
     })
 

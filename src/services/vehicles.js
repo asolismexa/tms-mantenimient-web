@@ -1,10 +1,11 @@
 import api from '@/api/api'
 import { getToken } from './reports'
-import { mapVehicleDetail, mapVehicleDetailResponse } from '@/utils/maps'
+import { mapVehicleDetail } from '@/utils/maps'
 
 export const baseUrl = 'api/vehicles'
 export const vehiclesBaseUrl = `${api.defaults.baseURL}/${baseUrl}`
 export const groupsBaseUrl = `${vehiclesBaseUrl}/groups`
+export const vehicleEventsUrl = `${vehiclesBaseUrl}/events`
 
 function getBaseUrl () {
   return `${import.meta.env.VITE_BASE_API_URL}/${baseUrl}`

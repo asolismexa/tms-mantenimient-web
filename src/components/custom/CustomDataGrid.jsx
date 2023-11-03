@@ -16,6 +16,7 @@ function CustomDataGrid ({
 }) {
   return (
     <DataGrid
+      columnHeaderHeight={70}
       rows={rows}
       columns={columns}
       loading={loading}

@@ -1,12 +1,13 @@
 import useFetchOptions from '@/hooks/fetchOptions'
 
-function AsyncSelectFilter({
+function AsyncSelectFilter ({
   url = '',
   onClick,
   onChange,
   optNameKey = 'name',
+  optValueKey = 'id',
   idOrdering = [],
-  exclude = [],
+  exclude = []
 }) {
   const { options, setOpen, loading } = useFetchOptions(url)
 
@@ -31,13 +32,13 @@ function AsyncSelectFilter({
       style={{
         display: 'block',
         width: '100%',
-        outline: 'none',
+        outline: 'none'
       }}
     >
       <option value={0}>[TODOS]</option>
       {loading && '...'}
       {orderOptions(filterOptions(options)).map((opt) => (
-        <option key={opt.id} value={opt.id}>
+        <option key={opt.id} value={opt[optValueKey]}>
           {opt[optNameKey]}
         </option>
       ))}
