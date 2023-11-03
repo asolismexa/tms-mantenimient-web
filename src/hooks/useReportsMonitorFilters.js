@@ -15,7 +15,8 @@ const initialFilters = {
   hasEvidences: false,
   user: '',
   assignedBy: '',
-  processBy: ''
+  processBy: '',
+  vehicleCurrentLocationId: 0
 }
 
 export function useReportsMonitorFilters ({ reports }) {
@@ -126,6 +127,15 @@ export function useReportsMonitorFilters ({ reports }) {
       return (
         filters.processBy === '' ||
         report?.processBy?.toLowerCase().includes(processBy)
+      )
+    })
+
+    // By terminal Id
+    filtered = filtered.filter((report) => {
+      console.log(filters.vehicleCurrentLocationId)
+      return (
+        filters.vehicleCurrentLocationId == 0 ||
+        report.vehicleCurrentLocationId == filters.vehicleCurrentLocationId
       )
     })
 

@@ -1,7 +1,7 @@
 import SelectFilter from '@/components/Core/SelectFilter'
 import Box from '@mui/material/Box'
 
-export function SelectHeader({ label, options = [], onChange, children }) {
+export function SelectHeader ({ label, options = [], onChange, children }) {
   return (
     <Box className="MuiDataGrid-columnHeaderTitle" sx={{ pr: 1 }}>
       <label style={{ display: 'block', width: '100%' }}>

@@ -11,6 +11,7 @@ import { SelectHeader } from '@/components/columns/SelectHeader'
 import { VEHICLE_TYPES_LIST } from '@/enums/vehicles'
 import { CheckBoxHeader } from '@/components/columns/CheckBoxHeader'
 import { initialAggregations } from '@/utils/reportsAggregations'
+import { TERMINALS } from '@/enums/geofences'
 
 export const stopEvents = (e) => {
   e.preventDefault()
@@ -167,7 +168,19 @@ export const createMonitorColumns = ({
   },
   {
     field: 'vehicleCurrentLocation',
-    headerName: 'UBICACION ACTUAL UNIDAD'
+    headerName: 'UBICACION ACTUAL UNIDAD',
+    width: 150,
+    renderHeader: () => {
+      return (
+        <SelectHeader
+          label="UBICACION ACTUAL UNIDAD"
+          options={TERMINALS}
+          onChange={({ target }) => {
+            onFilterChange('vehicleCurrentLocationId', +target.value)
+          }}
+        />
+      )
+    }
   },
   {
     field: 'vehicleType',

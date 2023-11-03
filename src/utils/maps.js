@@ -22,6 +22,7 @@ export const mapReport = (response) => ({
   vehicleAssignedId: response.vehicle_assigned_id,
   vehicleAssigned: response.vehicle_assinged,
   vehicleCurrentLocation: response.vehicle_current_location,
+  vehicleCurrentLocationId: response.vehicle_current_location_id,
   cellId: response.cell_id,
   cell: response.cell,
   userId: response.user_id,
