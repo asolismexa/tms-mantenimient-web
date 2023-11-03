@@ -125,6 +125,10 @@ export const createMonitorColumns = ({
     }
   },
   {
+    field: 'driverStatus',
+    headerName: 'ESTATUS OPERADOR'
+  },
+  {
     field: 'cell',
     headerName: 'CE OP',
     width: 150,
