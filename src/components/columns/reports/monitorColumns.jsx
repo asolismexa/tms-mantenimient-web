@@ -55,6 +55,97 @@ export const createMonitorColumns = ({
     }
   },
   {
+    field: 'lastObservation',
+    headerName: 'ULTIMA OBSERVACION',
+    width: 200,
+    renderCell: ({ value }) => (
+      <span
+        style={{
+          display: 'block',
+          maxHeight: '3rem',
+          overflow: 'hidden'
+        }}
+      >
+        {value}
+      </span>
+    )
+  },
+  {
+    field: 'ot',
+    headerName: 'OT',
+    width: 150,
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="OT"
+          onChange={({ target }) => onFilterChange('ot', target.value)}
+        >
+          {aggregations.otCount}
+        </InputTextHeader>
+      )
+    }
+  },
+  {
+    field: 'reportType',
+    headerName: 'TIPO FALLA',
+    width: 200,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="TIPO FALLA"
+        url={reportTypeBaseUrl}
+        onChange={({ target }) => onFilterChange('reportType', target.value)}
+      >
+        {aggregations.reportTypeCount}
+      </SelectAsyncHeader>
+    )
+  },
+  {
+    field: 'driver',
+    headerName: 'OPERADOR',
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="OPERADOR"
+          onChange={({ target }) => onFilterChange('driver', target.value)}
+        >
+          {aggregations.driversCount}
+        </InputTextHeader>
+      )
+    }
+  },
+  {
+    field: 'status',
+    headerName: 'ESTATUS',
+    width: 150,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="ESTATUS"
+        url={reportStatusUrl}
+        exclude={[3, 4, 6]}
+        onChange={({ target }) => onFilterChange('status', target.value)}
+      >
+        {aggregations.statusCount}
+      </SelectAsyncHeader>
+    )
+  },
+  {
+    field: 'odometer',
+    headerName: 'ODOMETRO',
+    width: 130,
+    valueFormatter: ({ value }) => {
+      if (value) return mettersToKilometers(value)
+      return null
+    },
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="ODOMETRO"
+          onChange={({ target }) => onFilterChange('odometer', target.value)}
+        ></InputTextHeader>
+      )
+    }
+  },
+  {
     field: 'vehicle',
     headerName: 'UNIDAD',
     width: 120,
@@ -94,37 +185,6 @@ export const createMonitorColumns = ({
     }
   },
   {
-    field: 'odometer',
-    headerName: 'ODOMETRO',
-    width: 130,
-    valueFormatter: ({ value }) => {
-      if (value) return mettersToKilometers(value)
-      return null
-    },
-    renderHeader: () => {
-      return (
-        <InputTextHeader
-          label="ODOMETRO"
-          onChange={({ target }) => onFilterChange('odometer', target.value)}
-        ></InputTextHeader>
-      )
-    }
-  },
-  {
-    field: 'driver',
-    headerName: 'OPERADOR',
-    renderHeader: () => {
-      return (
-        <InputTextHeader
-          label="OPERADOR"
-          onChange={({ target }) => onFilterChange('driver', target.value)}
-        >
-          {aggregations.driversCount}
-        </InputTextHeader>
-      )
-    }
-  },
-  {
     field: 'driverStatus',
     headerName: 'ESTATUS OPERADOR'
   },
@@ -157,50 +217,7 @@ export const createMonitorColumns = ({
       )
     }
   },
-  {
-    field: 'ot',
-    headerName: 'OT',
-    width: 150,
-    renderHeader: () => {
-      return (
-        <InputTextHeader
-          label="OT"
-          onChange={({ target }) => onFilterChange('ot', target.value)}
-        >
-          {aggregations.otCount}
-        </InputTextHeader>
-      )
-    }
-  },
-  {
-    field: 'status',
-    headerName: 'ESTATUS',
-    width: 150,
-    renderHeader: () => (
-      <SelectAsyncHeader
-        label="ESTATUS"
-        url={reportStatusUrl}
-        exclude={[3, 4, 6]}
-        onChange={({ target }) => onFilterChange('status', target.value)}
-      >
-        {aggregations.statusCount}
-      </SelectAsyncHeader>
-    )
-  },
-  {
-    field: 'reportType',
-    headerName: 'TIPO FALLA',
-    width: 200,
-    renderHeader: () => (
-      <SelectAsyncHeader
-        label="TIPO FALLA"
-        url={reportTypeBaseUrl}
-        onChange={({ target }) => onFilterChange('reportType', target.value)}
-      >
-        {aggregations.reportTypeCount}
-      </SelectAsyncHeader>
-    )
-  },
+
   {
     field: 'hasObservations',
     headerName: 'OBS',
@@ -211,22 +228,6 @@ export const createMonitorColumns = ({
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
     }
-  },
-  {
-    field: 'lastObservation',
-    headerName: 'ULTIMA OBSERVACION',
-    width: 200,
-    renderCell: ({ value }) => (
-      <span
-        style={{
-          display: 'block',
-          maxHeight: '3rem',
-          overflow: 'hidden'
-        }}
-      >
-        {value}
-      </span>
-    )
   },
   {
     field: 'hasEvidences',
