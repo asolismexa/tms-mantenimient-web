@@ -1,3 +1,8 @@
+/**
+ * Maps a report response object to a simplified report object.
+ * @param {Object} response - The report response object.
+ * @returns {Object} The simplified report object.
+ */
 export const mapReport = (response) => ({
   statusId: response.status_id,
   status: response.status,
@@ -6,6 +11,8 @@ export const mapReport = (response) => ({
   number: response.number,
   driverId: response.driver_id,
   driver: response.driver,
+  driverStatus: response?.driver_status_id,
+  driverStatusId: response?.driver_status,
   vehicleId: response.vehicle_id,
   vehicle: response.vehicle,
   vehicleStatus: response.vehicle_status,
@@ -76,8 +83,19 @@ export const mapReport = (response) => ({
   rowColor: response.row_color
 })
 
+/**
+ * Maps the response from the server to an array of reports.
+ * @param {Array} response - The response from the server.
+ * @returns {Array} An array of mapped reports.
+ */
 export const mapReportsResponse = (response) => response.map((report) => mapReport(report))
 
+/**
+ * Maps a vehicle detail response to a simplified object.
+ *
+ * @param {Object} response - The vehicle detail response object.
+ * @returns {Object} The simplified vehicle object.
+ */
 export const mapVehicleDetailResponse = (response) => ({
   id: response.id,
   alias: response.alias,
@@ -93,6 +111,15 @@ export const mapVehicleDetailResponse = (response) => ({
   year: response.model_year
 })
 
+/**
+ * Maps a vehicle, driver, and current shipment to a simplified object.
+ *
+ * @param {Object} options - The options object.
+ * @param {Object} options.vehicle - The vehicle object.
+ * @param {Object} options.driver - The driver object.
+ * @param {Object} options.shipmentsCurrent - The current shipment object.
+ * @returns {Object} The mapped object.
+ */
 export const mapVehicleDetail = ({ vehicle, driver, shipmentsCurrent }) => ({
   id: vehicle?.id,
   alias: vehicle?.alias,

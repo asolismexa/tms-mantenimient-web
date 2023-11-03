@@ -10,6 +10,10 @@ import { SnackbarProvider } from 'notistack'
 import { useReportDetailStore } from '@/store/reportDetailStore'
 import { ReportDetailDialog } from '@/components/dialogs/ReportDetailDialog'
 
+/**
+ * Renders the ReportsMonitor component.
+ * @returns {JSX.Element} The ReportsMonitor component.
+ */
 export function ReportsMonitor () {
   const { reports, loading, error: monitorError } = useReportsMonitor()
   const { filteredReports, onFilterChange } = useReportsMonitorFilters({ reports })
