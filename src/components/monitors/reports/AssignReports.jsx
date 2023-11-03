@@ -8,18 +8,19 @@ import { ConfirmModal } from '@/components/Core/modals/ConfirmModal'
 import { useAssignReports } from '@/hooks/reports/monitor/useAssignReports'
 import { ReportResponseItem } from '@/components/monitors/reports/ReportResponseItem'
 
-export function AssignReports({
+const noop = () => { }
+export function AssignReports ({
   selectedRows = [],
   reports,
-  onClose,
-  onAssign,
+  onClose = noop,
+  onAssign = noop
 }) {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
   const { loading, selectedReports, assingReports, responses } =
     useAssignReports({
       ids: selectedRows,
-      reports,
+      reports
     })
   const isDisabled = selectedReports.length <= 0
 
@@ -43,7 +44,7 @@ export function AssignReports({
         disabled={isDisabled}
         onClick={handleOpen}
         sx={{
-          opacity: isDisabled ? 0.6 : 1,
+          opacity: isDisabled ? 0.6 : 1
         }}
       >
         ASIGNAR REPORTES

@@ -5,6 +5,8 @@ export function ReportsMonitorGrid ({
   reports,
   columns,
   loading,
+  selectedRows,
+  onSelectRows,
   onRowDoubleClick,
   onCellDoubleClick
 }) {
@@ -17,8 +19,10 @@ export function ReportsMonitorGrid ({
         rows={reports}
         rowCount={reports?.length ?? 0}
         columns={columns}
+        rowSelectionModel={selectedRows}
         onRowDoubleClick={onRowDoubleClick}
         onCellDoubleClick={onCellDoubleClick}
+        onRowSelectionModelChange={onSelectRows}
         slots={{
           footer: () => null,
           toolbar: ReportsMonitorToolBar

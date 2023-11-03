@@ -3,6 +3,7 @@ import { fetchReportsMonitor } from '@/services/reportsMonitor'
 
 const initialState = {
   reports: [],
+  selectedRows: [],
   loading: false,
   error: null
 }
@@ -19,5 +20,6 @@ export const useReportsMonitorStore = create((set) => ({
     } finally {
       set({ loading: false })
     }
-  }
+  },
+  selectRows: (selectedRows) => set({ selectedRows })
 }))

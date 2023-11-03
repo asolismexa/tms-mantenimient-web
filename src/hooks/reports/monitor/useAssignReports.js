@@ -1,7 +1,7 @@
 import { assignReportsToOt } from '@/services/reports'
 import { useState, useEffect } from 'react'
 
-export function useAssignReports({ ids = [], reports = [] }) {
+export function useAssignReports ({ ids = [], reports = [] }) {
   const [selectedReports, setSelectedReports] = useState(ids)
   const [loading, setLoading] = useState(false)
   const [responses, setResponses] = useState([])
@@ -16,7 +16,7 @@ export function useAssignReports({ ids = [], reports = [] }) {
     setResponses([])
     const assigned = await assignReportsToOt({
       ot,
-      reports: selectedReports,
+      reports: selectedReports
     })
     setResponses(assigned)
     setLoading(false)
@@ -26,6 +26,6 @@ export function useAssignReports({ ids = [], reports = [] }) {
     loading,
     responses,
     selectedReports,
-    assingReports,
+    assingReports
   }
 }

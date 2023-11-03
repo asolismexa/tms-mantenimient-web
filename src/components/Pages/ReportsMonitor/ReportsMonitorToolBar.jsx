@@ -1,13 +1,18 @@
-import Button from '@mui/material/Button'
 import { NoteAdd, Refresh } from '@mui/icons-material'
 import CustomIconButton from '@/components/Core/buttons/IconButton'
 import CustomExportToolbar from '@/components/custom/CustomExportToolbar'
 import { useCreateReportsStore } from '@/store/createReports'
-import { useReportsMonitor } from '@/hooks/useReportsMonitor'
+import { AssignReports } from '@/components/monitors/reports/AssignReports'
+import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
 export function ReportsMonitorToolBar () {
   const { openDialog } = useCreateReportsStore((state) => state)
-  const { syncMonitor } = useReportsMonitor()
+  const { reports, syncMonitor, selectedRows, selectRows } = useReportsMonitorStore(state => state)
+  const handleClose = () => selectRows([])
+  const handleAssing = (success) => {
+    if (!success) return
+    setTimeout(() => syncMonitor(), 2000)
+  }
 
   return (
     <CustomExportToolbar>
@@ -17,9 +22,14 @@ export function ReportsMonitorToolBar () {
       <CustomIconButton onClick={syncMonitor}>
         <Refresh />
       </CustomIconButton>
-      <Button>
+      <AssignReports
+        reports={reports}
+        selectedRows={selectedRows}
+        onClose={handleClose}
+        onAssign={handleAssing}
+      >
         ASIGNAR REPORTES
-      </Button>
+      </AssignReports>
     </CustomExportToolbar>
   )
 }

@@ -2,11 +2,13 @@ import { useEffect } from 'react'
 import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
 export function useReportsMonitor () {
-  const [reports, loading, error, syncMonitor] = useReportsMonitorStore((state) => [
+  const [reports, loading, error, syncMonitor, selectRows, selectedRows] = useReportsMonitorStore((state) => [
     state.reports,
     state.loading,
     state.error,
-    state.syncMonitor
+    state.syncMonitor,
+    state.selectRows,
+    state.selectedRows
   ])
 
   useEffect(() => {
@@ -20,5 +22,5 @@ export function useReportsMonitor () {
     }
   }, [syncMonitor])
 
-  return { reports, loading, error, syncMonitor }
+  return { reports, loading, error, syncMonitor, selectRows, selectedRows }
 }

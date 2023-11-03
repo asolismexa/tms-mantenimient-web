@@ -1,14 +1,15 @@
+import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
+import { useReportsMonitor } from '@/hooks/useReportsMonitor'
 import { Alert, Box } from '@mui/material'
 import { ReportsMonitorGrid } from '@/components/monitors/reports/ReportsMonitorGrid'
-import { useReportsMonitor } from '@/hooks/useReportsMonitor'
-import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
-import { useReportsMonitorFilters } from '@/hooks/useReportsMonitorFilters'
-import { debounce } from '@/utils/debounce'
-import { getAggregations } from '@/utils/reportsAggregations'
 import { CreateReportDetailDialog } from '@/components/dialogs/CreateReportDialog'
-import { SnackbarProvider } from 'notistack'
-import { useReportDetailStore } from '@/store/reportDetailStore'
 import { ReportDetailDialog } from '@/components/dialogs/ReportDetailDialog'
+import { SnackbarProvider } from 'notistack'
+import { getAggregations } from '@/utils/reportsAggregations'
+import { createMonitorColumns } from '@/components/columns/reports/monitorColumns'
+import { useReportDetailStore } from '@/store/reportDetailStore'
+import { debounce } from '@/utils/debounce'
+import { useReportsMonitorStore } from '@/store/reportsMonitor'
 
 /**
  * Renders the ReportsMonitor component.
@@ -20,6 +21,8 @@ export function ReportsMonitor () {
   const getReportDetail = useReportDetailStore(state => state.getReportDetail)
   const openDialog = useReportDetailStore(state => state.openDialog)
   const setTab = useReportDetailStore(state => state.setDialogTab)
+  const selectRows = useReportsMonitorStore(state => state.selectRows)
+  const selectedRows = useReportsMonitorStore(state => state.selectedRows)
 
   const handleRowDoubleClick = ({ id }) => {
     getReportDetail(id)
@@ -40,6 +43,8 @@ export function ReportsMonitor () {
     setTab(0)
   }
 
+  const handleSelectRows = (rows) => selectRows(rows)
+
   return (
     <Box sx={{
       display: 'flex',
@@ -54,6 +59,8 @@ export function ReportsMonitor () {
           reports={filteredReports}
           onRowDoubleClick={handleRowDoubleClick}
           onCellDoubleClick={handleCellDoubleClick}
+          selectedRows={selectedRows}
+          onSelectRows={handleSelectRows}
           columns={createMonitorColumns({
             onFilterChange: debounce(onFilterChange, 300),
             aggregations: getAggregations({ reports: filteredReports })
