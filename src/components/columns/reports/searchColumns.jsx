@@ -6,7 +6,7 @@ import { mettersToKilometers } from '@/utils/numbers'
 import { CustomHeader } from '@/components/columns/CustomHeader'
 
 export const createSearchColumns = ({
-  aggregations = { ...initialAggregations },
+  aggregations = { ...initialAggregations }
 }) => [
   {
     field: 'id',
@@ -14,7 +14,7 @@ export const createSearchColumns = ({
     width: 100,
     renderHeader: () => (
       <CustomHeader title="FOLIO">{aggregations.totalCount}</CustomHeader>
-    ),
+    )
   },
   {
     field: 'time',
@@ -27,7 +27,7 @@ export const createSearchColumns = ({
     },
     valueGetter: ({ value }) => {
       return value ? utcToLocal(value) : null
-    },
+    }
   },
   {
     field: 'vehicle',
@@ -35,7 +35,7 @@ export const createSearchColumns = ({
     width: 100,
     renderHeader: () => (
       <CustomHeader title="UNIDAD">{aggregations.vehicleCount}</CustomHeader>
-    ),
+    )
   },
   {
     field: 'odometer',
@@ -44,7 +44,7 @@ export const createSearchColumns = ({
     valueFormatter: ({ value }) => {
       if (value) return mettersToKilometers(value)
       return null
-    },
+    }
   },
   {
     field: 'driver',
@@ -52,17 +52,17 @@ export const createSearchColumns = ({
     width: 100,
     renderHeader: () => (
       <CustomHeader title="OPERADOR">{aggregations.driversCount}</CustomHeader>
-    ),
+    )
   },
   {
-    field: 'shipment_id',
+    field: 'shipmentId',
     headerName: 'SOLICITUD',
     width: 100,
     renderHeader: () => (
       <CustomHeader title="SOLICITUD">
         {aggregations.shipmentCount}
       </CustomHeader>
-    ),
+    )
   },
   {
     field: 'ot',
@@ -70,7 +70,7 @@ export const createSearchColumns = ({
     width: 150,
     renderHeader: () => (
       <CustomHeader title="OT">{aggregations.otCount}</CustomHeader>
-    ),
+    )
   },
   {
     field: 'status',
@@ -78,20 +78,20 @@ export const createSearchColumns = ({
     width: 100,
     renderHeader: () => (
       <CustomHeader title="STATUS">{aggregations.statusCount}</CustomHeader>
-    ),
+    )
   },
   {
-    field: 'report_type',
+    field: 'reportType',
     headerName: 'TIPO FALLA',
     width: 100,
     renderHeader: () => (
       <CustomHeader title="TIPO FALLA">
         {aggregations.reportTypeCount}
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'has_observations',
+    field: 'hasObservations',
     headerName: 'OBS',
     type: 'boolean',
     width: 50,
@@ -99,15 +99,15 @@ export const createSearchColumns = ({
       if (value === null) return null
       if (typeof value === 'number') return value
       return <CheckLogo checked={value} />
-    },
+    }
   },
   {
-    field: 'last_observation',
+    field: 'lastObservation',
     headerName: 'ULTIMA OBSERVACION',
-    width: 200,
+    width: 200
   },
   {
-    field: 'has_evidences',
+    field: 'hasEvidences',
     headerName: 'EVID',
     type: 'boolean',
     width: 50,
@@ -118,7 +118,7 @@ export const createSearchColumns = ({
     },
     renderHeader: () => (
       <CustomHeader title="EVID">{aggregations.evidencesCount}</CustomHeader>
-    ),
+    )
   },
   {
     field: 'user',
@@ -127,10 +127,10 @@ export const createSearchColumns = ({
     width: 100,
     renderHeader: () => (
       <CustomHeader title="USUARIO">{aggregations.userCount}</CustomHeader>
-    ),
+    )
   },
   {
-    field: 'assigned_on',
+    field: 'assignedOn',
     headerName: 'FECHA OT ASIGNADA',
     type: 'string',
     width: 120,
@@ -140,10 +140,10 @@ export const createSearchColumns = ({
         return formatDate(localDate)
       }
       return null
-    },
+    }
   },
   {
-    field: 'assigned_by',
+    field: 'assignedBy',
     headerName: 'USUARIO ASIGNA OT',
     type: 'string',
     width: 100,
@@ -151,10 +151,10 @@ export const createSearchColumns = ({
       <CustomHeader title="USUARIO ASIGNA OT">
         {aggregations.userAssignCount}
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'process_on',
+    field: 'processOn',
     headerName: 'FECHA OT EN PROCESO',
     type: 'string',
     width: 120,
@@ -165,10 +165,10 @@ export const createSearchColumns = ({
         return formatDate(localDate)
       }
       return null
-    },
+    }
   },
   {
-    field: 'process_by',
+    field: 'processBy',
     headerName: 'USUARIO PROCESA OT',
     type: 'string',
     width: 100,
@@ -176,10 +176,10 @@ export const createSearchColumns = ({
       <CustomHeader title="USUARIO PROCESA OT">
         {aggregations.userProcessCount}
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'attended_on',
+    field: 'attendedOn',
     headerName: 'FECHA OT FINALIZADA',
     type: 'string',
     width: 120,
@@ -190,10 +190,10 @@ export const createSearchColumns = ({
         return formatDate(localDate)
       }
       return null
-    },
+    }
   },
   {
-    field: 'attended_by',
+    field: 'attendedBy',
     headerName: 'USUARIO FINALIZA OT',
     type: 'string',
     width: 100,
@@ -201,10 +201,10 @@ export const createSearchColumns = ({
       <CustomHeader title="USUARIO FINALIZA OT">
         {aggregations.usersFinishCount}
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'canceled_on',
+    field: 'canceledOn',
     headerName: 'FECHA OT CANCELADA',
     type: 'string',
     width: 100,
@@ -215,10 +215,10 @@ export const createSearchColumns = ({
         return formatDate(localDate)
       }
       return null
-    },
+    }
   },
   {
-    field: 'canceled_by',
+    field: 'canceledBy',
     headerName: 'USUARIO CANCELA OT',
     type: 'string',
     width: 100,
@@ -226,10 +226,10 @@ export const createSearchColumns = ({
       <CustomHeader title="USUARIO CANCELA OT">
         {aggregations.usersCancelsCount}
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'validated_on',
+    field: 'validatedOn',
     width: 100,
     headerName: 'FECHA OT EVALUADA',
     valueFormatter: ({ value }) => {
@@ -238,20 +238,20 @@ export const createSearchColumns = ({
         return formatDate(localDate)
       }
       return null
-    },
+    }
   },
   {
-    field: 'validated_by',
+    field: 'validatedBy',
     headerName: 'USUARIO EVALUA OT',
     renderHeader: () => (
       <CustomHeader title="USUARIO EVALUA OT">
         {aggregations.usersEvaluateCount}
       </CustomHeader>
-    ),
+    )
   },
   {
     headerName: 'EVALUADO CORRECTO',
-    field: 'validated_success',
+    field: 'validatedSuccess',
     type: 'boolean',
     width: 100,
     renderCell: ({ value }) => {
@@ -265,43 +265,43 @@ export const createSearchColumns = ({
         <span style={{ color: 'black' }}>/</span>
         <span
           style={{
-            color: 'red',
+            color: 'red'
           }}
         >
           {aggregations.evaluatedFail}
         </span>
         <div>{aggregations.evaluatedCount}</div>
       </CustomHeader>
-    ),
+    )
   },
   {
-    field: 'ot_date',
+    field: 'otDate',
     headerName: 'FECHA OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'ot_initial_date',
+    field: 'otInitialDate',
     headerName: 'FECHA INICIO OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
+    }
   },
   {
-    field: 'ot_promise_date',
+    field: 'otPromiseDate',
     headerName: 'FECHA PROMESA OT',
     type: 'string',
     width: 100,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
-    },
-  },
+    }
+  }
 ]

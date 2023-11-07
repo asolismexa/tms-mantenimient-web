@@ -1,11 +1,9 @@
-import CustomDataGrid from '@/components/custom/DataGrid'
 import {
   Button,
   Stack,
   TextField,
-  Typography,
   IconButton,
-  Grid,
+  Box
 } from '@mui/material'
 import { dateTimeToString, fromStringToDate } from '@/utils/dates'
 import { useSelector, useDispatch } from 'react-redux'
@@ -16,7 +14,7 @@ import {
   resetFilters,
   searchReports,
   fetchReportDetail,
-  resetDetail,
+  resetDetail
 } from '@/reducers/reportsQuerySlice'
 import AutoCompleteStatus from '../MonitorReports/AutoCompleteStatus'
 import AutoCompleteTypes from '../MonitorReports/AutoCompleteTypes'
@@ -36,29 +34,30 @@ import { useGridApiRef } from '@mui/x-data-grid'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import { createSearchColumns } from '@/components/columns/reports/searchColumns'
 import { getAggregations } from '@/utils/reportsAggregations'
+import CustomDataGrid from '@/components/custom/CustomDataGrid'
 
 const inputStyles = {
   width: '100%',
   inputProps: {
-    size: 'small',
-  },
+    size: 'small'
+  }
 }
 
 const createFormInitialState = {
   vehicle: null,
   driver: null,
   shipment: null,
-  items: [],
+  items: []
 }
 
 const addItemFormInitialState = {
   type: null,
   observation: '',
   evidences: [],
-  error: null,
+  error: null
 }
 
-function ReportsMonitor() {
+function ReportsMonitor () {
   const gridRef = useGridApiRef()
   const { filters, reports, loadingReports, detail } =
     useSelector(selectReportsQuery)
@@ -78,7 +77,7 @@ function ReportsMonitor() {
     onOpenCreateReportsModal,
     onCloseCreateReportsModal,
     onCreateReports,
-    createError,
+    createError
   } = useCreateReports({ createFormInitialState, addItemFormInitialState })
   const { enqueueSnackbar } = useSnackbar()
 
@@ -124,7 +123,7 @@ function ReportsMonitor() {
     console.log(resp)
     for (const item of resp) {
       enqueueSnackbar(`Se creo con exito el reporte ${item.data}`, {
-        variant: 'success',
+        variant: 'success'
       })
     }
   }
@@ -135,14 +134,18 @@ function ReportsMonitor() {
   }
 
   return (
-    <div
+    <Box
       style={{
         padding: '0 1rem',
+        height: '100%'
       }}
     >
-      <Typography variant="h6">Reportes</Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={2}>
+      <Box sx={{
+        display: 'flex',
+        height: '100%',
+        gap: '1rem'
+      }}>
+        <Box>
           <Stack direction="row" spacing={3} alignItems="center">
             <IconButton
               onClick={onOpenCreateReportsModal}
@@ -182,8 +185,8 @@ function ReportsMonitor() {
               extendOptions={[
                 {
                   id: 8,
-                  name: '[CERRADOS]',
-                },
+                  name: '[CERRADOS]'
+                }
               ]}
             />
             <AutoCompleteTypes
@@ -232,22 +235,20 @@ function ReportsMonitor() {
               disabled={!filters.status}
             />
           </Stack>
-        </Grid>
-        <Grid item xs={10}>
-          <CustomDataGrid
-            loading={loadingReports}
-            columns={createSearchColumns({
-              aggregations: getAggregations({ reports }),
-            })}
-            rows={reports}
-            rowHeight={65}
-            disableColumnSelector
-            disableDensitySelector
-            onRowDoubleClick={handleSelectReport}
-            apiRef={gridRef}
-          />
-        </Grid>
-      </Grid>
+        </Box>
+        <CustomDataGrid
+          loading={loadingReports}
+          columns={createSearchColumns({
+            aggregations: getAggregations({ reports })
+          })}
+          rows={reports}
+          rowHeight={65}
+          disableColumnSelector
+          disableDensitySelector
+          onRowDoubleClick={handleSelectReport}
+          apiRef={gridRef}
+        />
+      </Box>
       <ModalDetailReport
         open={detail.open}
         loading={detail.loading}
@@ -267,7 +268,7 @@ function ReportsMonitor() {
         handleCreate={() => {
           onCreateReports({
             onSuccess: onSuccessCreateReports,
-            onFailure: onFailureCreateReports,
+            onFailure: onFailureCreateReports
           })
         }}
         error={createError}
@@ -296,7 +297,7 @@ function ReportsMonitor() {
         onClose={closeAddReportItemModal}
         onAdd={onAddReportItem}
       />
-    </div>
+    </Box>
   )
 }
 

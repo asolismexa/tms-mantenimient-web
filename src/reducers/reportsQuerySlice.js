@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchReports, fetchReportById } from '@/services/reports'
+import { mapReportsResponse } from '@/utils/maps'
 
 const initialState = {
   filters: {
@@ -11,7 +12,7 @@ const initialState = {
     usuario: null,
     driver: null,
     from_time: null,
-    to_time: null,
+    to_time: null
   },
   reports: [],
   loadingReports: false,
@@ -19,8 +20,8 @@ const initialState = {
     open: false,
     report: null,
     loading: false,
-    tab: 0,
-  },
+    tab: 0
+  }
 }
 
 export const searchReports = createAsyncThunk(
@@ -38,15 +39,14 @@ export const searchReports = createAsyncThunk(
           user: filters.usuario,
           driver_id: filters.driver?.id,
           from_time: filters.status ? filters.from_time : null,
-          to_time: filters.status ? filters.to_time : null,
-        },
+          to_time: filters.status ? filters.to_time : null
+        }
       })
-      console.log(resp.data)
-      return resp.data
+      return mapReportsResponse(resp.data)
     } catch (error) {
       return rejectWithValue(error.message)
     }
-  },
+  }
 )
 
 export const fetchReportDetail = createAsyncThunk(
@@ -58,7 +58,7 @@ export const fetchReportDetail = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message)
     }
-  },
+  }
 )
 
 export const reportsQuerySlice = createSlice({
@@ -76,7 +76,7 @@ export const reportsQuerySlice = createSlice({
     },
     resetDetail: (state) => {
       state.detail = initialState.detail
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(searchReports.pending, (state) => {
@@ -106,7 +106,7 @@ export const reportsQuerySlice = createSlice({
       state.detail.report = null
       state.detail.loading = false
     })
-  },
+  }
 })
 
 export const { resetFilters, setFilters, setDetailTab, resetDetail } =
