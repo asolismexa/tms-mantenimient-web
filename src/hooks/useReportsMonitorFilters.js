@@ -17,7 +17,8 @@ const initialFilters = {
   assignedBy: '',
   processBy: '',
   vehicleCurrentLocationId: 0,
-  vehicleStatusId: 0
+  vehicleStatusId: 0,
+  driverStatusId: 0
 }
 
 export function useReportsMonitorFilters ({ reports }) {
@@ -144,6 +145,14 @@ export function useReportsMonitorFilters ({ reports }) {
       return (
         filters.vehicleStatusId == 0 ||
         report.vehicleStatusId == filters.vehicleStatusId
+      )
+    })
+
+    // By driver status Id
+    filtered = filtered.filter((report) => {
+      return (
+        filters.driverStatusId == 0 ||
+        report.driverStatusId == filters.driverStatusId
       )
     })
 

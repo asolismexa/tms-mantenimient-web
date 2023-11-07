@@ -13,6 +13,7 @@ export const mapReport = (response) => ({
   driver: response.driver,
   driverStatusId: response?.driver_status_id,
   driverStatus: response?.driver_status,
+  driverStartedTime: response?.driver_started_time,
   vehicleId: response.vehicle_id,
   vehicle: response.vehicle,
   vehicleStatus: response.vehicle_status,
@@ -137,3 +138,26 @@ export const mapVehicleDetail = ({ vehicle, driver, shipmentsCurrent }) => ({
   shipment: shipmentsCurrent?.shipment_id,
   year: vehicle?.model_year
 })
+
+/**
+ * Maps a driver event response to a simplified object.
+ * @param {Object} response - The driver event response object.
+ * @param {number} response.id - The ID of the driver event.
+ * @param {number} response.driver_Status_id - The ID of the driver status.
+ * @param {string} response.name - The name of the driver event.
+ * @param {boolean} response.is_active - Whether the driver event is active or not.
+ * @returns {Object} - The simplified driver event object.
+ */
+export const mapDriverEvent = (response) => ({
+  id: response.id,
+  statusId: response.driver_Status_id,
+  name: response.name,
+  isActive: response.is_active
+})
+
+/**
+ * Maps driver events from the response object to a new array using the mapDriverEvent function.
+ * @param {Array} response - The response object containing driver events.
+ * @returns {Array} - An array of driver events mapped using the mapDriverEvent function.
+ */
+export const mapDriverEvents = (response) => response.map((driverEvent) => mapDriverEvent(driverEvent))

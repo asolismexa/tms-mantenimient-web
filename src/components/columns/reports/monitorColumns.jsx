@@ -12,6 +12,7 @@ import { VEHICLE_TYPES_LIST } from '@/enums/vehicles'
 import { CheckBoxHeader } from '@/components/columns/CheckBoxHeader'
 import { initialAggregations } from '@/utils/reportsAggregations'
 import { TERMINALS } from '@/enums/geofences'
+import { DRIVER_EVENTS_URL } from '@/services/drivers'
 
 export const stopEvents = (e) => {
   e.preventDefault()
@@ -214,7 +215,27 @@ export const createMonitorColumns = ({
   },
   {
     field: 'driverStatus',
-    headerName: 'ESTATUS OPERADOR'
+    headerName: 'ESTATUS OPERADOR',
+    width: 170,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="ESTATUS OPERADOR"
+        url={DRIVER_EVENTS_URL}
+        optValueKey="driver_Status_id"
+        onChange={({ target }) => {
+          onFilterChange('driverStatusId', target.value)
+        }}
+      />
+    ),
+    renderCell: ({ value, row }) => {
+      if (!row.driverStartedTime) return value
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <span>{value}</span>
+          <span>{formatDate(row.driverStartedTime)}</span>
+        </div>
+      )
+    }
   },
   {
     field: 'cell',
