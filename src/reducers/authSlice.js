@@ -6,10 +6,10 @@ const initialState = {
   user: JSON.parse(localStorage.getItem('user')),
   token: JSON.parse(localStorage.getItem('token')),
   error: null,
-  success: false,
+  success: false
 }
 
-const baseUrl = import.meta.env['VITE_BASE_API_URL']
+const baseUrl = import.meta.env.VITE_BASE_API_URL
 
 const loginUser = createAsyncThunk(
   'auth/login',
@@ -17,19 +17,19 @@ const loginUser = createAsyncThunk(
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       }
 
       const { data } = await axios.post(
         `${baseUrl}/api/auth/login`,
         { username, password },
-        config,
+        config
       )
 
       const user = {
         id: data.user_id,
-        username: data.username,
+        username: data.username
       }
 
       const token = data.token
@@ -39,7 +39,7 @@ const loginUser = createAsyncThunk(
 
       return {
         user,
-        token,
+        token
       }
     } catch (error) {
       localStorage.setItem('token', null)
@@ -50,7 +50,7 @@ const loginUser = createAsyncThunk(
         return rejectWithValue(error.message.message)
       }
     }
-  },
+  }
 )
 
 const authSlice = createSlice({
@@ -62,7 +62,7 @@ const authSlice = createSlice({
       state.token = null
       localStorage.setItem('token', null)
       localStorage.setItem('user', null)
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -79,7 +79,7 @@ const authSlice = createSlice({
         state.loading = false
         state.error = action.payload
       })
-  },
+  }
 })
 
 export default authSlice.reducer
