@@ -44,7 +44,7 @@ export const createMonitorColumns = ({
     field: 'time',
     headerName: 'FECHA / HORA REPORTE',
     type: 'string',
-    width: 110,
+    width: 80,
     valueFormatter: ({ value }) => {
       if (value) return formatDate(value)
       return null
@@ -57,9 +57,54 @@ export const createMonitorColumns = ({
     }
   },
   {
+    field: 'ot',
+    headerName: 'OT',
+    width: 100,
+    renderHeader: () => {
+      return (
+        <InputTextHeader
+          label="OT"
+          onChange={({ target }) => onFilterChange('ot', target.value)}
+        >
+          {aggregations.otCount}
+        </InputTextHeader>
+      )
+    }
+  },
+  {
+    field: 'status',
+    headerName: 'ESTATUS REP',
+    sortable: false,
+    width: 100,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="ESTATUS REP"
+        url={reportStatusUrl}
+        exclude={[3, 4, 6]}
+        onChange={({ target }) => onFilterChange('status', target.value)}
+      >
+        {aggregations.statusCount}
+      </SelectAsyncHeader>
+    )
+  },
+  {
+    field: 'reportType',
+    headerName: 'TIPO FALLA REPORTE',
+    width: 120,
+    renderHeader: () => (
+      <SelectAsyncHeader
+        label="TIPO FALLA REPORTE"
+        url={reportTypeBaseUrl}
+        onChange={({ target }) => onFilterChange('reportType', target.value)}
+      >
+        {aggregations.reportTypeCount}
+      </SelectAsyncHeader>
+    )
+  },
+  {
     field: 'lastObservation',
     headerName: 'ULTIMA OBSERVACION',
-    width: 200,
+    width: 120,
     renderCell: ({ value }) => (
       <span
         style={{
@@ -73,33 +118,39 @@ export const createMonitorColumns = ({
     )
   },
   {
-    field: 'ot',
-    headerName: 'OT',
-    width: 150,
-    renderHeader: () => {
-      return (
-        <InputTextHeader
-          label="OT"
-          onChange={({ target }) => onFilterChange('ot', target.value)}
-        >
-          {aggregations.otCount}
-        </InputTextHeader>
-      )
+    field: 'hasObservations',
+    headerName: 'OBS',
+    type: 'boolean',
+    width: 50,
+    renderCell: ({ value }) => {
+      if (value === null) return null
+      if (typeof value === 'number') return value
+      return <CheckLogo checked={value} />
     }
   },
   {
-    field: 'reportType',
-    headerName: 'TIPO FALLA',
-    width: 200,
-    renderHeader: () => (
-      <SelectAsyncHeader
-        label="TIPO FALLA"
-        url={reportTypeBaseUrl}
-        onChange={({ target }) => onFilterChange('reportType', target.value)}
-      >
-        {aggregations.reportTypeCount}
-      </SelectAsyncHeader>
-    )
+    field: 'hasEvidences',
+    headerName: 'EVID',
+    type: 'boolean',
+    sortable: false,
+    width: 50,
+    renderCell: ({ value }) => {
+      if (value === null) return null
+      if (typeof value === 'number') return value
+      return <CheckLogo checked={value} />
+    },
+    renderHeader: () => {
+      return (
+        <CheckBoxHeader
+          label="EVID"
+          onChange={(_, value) => {
+            onFilterChange('hasEvidences', value)
+          }}
+        >
+          {aggregations.evidencesCount}
+        </CheckBoxHeader>
+      )
+    }
   },
   {
     field: 'driver',
@@ -116,41 +167,54 @@ export const createMonitorColumns = ({
     }
   },
   {
-    field: 'status',
-    headerName: 'ESTATUS',
-    width: 150,
+    field: 'driverStatus',
+    headerName: 'ESTATUS OPERADOR',
+    width: 120,
     renderHeader: () => (
       <SelectAsyncHeader
-        label="ESTATUS"
-        url={reportStatusUrl}
-        exclude={[3, 4, 6]}
-        onChange={({ target }) => onFilterChange('status', target.value)}
-      >
-        {aggregations.statusCount}
-      </SelectAsyncHeader>
-    )
+        label="ESTATUS OPERADOR"
+        url={DRIVER_EVENTS_URL}
+        optValueKey="driver_Status_id"
+        onChange={({ target }) => {
+          onFilterChange('driverStatusId', target.value)
+        }}
+      />
+    ),
+    renderCell: ({ value, row }) => {
+      if (!row.driverSpectedTime) return value
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <span>{value}</span>
+          <span>{formatDate(row.driverSpectedTime)}</span>
+        </div>
+      )
+    }
   },
   {
-    field: 'odometer',
-    headerName: 'ODOMETRO',
-    width: 130,
+    field: 'vehicleType',
+    headerName: 'TIPO UNIDAD',
+    width: 100,
+    sortable: false,
     valueFormatter: ({ value }) => {
-      if (value) return mettersToKilometers(value)
-      return null
+      return value === 'CARGA' ? 'REMOLQUE' : value
     },
     renderHeader: () => {
       return (
-        <InputTextHeader
-          label="ODOMETRO"
-          onChange={({ target }) => onFilterChange('odometer', target.value)}
-        ></InputTextHeader>
+        <SelectHeader
+          label="TIPO UNIDAD"
+          options={VEHICLE_TYPES_LIST}
+          onChange={({ target }) => onFilterChange('vehicleType', target.value)}
+        >
+          {aggregations.vehicleTypeCount}
+        </SelectHeader>
       )
     }
   },
   {
     field: 'vehicle',
     headerName: 'UNIDAD',
-    width: 120,
+    width: 80,
+    sortable: false,
     renderHeader: () => {
       return (
         <InputTextHeader
@@ -181,7 +245,7 @@ export const createMonitorColumns = ({
   {
     field: 'vehicleCurrentLocation',
     headerName: 'UBICACION ACTUAL UNIDAD',
-    width: 150,
+    width: 120,
     renderHeader: () => {
       return (
         <SelectHeader
@@ -195,52 +259,27 @@ export const createMonitorColumns = ({
     }
   },
   {
-    field: 'vehicleType',
-    headerName: 'TIPO UNIDAD',
-    width: 150,
+    field: 'odometer',
+    headerName: 'ODOMETRO',
+    width: 100,
     valueFormatter: ({ value }) => {
-      return value === 'CARGA' ? 'REMOLQUE' : value
+      if (value) return mettersToKilometers(value)
+      return null
     },
     renderHeader: () => {
       return (
-        <SelectHeader
-          label="TIPO UNIDAD"
-          options={VEHICLE_TYPES_LIST}
-          onChange={({ target }) => onFilterChange('vehicleType', target.value)}
-        >
-          {aggregations.vehicleTypeCount}
-        </SelectHeader>
-      )
-    }
-  },
-  {
-    field: 'driverStatus',
-    headerName: 'ESTATUS OPERADOR',
-    width: 170,
-    renderHeader: () => (
-      <SelectAsyncHeader
-        label="ESTATUS OPERADOR"
-        url={DRIVER_EVENTS_URL}
-        optValueKey="driver_Status_id"
-        onChange={({ target }) => {
-          onFilterChange('driverStatusId', target.value)
-        }}
-      />
-    ),
-    renderCell: ({ value, row }) => {
-      if (!row.driverStartedTime) return value
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          <span>{value}</span>
-          <span>{formatDate(row.driverStartedTime)}</span>
-        </div>
+        <InputTextHeader
+          label="ODOMETRO"
+          onChange={({ target }) => onFilterChange('odometer', target.value)}
+        ></InputTextHeader>
       )
     }
   },
   {
     field: 'cell',
-    headerName: 'CE OP',
-    width: 150,
+    headerName: 'CEOP',
+    width: 80,
+    sortable: false,
     renderHeader: () => (
       <SelectAsyncHeader
         label="CE OP"
@@ -263,41 +302,6 @@ export const createMonitorColumns = ({
         >
           {aggregations.shipmentCount}
         </InputTextHeader>
-      )
-    }
-  },
-
-  {
-    field: 'hasObservations',
-    headerName: 'OBS',
-    type: 'boolean',
-    width: 100,
-    renderCell: ({ value }) => {
-      if (value === null) return null
-      if (typeof value === 'number') return value
-      return <CheckLogo checked={value} />
-    }
-  },
-  {
-    field: 'hasEvidences',
-    headerName: 'EVID',
-    type: 'boolean',
-    width: 100,
-    renderCell: ({ value }) => {
-      if (value === null) return null
-      if (typeof value === 'number') return value
-      return <CheckLogo checked={value} />
-    },
-    renderHeader: () => {
-      return (
-        <CheckBoxHeader
-          label="EVID"
-          onChange={(_, value) => {
-            onFilterChange('hasEvidences', value)
-          }}
-        >
-          {aggregations.evidencesCount}
-        </CheckBoxHeader>
       )
     }
   },

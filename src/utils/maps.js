@@ -13,7 +13,7 @@ export const mapReport = (response) => ({
   driver: response.driver,
   driverStatusId: response?.driver_status_id,
   driverStatus: response?.driver_status,
-  driverStartedTime: response?.driver_started_time,
+  driverSpectedTime: response?.driver_spected_time,
   vehicleId: response.vehicle_id,
   vehicle: response.vehicle,
   vehicleStatus: response.vehicle_status,
