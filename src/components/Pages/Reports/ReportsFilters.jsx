@@ -33,8 +33,9 @@ function Filters({ onSearch, token }) {
   }
 
   const handleOnSearch = () => {
-    if (onSearch)
+    if (onSearch) {
       onSearch({ ...form, start_date: startDate, end_date: endDate })
+    }
   }
 
   return (

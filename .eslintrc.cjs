@@ -5,13 +5,16 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
-    'standard'
+    // eslint-disable-next-line
+    'standard',
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'react/prop-types': 'off'
-  }
+    'react/prop-types': 'off',
+    'space-before-function-paren': 'off',
+    'comma-dangle': 'off',
+  },
 }

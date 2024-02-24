@@ -12,13 +12,13 @@ import 'dayjs/locale/es-mx'
 import { SnackbarProvider } from 'notistack'
 dayjs.extend(utc)
 
-export default function App () {
+export default function App() {
   return (
     <Provider store={store}>
       <LocalizationProvider
         dateAdapter={AdapterDayjs}
         dateLibInstance={dayjs.utc}
-        locale="es-mx"
+        adapterLocale="es-mx"
       >
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={10} autoHideDuration={3000}>
