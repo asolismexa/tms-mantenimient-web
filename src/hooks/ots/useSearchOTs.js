@@ -6,10 +6,10 @@ export function useSearchOTs() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const searchOts = useCallback(async () => {
+  const searchOts = useCallback(async (params) => {
     setLoading(true)
     try {
-      const resp = await service.searchOts()
+      const resp = await service.searchOts(params)
       setOts(resp.data)
       return resp.data
     } catch (error) {

@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react'
 import CustomDataGrid from '@/components/custom/CustomDataGrid'
 import {
   Box,
@@ -9,14 +10,46 @@ import {
   Button,
 } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers'
-import { otPageColumns } from './columns'
 import { useSearchOTs } from '@/hooks/ots/useSearchOTs'
-import { useMemo } from 'react'
+import { otPageColumns } from './columns'
+
+const initialForm = {
+  name: '',
+  userId: null,
+  statusId: 1,
+  startDate: null,
+  endDate: null,
+  costCenterId: null,
+  orderTypeId: null,
+  released: false,
+}
 
 export function OtPage() {
   const { ots, loading: isSearching, searchOts } = useSearchOTs()
+  const [form, setForm] = useState(initialForm)
 
   const columns = useMemo(() => otPageColumns(), [])
+
+  const handleClearFilters = () => setForm(initialForm)
+
+  const handleChangeDateInput = (field) => (val) => {
+    setForm((prev) => ({ ...prev, [field]: val }))
+  }
+
+  const handleChangeInput = (field) => (e) => {
+    let value = e.target.value
+    if (field === 'released') value = e.target.checked
+    setForm((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const handleSearch = () => {
+    if (!form.startDate || !form.endDate) return
+    searchOts({
+      ...form,
+      startDate: form.startDate.format('YYYY-MM-DD HH:mm:ss'),
+      endDate: form.endDate.format('YYYY-MM-DD HH:mm:ss'),
+    })
+  }
 
   return (
     <Box
@@ -31,22 +64,33 @@ export function OtPage() {
           <Typography textAlign="center" variant="h5">
             ORDENES DE TRABAJO
           </Typography>
-          <Button onClick={searchOts}>BUSCAR</Button>
-          <Button>LIMPIAR FILTROS</Button>
+          <Button onClick={handleSearch}>BUSCAR</Button>
+          <Button onClick={handleClearFilters}>LIMPIAR FILTROS</Button>
           <Box>
             <DatePicker
               label="FECHA INICIO"
+              value={form.startDate}
+              onChange={handleChangeDateInput('startDate')}
               slotProps={{
                 textField: { size: 'small', fullWidth: true, margin: 'dense' },
               }}
             />
             <DatePicker
               label="FECHA FIN"
+              value={form.endDate}
+              onChange={handleChangeDateInput('endDate')}
               slotProps={{
                 textField: { size: 'small', fullWidth: true, margin: 'dense' },
               }}
             />
-            <TextField fullWidth size="small" label="NOMBRE" margin="dense" />
+            <TextField
+              fullWidth
+              size="small"
+              label="NOMBRE"
+              margin="dense"
+              value={form.name}
+              onChange={handleChangeInput('name')}
+            />
             <TextField fullWidth size="small" label="USUARIO" margin="dense" />
             <TextField
               fullWidth
@@ -60,7 +104,12 @@ export function OtPage() {
               label="TIPO ORDEN DE TRABAJO"
               margin="dense"
             />
-            <FormControlLabel label="SIN LIBERAR" control={<Checkbox />} />
+            <FormControlLabel
+              label="SIN LIBERAR"
+              value={form.released}
+              onChange={handleChangeInput('released')}
+              control={<Checkbox />}
+            />
           </Box>
         </Stack>
         <CustomDataGrid

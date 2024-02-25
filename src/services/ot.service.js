@@ -6,16 +6,16 @@ export const OTClient = axios.create({
 
 export const OT_BASE_URL = 'ordenesTrabajo'
 
-export async function searchOts() {
+export async function searchOts({ name, startDate, endDate, released }) {
   const body = {
-    Nombre: '',
+    Nombre: name,
     Usuario_Id: null,
-    Estatus_Id: 1,
-    Fecha_Inicial: '2024-01-01 00:00:00.000',
-    Fecha_Final: '2023-02-29 00:00:00.000',
+    Estatus_Id: 2,
+    Fecha_Inicial: startDate,
+    Fecha_Final: endDate,
     Centro_Costos_Id: null,
     Tipo_Orden_Trabajo_Id: null,
-    Sin_Liberar: false,
+    Sin_Liberar: released,
   }
 
   return await OTClient.post(OT_BASE_URL, body)
