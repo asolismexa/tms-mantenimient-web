@@ -4,6 +4,7 @@ import createReportFormSlice from './reducers/createReportFormSlice'
 import uiReducer from './reducers/uiSlice'
 import reportMonitorSlice from './reducers/reportMonitorSlice'
 import { reportsQuerySlice } from './reducers/reportsQuerySlice'
+import ordersReducer from './reducers/ordersSlice'
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     createReportForm: createReportFormSlice,
     reportMonitor: reportMonitorSlice.reducer,
     reportsQuery: reportsQuerySlice.reducer,
+    orders: ordersReducer,
   },
 })

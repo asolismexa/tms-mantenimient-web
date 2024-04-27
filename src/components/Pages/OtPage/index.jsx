@@ -8,10 +8,16 @@ import {
   Checkbox,
   FormControlLabel,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from '@mui/material'
-import { DatePicker } from '@mui/x-date-pickers'
+import { DatePicker, DateTimePicker } from '@mui/x-date-pickers'
 import { useSearchOTs } from '@/hooks/ots/useSearchOTs'
 import { otPageColumns } from './columns'
+import { useOrderDetail } from './hooks/useOrderDetail'
+import LoadingBackdrop from '@/components/Core/LoadingBackdrop'
+import dayjs from 'dayjs'
 
 const initialForm = {
   name: '',
@@ -27,6 +33,14 @@ const initialForm = {
 export function OtPage() {
   const { ots, loading: isSearching, searchOts } = useSearchOTs()
   const [form, setForm] = useState(initialForm)
+  // Main Slice
+  const {
+    order,
+    isLoading,
+    closeDialog: closeDetailDialog,
+    openDialog: openDetailDialog,
+    isDialogOpen,
+  } = useOrderDetail()
 
   const columns = useMemo(() => otPageColumns(), [])
 
@@ -51,6 +65,7 @@ export function OtPage() {
     })
   }
 
+  console.log(order)
   return (
     <Box
       sx={{
@@ -59,6 +74,7 @@ export function OtPage() {
         bgcolor: '#f5f5f5',
       }}
     >
+      {isLoading && <LoadingBackdrop open />}
       <Stack sx={{ width: '100%' }} direction="row" justifyContent="center">
         <Stack spacing={1} sx={{ maxWidth: 300, minWidth: 250, p: 2 }}>
           <Typography textAlign="center" variant="h5">
@@ -113,7 +129,13 @@ export function OtPage() {
           </Box>
         </Stack>
         <CustomDataGrid
-          sx={{ width: '100%', height: '100%' }}
+          sx={{
+            width: '100%',
+            height: '100%',
+            '& .MuiDataGrid-row': {
+              cursor: 'pointer',
+            },
+          }}
           loading={isSearching}
           columns={columns}
           rows={ots}
@@ -121,8 +143,181 @@ export function OtPage() {
           getRowId={(row) => row.Id}
           disableColumnSelector
           disableDensitySelector
+          onRowDoubleClick={(row) => {
+            openDetailDialog(row.id)
+          }}
         />
       </Stack>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={isDialogOpen}
+        onClose={closeDetailDialog}
+      >
+        {order && (
+          <>
+            <DialogTitle>No OT {order.Id}</DialogTitle>
+            <DialogContent>
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{ py: 2 }}
+                justifyContent="space-evenly"
+              >
+                <Stack spacing={2}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="NOMBRE"
+                    value={order.Nombre}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="TALLER"
+                    value={order.Taller}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="UNIDAD (CENTRO COSTOS)"
+                    value={order.Unidad}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Odómetro / KM"
+                    value={order.Hodometro}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Stack>
+                <Stack spacing={2}>
+                  <DateTimePicker
+                    size="small"
+                    label="FECHA ORDEN TRABAJO"
+                    value={dayjs.utc(
+                      order.FechaOrdenTrabajo,
+                      'YYYY-MM-DD HH:mm:ss',
+                    )}
+                    readOnly
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        fullWidth: true,
+                      },
+                    }}
+                  />
+                  <DateTimePicker
+                    size="small"
+                    label="FECHA REPORTE"
+                    value={dayjs.utc(order.FechaReporte, 'YYYY-MM-DD HH:mm:ss')}
+                    readOnly
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        fullWidth: true,
+                      },
+                    }}
+                  />
+                  <DateTimePicker
+                    size="small"
+                    label="FECHA INICIO"
+                    value={dayjs.utc(order.FechaInicial, 'YYYY-MM-DD HH:mm:ss')}
+                    readOnly
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        fullWidth: true,
+                      },
+                    }}
+                  />
+                  <DateTimePicker
+                    size="small"
+                    label="FECHA FIN"
+                    value={dayjs.utc(order.FechaFinal, 'YYYY-MM-DD HH:mm:ss')}
+                    readOnly
+                    slotProps={{
+                      textField: {
+                        size: 'small',
+                        fullWidth: true,
+                      },
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="TIPO OT"
+                    value={order.TipoOrden}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="ALMACEN"
+                    value={order.Almacen}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Stack>
+                <Stack spacing={2}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="ESTATUS"
+                    value={order.Estatus}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Stack>
+                <Stack spacing={2}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="USUARIO"
+                    value={order.Usuario}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="USUARIO CIERRE"
+                    value={order.UsuarioCierre}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="AUTORIZA"
+                    value={order.Autoriza}
+                    inputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Stack>
+              </Stack>
+            </DialogContent>
+          </>
+        )}
+      </Dialog>
     </Box>
   )
 }
