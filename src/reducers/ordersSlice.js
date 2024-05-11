@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   order: null,
   isDetailOpen: false,
+  detailTab: 0,
 }
 
 export const ordersSlice = createSlice({
   name: 'ordersReducer',
   initialState,
   reducers: {
+    changeDetailTab: (state, { payload }) => {
+      state.detailTab = payload
+    },
     openDetail: (state, { payload }) => {
       state.isDetailOpen = true
       state.order = payload
@@ -24,4 +28,5 @@ export const ordersSlice = createSlice({
 })
 
 export default ordersSlice.reducer
-export const { openDetail, setOrder, closeDetail } = ordersSlice.actions
+export const { openDetail, setOrder, closeDetail, changeDetailTab } =
+  ordersSlice.actions

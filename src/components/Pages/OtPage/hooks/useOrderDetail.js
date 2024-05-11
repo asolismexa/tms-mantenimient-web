@@ -1,4 +1,8 @@
-import { closeDetail, openDetail } from '@/reducers/ordersSlice'
+import {
+  changeDetailTab,
+  closeDetail,
+  openDetail,
+} from '@/reducers/ordersSlice'
 import { getOrderDetail } from '@/services/ot.service'
 import { AxiosError } from 'axios'
 import { enqueueSnackbar } from 'notistack'
@@ -12,6 +16,7 @@ export function useOrderDetail() {
   const state = useSelector((state) => state.orders)
   const dispatch = useDispatch()
   const order = state.order
+  const tab = state.detailTab
   const isDialogOpen = state.isDetailOpen
   const [isLoading, setIsLoading] = useState(false)
 
@@ -43,10 +48,16 @@ export function useOrderDetail() {
     dispatch(closeDetail())
   }
 
+  const changeTab = (index) => {
+    dispatch(changeDetailTab(index))
+  }
+
   return {
+    tab,
     order,
     isLoading,
     isDialogOpen,
+    changeTab,
     openDialog,
     closeDialog,
   }
