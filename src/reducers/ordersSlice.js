@@ -24,9 +24,17 @@ export const ordersSlice = createSlice({
     setOrder: (state, { payload }) => {
       state.order = payload
     },
+    changeOrderStatus: (state, { payload }) => {
+      state.order.EstatusId = payload
+    },
   },
 })
 
 export default ordersSlice.reducer
-export const { openDetail, setOrder, closeDetail, changeDetailTab } =
-  ordersSlice.actions
+export const {
+  openDetail,
+  setOrder,
+  closeDetail,
+  changeDetailTab,
+  changeOrderStatus,
+} = ordersSlice.actions

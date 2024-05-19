@@ -1,11 +1,13 @@
 import {
   changeDetailTab,
+  changeOrderStatus,
   closeDetail,
   openDetail,
 } from '@/reducers/ordersSlice'
-import { getOrderDetail } from '@/services/ot.service'
+import { getOrderDetail, updateOrderStatus } from '@/services/ot.service'
+import { Button } from '@mui/material'
 import { AxiosError } from 'axios'
-import { enqueueSnackbar } from 'notistack'
+import { closeSnackbar, enqueueSnackbar } from 'notistack'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -19,6 +21,7 @@ export function useOrderDetail() {
   const tab = state.detailTab
   const isDialogOpen = state.isDetailOpen
   const [isLoading, setIsLoading] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   const openDialog = async (orderId) => {
     setIsLoading(true)
@@ -52,13 +55,50 @@ export function useOrderDetail() {
     dispatch(changeDetailTab(index))
   }
 
+  const updateStatus = async (newStatus) => {
+    const prevStatus = order.EstatusId
+    dispatch(changeOrderStatus(newStatus))
+    setIsSaving(true)
+    try {
+      await updateOrderStatus({
+        orderId: order.Id,
+        statusId: newStatus,
+      })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof AxiosError) {
+        dispatch(changeOrderStatus(prevStatus))
+        enqueueSnackbar(error.response.data, {
+          variant: 'error',
+          hideIconVariant: 'default',
+          autoHideDuration: 6000,
+          anchorOrigin: {
+            horizontal: 'center',
+            vertical: 'top',
+          },
+          action: (id) => (
+            <>
+              <Button variant="outlined" onClick={() => closeSnackbar(id)}>
+                Cerrar
+              </Button>
+            </>
+          ),
+        })
+      }
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
   return {
     tab,
     order,
+    isSaving,
     isLoading,
     isDialogOpen,
     changeTab,
     openDialog,
     closeDialog,
+    updateStatus,
   }
 }

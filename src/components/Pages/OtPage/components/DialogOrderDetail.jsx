@@ -16,9 +16,14 @@ import { useOrderDetail } from '../hooks/useOrderDetail'
 import TabPanel from './TabPanel'
 import RefactionsGrid from './RefactionsGrid'
 import ActivitiesGrid from './ActivitiesGrid'
+import StatusInput from './StatusInput'
 
 export default function DialogOrderDetail({ open, onClose }) {
-  const { order, tab, changeTab } = useOrderDetail()
+  const { order, tab, changeTab, updateStatus, isSaving } = useOrderDetail()
+
+  const handleChangeStatus = async (e) => {
+    updateStatus(e.target.value)
+  }
 
   return (
     <Dialog fullWidth maxWidth="xl" open={open} onClose={onClose}>
@@ -152,14 +157,10 @@ export default function DialogOrderDetail({ open, onClose }) {
                     />
                   </Stack>
                   <Stack flexGrow={1} spacing={2}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      label="ESTATUS"
-                      value={order.Estatus}
-                      inputProps={{
-                        readOnly: true,
-                      }}
+                    <StatusInput
+                      value={order.EstatusId}
+                      onChange={handleChangeStatus}
+                      isLoading={isSaving}
                     />
                     <TextField
                       fullWidth

@@ -56,4 +56,11 @@ export async function getOrderDetail(id) {
  * @param {number} options.statusId - The ID of the new status for the order.
  * @returns {Promise<void>} A promise that resolves when the order status is updated.
  */
-export async function updateOrderStatus({ orderId, statusId }) {}
+export async function updateOrderStatus({ orderId, statusId }) {
+  return await OTClient.get(`${ORDERS_BASE_URL}/estatusOt`, {
+    params: {
+      Id: orderId,
+      Estatus_Id: statusId,
+    },
+  })
+}
