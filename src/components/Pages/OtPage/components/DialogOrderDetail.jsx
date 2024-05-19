@@ -15,12 +15,13 @@ import dayjs from 'dayjs'
 import { useOrderDetail } from '../hooks/useOrderDetail'
 import TabPanel from './TabPanel'
 import RefactionsGrid from './RefactionsGrid'
+import ActivitiesGrid from './ActivitiesGrid'
 
 export default function DialogOrderDetail({ open, onClose }) {
   const { order, tab, changeTab } = useOrderDetail()
 
   return (
-    <Dialog fullWidth maxWidth="lg" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth="xl" open={open} onClose={onClose}>
       {order && (
         <>
           <DialogTitle>No OT {order.Id}</DialogTitle>
@@ -213,6 +214,9 @@ export default function DialogOrderDetail({ open, onClose }) {
             </TabPanel>
             <TabPanel tab={tab} index={1}>
               <RefactionsGrid refactions={order.Refacciones} />
+            </TabPanel>
+            <TabPanel tab={tab} index={2}>
+              <ActivitiesGrid activities={order.Actividades} />
             </TabPanel>
           </DialogContent>
         </>
